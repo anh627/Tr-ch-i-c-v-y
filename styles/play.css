@@ -1,1 +1,6 @@
-
+.play { display: grid; grid-template-columns: 1fr 380px; gap: 16px; }
+.left { display: grid; gap: 10px; align-content: start; }
+.right { position: sticky; top: 72px; display: grid; gap: 14px; align-content: start; }
+.board-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.summary { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-height: 100px; }
+@media (max-width: 1100px) { .play { grid-template-columns: 1fr; } .right { position: static; } }
