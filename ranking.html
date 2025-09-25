@@ -1,1 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xếp hạng – GoMaster</title>
+  <meta name="description" content="Xem hạng hiện tại, tiến độ lên hạng và lịch sử ván xếp hạng (lưu cục bộ)." />
+  <meta property="og:site_name" content="GoMaster" />
+  <meta property="og:title" content="Xếp hạng – GoMaster" />
+  <meta property="og:description" content="Bảng xếp hạng kyu/dan và lịch sử ván của bạn." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body data-page="ranking">
+<a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
+<header class="topbar" role="banner">
+  <a class="brand" href="index.html">GoMaster</a>
+  <nav class="nav" aria-label="Điều hướng chính">
+    <a href="index.html">Trang chủ</a>
+    <a href="learn.html">Học</a>
+    <a href="play.html">Chơi</a>
+    <a href="analysis.html">Phân tích</a>
+    <a href="ranking.html" aria-current="page">Xếp hạng</a>
+    <a href="profile.html">Hồ sơ</a>
+    <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
+  </nav>
+</header>
+
+<main id="main" class="container">
+  <h1>Xếp hạng kyu / dan</h1>
+  <section class="rank-header" aria-labelledby="rankHeaderTitle">
+    <h2 id="rankHeaderTitle" class="sr-only">Thông tin hạng</h2>
+    <div class="rankbox">
+      <div>Hạng hiện tại:</div>
+      <div id="currentRank" class="big-rank" role="status" aria-live="polite">—</div>
+      <div class="small">Rating: <span id="currentRating" role="status" aria-live="polite">—</span></div>
+    </div>
+    <div class="progress">
+      <div id="rankProgressLabel">Tiến độ lên hạng:</div>
+      <div class="bar" aria-hidden="true">
+        <div id="rankProgress" class="bar-inner" style="width:0%" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="rankProgressLabel"></div>
+      </div>
+      <small id="rankHint"></small>
+    </div>
+  </section>
+
+  <section aria-labelledby="rankHistoryTitle">
+    <h2 id="rankHistoryTitle">Lịch sử ván xếp hạng</h2>
+    <table class="table" id="rankTable" aria-describedby="rankTableDesc">
+      <caption class="sr-only">Bảng lịch sử xếp hạng theo ngày, kích thước, chế độ, đối thủ, kết quả và thay đổi rating.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Ngày</th>
+          <th scope="col">Kích thước</th>
+          <th scope="col">Chế độ</th>
+          <th scope="col">Đối thủ</th>
+          <th scope="col">Kết quả</th>
+          <th scope="col">Δ Rating</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <small id="rankTableDesc" class="sr-only">Các cột lần lượt là ngày, kích thước bàn, chế độ, đối thủ, kết quả và thay đổi rating.</small>
+  </section>
+</main>
+
+<footer class="footer"><small>Bảng xếp hạng cục bộ (LocalStorage).</small></footer>
+
+<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<script src="js/main.js" defer></script>
+</body>
+</html>
