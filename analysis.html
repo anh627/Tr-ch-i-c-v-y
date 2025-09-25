@@ -1,1 +1,94 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phân tích ván – GoMaster</title>
+  <meta name="description" content="Tải SGF, xem lại nước đi, phân tích nhanh/sâu và khám phá joseki/fuseki cơ bản." />
+  <meta property="og:site_name" content="GoMaster" />
+  <meta property="og:title" content="Phân tích ván – GoMaster" />
+  <meta property="og:description" content="Phân tích nước đi, gợi ý PV và explorer joseki/fuseki." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/analysis.css" />
+</head>
+<body data-page="analysis">
+<a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
+<header class="topbar" role="banner">
+  <a class="brand" href="index.html">GoMaster</a>
+  <nav class="nav" aria-label="Điều hướng chính">
+    <a href="index.html">Trang chủ</a>
+    <a href="learn.html">Học</a>
+    <a href="play.html">Chơi</a>
+    <a href="analysis.html" aria-current="page">Phân tích</a>
+    <a href="ranking.html">Xếp hạng</a>
+    <a href="profile.html">Hồ sơ</a>
+    <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
+  </nav>
+</header>
+
+<main id="main" class="container analysis">
+  <section class="left" aria-labelledby="analysisBoardLabel">
+    <h1 id="analysisBoardLabel" class="sr-only">Bàn phân tích</h1>
+    <p id="analysisBoardHelp" class="sr-only">
+      Dùng mũi tên để di chuyển, Enter để xác nhận, hoặc dùng chuột để chọn nước đi.
+    </p>
+    <canvas id="analysisBoard" width="640" height="640" tabindex="0" aria-label="Bàn phân tích" aria-describedby="analysisBoardHelp">
+      Trình duyệt của bạn không hỗ trợ canvas.
+    </canvas>
+    <div class="nav-moves">
+      <button id="firstMove" class="btn" type="button" aria-label="Tới nước đầu" title="Nước đầu">⏮</button>
+      <button id="prevMove" class="btn" type="button" aria-label="Lùi một nước" title="Lùi">◀</button>
+      <span id="moveCounter" role="status" aria-live="polite">0/0</span>
+      <button id="nextMove" class="btn" type="button" aria-label="Tiến một nước" title="Tiến">▶</button>
+      <button id="lastMove" class="btn" type="button" aria-label="Tới nước cuối" title="Nước cuối">⏭</button>
+    </div>
+  </section>
+
+  <section class="right">
+    <h2>Phân tích</h2>
+    <div class="loader-row">
+      <label for="sgfFile">Tải file SGF:</label>
+      <input type="file" id="sgfFile" accept=".sgf" aria-describedby="sgfHelp" />
+      <button id="loadSGF" class="btn" type="button">Nạp SGF</button>
+    </div>
+    <small id="sgfHelp">Chỉ định dạng .sgf. Có thể kéo-thả hoặc dán nội dung SGF vào ô bên dưới.</small>
+
+    <label for="sgfText" class="sr-only">Dán SGF</label>
+    <textarea id="sgfText" placeholder="Dán SGF vào đây" rows="8" aria-label="Dán nội dung SGF"></textarea>
+
+    <div class="analysis-tools">
+      <button id="runQuick" class="btn" type="button" title="Phân tích nhanh độ sâu thấp">Phân tích nhanh</button>
+      <button id="runDeep" class="btn" type="button" title="Phân tích sâu mô phỏng">Phân tích sâu (mô phỏng)</button>
+      <button id="suggest" class="btn ghost" type="button" title="Gợi ý nước đi tiếp theo">Gợi ý nước</button>
+    </div>
+
+    <div class="report" id="analysisReport" role="region" aria-live="polite">Chưa có báo cáo.</div>
+
+    <h3>Joseki / Fuseki Explorer (bản cơ bản)</h3>
+    <div class="explorer">
+      <label for="explorerSize">Kích thước:</label>
+      <select id="explorerSize">
+        <option value="19">19×19</option>
+        <option value="13">13×13</option>
+        <option value="9">9×9</option>
+      </select>
+      <button id="openExplorer" class="btn ghost" type="button">Mở mẫu phổ biến</button>
+      <div id="explorerList" class="explist" role="list" aria-label="Danh sách mẫu joseki/fuseki"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><small>Deep analysis là mô phỏng heuristic; muốn GPU thật, hãy nối service KataGo.</small></footer>
+
+<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<script src="js/main.js" defer></script>
+<script src="js/game.js" defer></script>
+<script src="js/ai.js" defer></script>
+<script src="js/security.js" defer></script>
+</body>
+</html>
