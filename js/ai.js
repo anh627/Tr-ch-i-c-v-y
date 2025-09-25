@@ -875,3 +875,24 @@
   if (typeof window !== 'undefined') window.GoAI = GoAI;
   if (typeof globalThis !== 'undefined') globalThis.GoAI = GoAI;
 })();
+// ai.js
+function getAIMove(board, size, color, level) {
+  if (level === 'easy') {
+    const moves = [];
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        if (!board[x][y] && isLegalMove(x, y, color, board, size)) {
+          moves.push({ x, y });
+        }
+      }
+    }
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+  // Add logic for normal, hard, pro levels
+  return null;
+}
+
+function isLegalMove(x, y, color, board, size) {
+  // Simplified: reuse logic from game.js or make it modular
+  return true;
+}
