@@ -14,103 +14,227 @@
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/play.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="play">
 <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
 <header class="topbar" role="banner">
-  <a class="brand" href="index.html">GoMaster</a>
+  <a class="brand" href="index.html">
+    <span class="brand-icon">⚫⚪</span>
+    GoMaster
+  </a>
   <nav class="nav" aria-label="Điều hướng chính">
-    <a href="index.html">Trang chủ</a>
-    <a href="learn.html">Học</a>
-    <a href="play.html" aria-current="page">Chơi</a>
-    <a href="analysis.html">Phân tích</a>
-    <a href="ranking.html">Xếp hạng</a>
-    <a href="profile.html">Hồ sơ</a>
+    <a href="index.html">🏠 Trang chủ</a>
+    <a href="learn.html">📚 Học</a>
+    <a href="play.html" aria-current="page" class="nav-active">🎮 Chơi</a>
+    <a href="analysis.html">📊 Phân tích</a>
+    <a href="ranking.html">🏆 Xếp hạng</a>
+    <a href="profile.html">👤 Hồ sơ</a>
     <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
   </nav>
 </header>
 
 <main id="main" class="container play">
   <section class="left" aria-labelledby="playBoardLabel">
-    <h1 id="playBoardLabel" class="sr-only">Bàn chơi</h1>
+    <div class="board-header">
+      <h1 id="playBoardLabel">
+        <span class="board-icon">🎯</span>
+        Bàn chơi
+        <span class="live-indicator">
+          <span class="live-dot"></span>
+          <span class="live-text">Live</span>
+        </span>
+      </h1>
+      <div class="game-info">
+        <div class="player-info black-player">
+          <span class="player-stone">⚫</span>
+          <span class="player-name">Đen</span>
+          <span class="player-captures" id="blackCaptures">0</span>
+        </div>
+        <div class="vs-divider">VS</div>
+        <div class="player-info white-player">
+          <span class="player-stone">⚪</span>
+          <span class="player-name">Trắng</span>
+          <span class="player-captures" id="whiteCaptures">0</span>
+        </div>
+      </div>
+    </div>
+    
     <p id="playBoardHelp" class="sr-only">
       Điều khiển bàn: chuột để đặt quân, mũi tên để di chuyển, Enter để đặt, Backspace/Undo để hoàn tác, P để Pass.
     </p>
-    <canvas id="playBoard" width="640" height="640" tabindex="0" aria-label="Bàn chơi" aria-describedby="playBoardHelp">
-      Trình duyệt của bạn không hỗ trợ canvas.
-    </canvas>
-    <div class="board-actions">
-      <button id="btnPass" class="btn" type="button" title="Bỏ lượt (Pass)">Pass</button>
-      <button id="btnResign" class="btn danger" type="button" title="Đầu hàng ván này">Đầu hàng</button>
-      <button id="btnHint" class="btn ghost" type="button" title="Gợi ý nước đi">Gợi ý</button>
-      <button id="btnUndo" class="btn ghost" type="button" title="Hoàn tác nước đi gần nhất">Undo</button>
+    
+    <div class="board-container">
+      <canvas id="playBoard" width="640" height="640" tabindex="0" aria-label="Bàn chơi" aria-describedby="playBoardHelp">
+        Trình duyệt của bạn không hỗ trợ canvas.
+      </canvas>
     </div>
-    <div class="statusbar" id="playStatus" role="status" aria-live="polite">Sẵn sàng.</div>
+    
+    <div class="board-actions">
+      <button id="btnPass" class="btn secondary" type="button" title="Bỏ lượt (Pass)">
+        <span class="btn-icon">⏭️</span>
+        Pass
+      </button>
+      <button id="btnResign" class="btn danger" type="button" title="Đầu hàng ván này">
+        <span class="btn-icon">🏳️</span>
+        Đầu hàng
+      </button>
+      <button id="btnHint" class="btn ghost" type="button" title="Gợi ý nước đi">
+        <span class="btn-icon">💡</span>
+        Gợi ý
+      </button>
+      <button id="btnUndo" class="btn ghost" type="button" title="Hoàn tác nước đi gần nhất">
+        <span class="btn-icon">↩️</span>
+        Undo
+      </button>
+    </div>
+    
+    <div class="statusbar" id="playStatus" role="status" aria-live="polite">
+      <div class="status-content">
+        <span class="status-icon">✨</span>
+        <span class="status-text">Sẵn sàng chiến đấu!</span>
+      </div>
+    </div>
   </section>
 
   <section class="right" aria-labelledby="playSettingsTitle">
-    <h2 id="playSettingsTitle">Thiết lập</h2>
+    <div class="settings-header">
+      <h2 id="playSettingsTitle">
+        <span class="settings-icon">⚙️</span>
+        Thiết lập trận đấu
+      </h2>
+      <div class="settings-badge">
+        <span class="badge-icon">🎯</span>
+        <span>Tùy chỉnh</span>
+      </div>
+    </div>
+    
     <div class="form">
-      <label for="boardSize">Kích thước:</label>
-      <select id="boardSize">
-        <option value="9">9×9 (Newbie)</option>
-        <option value="13" selected>13×13</option>
-        <option value="19">19×19</option>
-      </select>
-
-      <label for="ruleSet">Luật:</label>
-      <select id="ruleSet">
-        <option value="chinese" selected>Chinese (Area)</option>
-        <option value="japanese">Japanese (Territory)</option>
-      </select>
-
-      <label for="komi">Komi:</label>
-      <input type="number" id="komi" value="6.5" step="0.5" min="0" inputmode="decimal" />
-
-      <label for="opponentType">Đối thủ:</label>
-      <select id="opponentType">
-        <option value="ai" selected>AI</option>
-        <option value="hotseat">2 người (cùng máy)</option>
-      </select>
-
-      <div id="aiOptions">
-        <label for="aiLevel">Độ khó AI:</label>
-        <select id="aiLevel">
-          <option value="easy">Dễ (Newbie)</option>
-          <option value="normal" selected>Trung bình (Casual)</option>
-          <option value="hard">Khó</option>
-          <option value="pro">Pro</option>
+      <div class="form-group">
+        <label for="boardSize">
+          <span class="label-icon">📐</span>
+          Kích thước:
+        </label>
+        <select id="boardSize" class="select-enhanced">
+          <option value="9">🌱 9×9 (Newbie)</option>
+          <option value="13" selected>🎮 13×13 (Casual)</option>
+          <option value="19">🏆 19×19 (Pro)</option>
         </select>
       </div>
 
-      <label class="switch" for="rankedToggle">
-        <input type="checkbox" id="rankedToggle" aria-describedby="rankedHintText" />
-        <span>Ranked (tính điểm kyu/dan)</span>
-      </label>
-      <small id="rankedHintText" class="sr-only">Khi bật Ranked, chức năng gợi ý sẽ bị khóa.</small>
+      <div class="form-group">
+        <label for="ruleSet">
+          <span class="label-icon">📋</span>
+          Luật:
+        </label>
+        <select id="ruleSet" class="select-enhanced">
+          <option value="chinese" selected>🇨🇳 Chinese (Area)</option>
+          <option value="japanese">🇯🇵 Japanese (Territory)</option>
+        </select>
+      </div>
 
-      <label class="switch" for="showCoords">
-        <input type="checkbox" id="showCoords" checked />
-        <span>Hiện tọa độ</span>
-      </label>
+      <div class="form-group">
+        <label for="komi">
+          <span class="label-icon">⚖️</span>
+          Komi:
+        </label>
+        <input type="number" id="komi" value="6.5" step="0.5" min="0" inputmode="decimal" class="input-enhanced" />
+      </div>
 
-      <label class="switch" for="showLiberties">
-        <input type="checkbox" id="showLiberties" />
-        <span>Hiện khí</span>
-      </label>
+      <div class="form-group">
+        <label for="opponentType">
+          <span class="label-icon">🤖</span>
+          Đối thủ:
+        </label>
+        <select id="opponentType" class="select-enhanced">
+          <option value="ai" selected>🤖 AI</option>
+          <option value="hotseat">👥 2 người (cùng máy)</option>
+        </select>
+      </div>
 
-      <button id="btnStart" class="btn primary" type="button">Bắt đầu ván</button>
+      <div id="aiOptions" class="form-group">
+        <label for="aiLevel">
+          <span class="label-icon">🎚️</span>
+          Độ khó AI:
+        </label>
+        <select id="aiLevel" class="select-enhanced">
+          <option value="easy">😊 Dễ (Newbie)</option>
+          <option value="normal" selected>😐 Trung bình (Casual)</option>
+          <option value="hard">😤 Khó</option>
+          <option value="pro">🔥 Pro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="switch-label" for="rankedToggle">
+          <input type="checkbox" id="rankedToggle" aria-describedby="rankedHintText" />
+          <span class="switch-slider"></span>
+          <span class="switch-text">
+            <span class="switch-icon">🏆</span>
+            Ranked (tính điểm kyu/dan)
+          </span>
+        </label>
+        <small id="rankedHintText" class="hint-text">⚠️ Khi bật Ranked, chức năng gợi ý sẽ bị khóa.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="switch-label" for="showCoords">
+          <input type="checkbox" id="showCoords" checked />
+          <span class="switch-slider"></span>
+          <span class="switch-text">
+            <span class="switch-icon">🗺️</span>
+            Hiện tọa độ
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="switch-label" for="showLiberties">
+          <input type="checkbox" id="showLiberties" />
+          <span class="switch-slider"></span>
+          <span class="switch-text">
+            <span class="switch-icon">💨</span>
+            Hiện khí
+          </span>
+        </label>
+      </div>
+
+      <button id="btnStart" class="btn primary large" type="button">
+        <span class="btn-icon">🚀</span>
+        Bắt đầu ván
+      </button>
     </div>
 
     <div class="summary" aria-labelledby="postGameTitle">
-      <h3 id="postGameTitle">Tóm tắt sau ván</h3>
-      <div id="postGameSummary" role="region" aria-live="polite">Chưa có ván nào.</div>
+      <div class="summary-header">
+        <h3 id="postGameTitle">
+          <span class="summary-icon">📊</span>
+          Tóm tắt sau ván
+        </h3>
+      </div>
+      <div id="postGameSummary" role="region" aria-live="polite" class="summary-content">
+        <div class="empty-state">
+          <span class="empty-icon">🎯</span>
+          <span class="empty-text">Chưa có ván nào. Hãy bắt đầu chơi!</span>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
-<footer class="footer"><small>Gợi ý bị khóa khi bật Ranked.</small></footer>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-tip">
+      <span class="tip-icon">💡</span>
+      <small><strong>Tip:</strong> Gợi ý bị khóa khi bật Ranked để đảm bảo công bằng! ⚖️</small>
+    </div>
+    <div class="footer-encouragement">
+      <span class="encourage-icon">🔥</span>
+      <small>Chúc bạn có những ván đấu thú vị!</small>
+    </div>
+  </div>
+</footer>
 
 <audio id="sfxPlace" src="assets/sounds/stone-place.mp3" preload="auto" aria-hidden="true"></audio>
 <audio id="sfxCapture" src="assets/sounds/capture.mp3" preload="auto" aria-hidden="true"></audio>
