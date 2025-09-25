@@ -30,14 +30,14 @@
     p {
       color: #555;
     }
-    #goBoard {
+    #playBoard {
       max-width: 100%;
       height: auto;
       border: 2px solid #333;
       background: #dc9a3e;
     }
     @media (max-width: 600px) {
-      #goBoard {
+      #playBoard {
         width: 280px;
         height: 280px;
       }
@@ -290,107 +290,5 @@
 <script src="js/game.js" defer></script>
 <script src="js/ai.js" defer></script>
 <script src="js/security.js" defer></script>
-  <h1>GoMaster - Chơi Cờ Vây</h1>
-  <p>Nhấp vào giao điểm để đặt quân cờ (đen và trắng luân phiên)</p>
-  <canvas id="goBoard" width="320" height="320"></canvas>
-  <div class="controls">
-    <button onclick="resetBoard()">Xóa Bàn Cờ</button>
-  </div>
-  <p><a href="https://github.com/anh627/trochoicovay">Xem mã nguồn</a></p>
-
-  <script>
-    const canvas = document.getElementById('goBoard');
-    const ctx = canvas.getContext('2d');
-    const size = 9; // Lưới 9x9
-    const canvasSize = 320;
-    const cellSize = canvasSize / (size + 1);
-    let currentPlayer = 'black'; // Người chơi hiện tại: đen hoặc trắng
-    let board = Array(size).fill().map(() => Array(size).fill(null)); // Mảng 2D lưu trạng thái bàn cờ
-
-    // Vẽ bàn cờ
-    function drawBoard() {
-      // Nền gỗ
-      ctx.fillStyle = '#dc9a3e';
-      ctx.fillRect(0, 0, canvasSize, canvasSize);
-
-      // Vẽ lưới
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 1;
-      for (let i = 1; i <= size; i++) {
-        // Đường dọc
-        ctx.beginPath();
-        ctx.moveTo(i * cellSize, cellSize);
-        ctx.lineTo(i * cellSize, canvasSize - cellSize);
-        ctx.stroke();
-        // Đường ngang
-        ctx.beginPath();
-        ctx.moveTo(cellSize, i * cellSize);
-        ctx.lineTo(canvasSize - cellSize, i * cellSize);
-        ctx.stroke();
-      }
-
-      // Vẽ điểm sao (star points) cho lưới 9x9
-      const starPoints = [[2,2], [2,6], [6,2], [6,6], [4,4]];
-      ctx.fillStyle = '#000';
-      starPoints.forEach(([x, y]) => {
-        ctx.beginPath();
-        ctx.arc((x + 1) * cellSize, (y + 1) * cellSize, 3, 0, 2 * Math.PI);
-        ctx.fill();
-      });
-    }
-
-    // Vẽ quân cờ
-    function drawStone(x, y, color) {
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc((x + 1) * cellSize, (y + 1) * cellSize, cellSize / 2 - 2, 0, 2 * Math.PI);
-      ctx.fill();
-      if (color === 'black') {
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1;
-        ctx.stroke(); // Viền trắng cho quân đen
-      }
-    }
-
-    // Vẽ lại toàn bộ bàn cờ và quân cờ
-    function redrawBoard() {
-      drawBoard();
-      for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size; y++) {
-          if (board[x][y]) {
-            drawStone(x, y, board[x][y]);
-          }
-        }
-      }
-    }
-
-    // Xử lý nhấp chuột để đặt quân
-    canvas.addEventListener('click', (event) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
-
-      // Tìm giao điểm gần nhất
-      const x = Math.round((mouseX - cellSize) / cellSize);
-      const y = Math.round((mouseY - cellSize) / cellSize);
-
-      // Kiểm tra vị trí hợp lệ và chưa có quân
-      if (x >= 0 && x < size && y >= 0 && y < size && !board[x][y]) {
-        board[x][y] = currentPlayer;
-        drawStone(x, y, currentPlayer);
-        currentPlayer = currentPlayer === 'black' ? 'white' : 'black'; // Chuyển lượt
-      }
-    });
-
-    // Xóa bàn cờ
-    function resetBoard() {
-      board = Array(size).fill().map(() => Array(size).fill(null));
-      currentPlayer = 'black';
-      redrawBoard();
-    }
-
-    // Khởi tạo bàn cờ
-    drawBoard();
-  </script>
 </body>
 </html>
