@@ -1,0 +1,362 @@
+/* Phần CSS còn thiếu cho learn.css */
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn.primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn.primary:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn.secondary {
+  background: var(--gradient-secondary);
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn.ghost {
+  background: white;
+  color: var(--learn-text-muted);
+  border: 2px solid var(--learn-border);
+}
+
+.btn.ghost:hover {
+  color: var(--learn-primary);
+  border-color: var(--learn-primary);
+  background: rgba(16, 185, 129, 0.05);
+  transform: translateY(-3px);
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Footer Styles */
+.footer {
+  margin-top: 4rem;
+  background: linear-gradient(135deg, var(--learn-card-bg) 0%, #f8fafc 100%);
+  border-top: 1px solid var(--learn-border);
+  padding: 3rem 2rem 2rem;
+}
+
+.footer-content {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--learn-primary);
+}
+
+.footer-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-tip, .footer-encouragement {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(16, 185, 129, 0.05);
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--learn-primary);
+}
+
+.tip-icon, .encourage-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--learn-text-muted);
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  transition: all 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--learn-primary);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.link-icon {
+  font-size: 1rem;
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--learn-border);
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--learn-text-muted);
+  flex-wrap: wrap;
+}
+
+.copyright-icon, .heart-icon, .flag-icon {
+  font-size: 1rem;
+}
+
+.heart-icon {
+  color: #ef4444;
+  animation: pulse 2s infinite;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.loading-content {
+  background: white;
+  padding: 3rem;
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.spinner-icon {
+  font-size: 2rem;
+  animation: bounce 1s infinite alternate;
+}
+
+.spinner-icon:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.loading-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.125rem;
+  color: var(--learn-text);
+  margin: 0;
+}
+
+.loading-icon {
+  font-size: 1.5rem;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid var(--learn-border);
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--learn-text);
+  margin: 0;
+}
+
+.modal-icon {
+  font-size: 1.75rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.success-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.modal-footer {
+  padding: 1rem 2rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-btn {
+  min-width: 150px;
+}
+
+/* NoScript Message */
+.noscript-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--learn-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.noscript-content {
+  background: white;
+  padding: 3rem;
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  max-width: 500px;
+}
+
+.noscript-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .learn-grid {
+    grid-template-columns: 280px 1fr 320px;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .learn-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .steps, .practice {
+    position: static;
+  }
+  
+  .page-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    gap:  2rem;
+  }
