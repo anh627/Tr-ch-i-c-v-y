@@ -1,1 +1,68 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hồ sơ – GoMaster</title>
+  <meta name="description" content="Quản lý hồ sơ người chơi, thống kê và thành tựu. Dữ liệu lưu trên trình duyệt của bạn." />
+  <meta property="og:site_name" content="GoMaster" />
+  <meta property="og:title" content="Hồ sơ – GoMaster" />
+  <meta property="og:description" content="Cập nhật tên, quốc gia, ghi chú và xem thành tựu, thống kê của bạn." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body data-page="profile">
+<a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
+<header class="topbar" role="banner">
+  <a class="brand" href="index.html">GoMaster</a>
+  <nav class="nav" aria-label="Điều hướng chính">
+    <a href="index.html">Trang chủ</a>
+    <a href="learn.html">Học</a>
+    <a href="play.html">Chơi</a>
+    <a href="analysis.html">Phân tích</a>
+    <a href="ranking.html">Xếp hạng</a>
+    <a href="profile.html" aria-current="page">Hồ sơ</a>
+    <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
+  </nav>
+</header>
+
+<main id="main" class="container">
+  <h1>Hồ sơ người chơi</h1>
+  <section class="profile-grid">
+    <div class="card" aria-labelledby="profileInfoTitle">
+      <h3 id="profileInfoTitle">Thông tin</h3>
+      <label for="profileName">Tên người chơi</label>
+      <input id="profileName" type="text" autocomplete="nickname" />
+
+      <label for="profileCountry">Quốc gia</label>
+      <input id="profileCountry" type="text" placeholder="VN" autocomplete="country" inputmode="text" />
+
+      <label for="profileBio">Ghi chú</label>
+      <textarea id="profileBio" rows="3" placeholder="Mục tiêu: lên 10k trong tháng này!"></textarea>
+
+      <button id="saveProfile" class="btn primary" type="button">Lưu</button>
+      <div id="profileSaveStatus" class="sr-only" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="card" aria-labelledby="statsTitle">
+      <h3 id="statsTitle">Thống kê</h3>
+      <ul id="statsList" class="stats" aria-live="polite"></ul>
+    </div>
+
+    <div class="card" aria-labelledby="badgesTitle">
+      <h3 id="badgesTitle">Thành tựu</h3>
+      <ul id="badges" class="badges" aria-live="polite"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><small>Dữ liệu lưu trên trình duyệt của bạn.</small></footer>
+
+<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<script src="js/main.js" defer></script>
+</body>
+</html>
