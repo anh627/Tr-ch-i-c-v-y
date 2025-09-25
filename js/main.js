@@ -477,3 +477,88 @@ const GoMaster = {
           clearTimeout(timeout);
           func(...args);
         };
+        // Thêm vào GoMaster.audio object trong main.js
+GoMaster.audio = {
+  sounds: {},
+  webAudio: null,
+  enabled: true,
+  
+  init() {
+    // Khởi tạo Web Audio API fallback
+    this.initWebAudio();
+    
+    // Load sound effects từ file
+    const soundFiles = [
+      { id: 'sfxPlace', file: 'stone-place.mp3', webAudio: 'stonePlace' },
+      { id: 'sfxCapture', file: 'capture.mp3', webAudio: 'capture' },
+      { id: 'sfxSuccess', file: 'success.mp3', webAudio: 'success' },
+      { id: 'sfxHint', file: 'hint.mp3', webAudio: 'hint' }
+    ];
+    
+    soundFiles.forEach(sound => {
+      const audio = document.getElementById(sound.id);
+      if (audio) {
+        this.sounds[sound.id] = {
+          element: audio,
+          webAudioKey: sound.webAudio
+        };
+        audio.volume = 0.3;
+        
+        // Preload
+        audio.addEventListener('canplaythrough', () => {
+          console.log(`✅ Loaded: ${sound.file}`);
+        });
+        
+        audio.addEventListener('error', (e) => {
+          console.log(`❌ Failed to load: ${sound.file}`, e);
+        });
+      }
+    });
+  },
+  
+  initWebAudio() {
+    try {
+      this.webAudio = new AudioGenerator();
+      console.log('🎵 Web Audio API initialized');
+    } catch (error) {
+      console.log('Web Audio API not available');
+    }
+  },
+  
+  play(soundId) {
+    if (!this.enabled) return;
+    
+    const sound = this.sounds[soundId];
+    if (!sound) return;
+    
+    // Thử phát từ file MP3 trước
+    try {
+      const audio = sound.element;
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('MP3 playback failed, trying Web Audio:', error);
+          this.playWebAudio(sound.webAudioKey);
+        });
+      }
+    } catch (error) {
+      console.log('Audio element failed, trying Web Audio:', error);
+      this.playWebAudio(sound.webAudioKey);
+    }
+  },
+  
+  playWebAudio(soundKey) {
+    if (this.webAudio && soundKey) {
+      this.webAudio.playSound(soundKey);
+    }
+  },
+  
+  // Tạo file âm thanh cho download
+  generateSoundFiles() {
+    if (this.webAudio) {
+      window.generateAudioFiles();
+    }
+  }
+};
