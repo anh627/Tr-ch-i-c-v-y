@@ -1,0 +1,107 @@
+/* Enhanced Learn Page Styles */
+:root {
+  --learn-primary: #10b981;
+  --learn-secondary: #3b82f6;
+  --learn-accent: #f59e0b;
+  --learn-success: #22c55e;
+  --learn-warning: #f59e0b;
+  --learn-danger: #ef4444;
+  --learn-bg: #f8fafc;
+  --learn-card-bg: #ffffff;
+  --learn-border: #e2e8f0;
+  --learn-text: #1e293b;
+  --learn-text-muted: #64748b;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+}
+
+body[data-page="learn"] {
+  background: var(--learn-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header */
+.topbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--learn-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: var(--learn-primary);
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  animation: rotate 3s linear infinite;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: var(--learn-text-muted);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav a:hover, .nav a.nav-active {
+  color: var(--learn-primary);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+/* Page Header */
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.page-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--learn-text);
+  margin: 0 0 1rem 0;
+}
+
+.page-icon {
+  font-size: 2.5rem;
+}
+
+.page-badge {
+  background: linear-gradient(135deg, var(--learn-success) 0%, var(--learn-primary) 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+
+.page-subtitle {
+  font-size: 1.125rem;
+  color: var(--learn-text-muted);
+  margin: 0;
+}
+
+/* Learn Grid */
+.learn-grid {
+  display: grid;
+  grid-template
