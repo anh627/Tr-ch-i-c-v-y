@@ -562,3 +562,334 @@ GoMaster.audio = {
     }
   }
 };
+const canvas = document.getElementById('playBoard');
+const ctx = canvas.getContext('2d');
+const sfxPlace = document.getElementById('sfxPlace');
+const sfxCapture = document.getElementById('sfxCapture');
+let boardSize = parseInt(document.getElementById('boardSize').value) || 9;
+let canvasSize = canvas.width;
+let cellSize = canvasSize / (boardSize + 1);
+let board = Array(boardSize).fill().map(() => Array(boardSize).fill(null));
+let currentPlayer = 'black';
+let moveHistory = [];
+let blackCaptures = 0;
+let whiteCaptures = 0;
+let gameActive = false;
+let showCoords = document.getElementById('showCoords').checked;
+let showLiberties = document.getElementById('showLiberties').checked;
+let rankedMode = document.getElementById('rankedToggle').checked;
+
+// Resize canvas dynamically
+function resizeCanvas() {
+  const container = canvas.parentElement;
+  canvasSize = Math.min(container.clientWidth, container.clientHeight, 640);
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
+  cellSize = canvasSize / (boardSize + 1);
+  redrawBoard();
+}
+
+// Draw the board
+function drawBoard() {
+  ctx.fillStyle = '#dc9a3e';
+  ctx.fillRect(0, 0, canvasSize, canvasSize);
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1;
+  for (let i = 1; i <= boardSize; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * cellSize, cellSize);
+    ctx.lineTo(i * cellSize, canvasSize - cellSize);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cellSize, i * cellSize);
+    ctx.lineTo(canvasSize - cellSize, i * cellSize);
+    ctx.stroke();
+  }
+
+  // Draw star points
+  const starPoints = boardSize === 9 ? [[2,2], [2,6], [6,2], [6,6], [4,4]] :
+                     boardSize === 13 ? [[3,3], [3,9], [9,3], [9,9], [6,6]] :
+                     [[3,3], [3,9], [3,15], [9,3], [9,9], [9,15], [15,3], [15,9], [15,15]];
+  ctx.fillStyle = '#000';
+  starPoints.forEach(([x, y]) => {
+    ctx.beginPath();
+    ctx.arc((x + 1) * cellSize, (y + 1) * cellSize, 3, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+
+  // Draw coordinates if enabled
+  if (showCoords) {
+    ctx.fillStyle = '#000';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let i = 0; i < boardSize; i++) {
+      ctx.fillText(String.fromCharCode(65 + i), (i + 1) * cellSize, cellSize / 2);
+      ctx.fillText(String.fromCharCode(65 + i), (i + 1) * cellSize, canvasSize - cellSize / 2);
+      ctx.fillText(i + 1, cellSize / 2, (i + 1) * cellSize);
+      ctx.fillText(i + 1, canvasSize - cellSize / 2, (i + 1) * cellSize);
+    }
+  }
+}
+
+// Draw a stone
+function drawStone(x, y, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc((x + 1) * cellSize, (y + 1) * cellSize, cellSize / 2 - 2, 0, 2 * Math.PI);
+  ctx.fill();
+  if (color === 'black') {
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  if (showLiberties) {
+    const liberties = getLiberties(x, y, color);
+    ctx.fillStyle = color === 'black' ? '#fff' : '#000';
+    ctx.font = '10px Arial';
+    ctx.fillText(liberties, (x + 1) * cellSize, (y + 1) * cellSize);
+  }
+}
+
+// Redraw board and stones
+function redrawBoard() {
+  drawBoard();
+  for (let x = 0; x < boardSize; x++) {
+    for (let y = 0; y < boardSize; y++) {
+      if (board[x][y]) {
+        drawStone(x, y, board[x][y]);
+      }
+    }
+  }
+}
+
+// Calculate liberties for a group
+function getLiberties(x, y, color, visited = new Set()) {
+  if (x < 0 || x >= boardSize || y < 0 || y >= boardSize || visited.has(`${x},${y}`)) return 0;
+  visited.add(`${x},${y}`);
+  if (board[x][y] === null) return 1;
+  if (board[x][y] !== color) return 0;
+  let liberties = 0;
+  const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+  for (const [dx, dy] of directions) {
+    liberties += getLiberties(x + dx, y + dy, color, visited);
+  }
+  return liberties;
+}
+
+// Remove captured stones
+function removeCapturedStones(x, y, color) {
+  const opponentColor = color === 'black' ? 'white' : 'black';
+  const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+  let captured = 0;
+  for (const [dx, dy] of directions) {
+    const nx = x + dx, ny = y + dy;
+    if (nx >= 0 && nx < boardSize && ny >= 0 && ny < boardSize && board[nx][ny] === opponentColor) {
+      if (getLiberties(nx, ny, opponentColor) === 0) {
+        captured += removeGroup(nx, ny, opponentColor);
+      }
+    }
+  }
+  if (captured > 0) {
+    sfxCapture.play();
+    if (color === 'black') {
+      whiteCaptures += captured;
+      document.getElementById('whiteCaptures').textContent = whiteCaptures;
+    } else {
+      blackCaptures += captured;
+      document.getElementById('blackCaptures').textContent = blackCaptures;
+    }
+  }
+}
+
+function removeGroup(x, y, color, visited = new Set()) {
+  if (x < 0 || x >= boardSize || y < 0 || y >= boardSize || board[x][y] !== color || visited.has(`${x},${y}`)) return 0;
+  visited.add(`${x},${y}`);
+  board[x][y] = null;
+  let count = 1;
+  const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+  for (const [dx, dy] of directions) {
+    count += removeGroup(x + dx, y + dy, color, visited);
+  }
+  return count;
+}
+
+// Check if a move is legal (basic: not suicide, not occupied)
+function isLegalMove(x, y, color) {
+  if (x < 0 || x >= boardSize || y < 0 || y >= boardSize || board[x][y]) return false;
+  board[x][y] = color;
+  const liberties = getLiberties(x, y, color);
+  board[x][y] = null;
+  return liberties > 0;
+}
+
+// Handle stone placement
+canvas.addEventListener('click', (event) => {
+  if (!gameActive) return;
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+  const x = Math.round((mouseX - cellSize) / cellSize);
+  const y = Math.round((mouseY - cellSize) / cellSize);
+  if (x >= 0 && x < boardSize && y >= 0 && y < boardSize && isLegalMove(x, y, currentPlayer)) {
+    board[x][y] = currentPlayer;
+    moveHistory.push({ x, y, color: currentPlayer, blackCaptures, whiteCaptures });
+    removeCapturedStones(x, y, currentPlayer);
+    sfxPlace.play();
+    drawStone(x, y, currentPlayer);
+    document.getElementById('playStatus').querySelector('.status-text').textContent = `${currentPlayer === 'black' ? 'Trắng' : 'Đen'} lượt`;
+    currentPlayer = currentPlayer === 'black' ? 'white' : 'black';
+    if (document.getElementById('opponentType').value === 'ai' && currentPlayer === 'white') {
+      setTimeout(makeAIMove, 500); // Simple AI move
+    }
+  }
+});
+
+// Start game
+document.getElementById('btnStart').addEventListener('click', () => {
+  boardSize = parseInt(document.getElementById('boardSize').value) || 9;
+  board = Array(boardSize).fill().map(() => Array(boardSize).fill(null));
+  currentPlayer = 'black';
+  moveHistory = [];
+  blackCaptures = 0;
+  whiteCaptures = 0;
+  gameActive = true;
+  showCoords = document.getElementById('showCoords').checked;
+  showLiberties = document.getElementById('showLiberties').checked;
+  rankedMode = document.getElementById('rankedToggle').checked;
+  document.getElementById('blackCaptures').textContent = '0';
+  document.getElementById('whiteCaptures').textContent = '0';
+  document.getElementById('playStatus').querySelector('.status-text').textContent = 'Đen lượt';
+  document.getElementById('btnHint').disabled = rankedMode;
+  resizeCanvas();
+});
+
+// Pass turn
+document.getElementById('btnPass').addEventListener('click', () => {
+  if (!gameActive) return;
+  moveHistory.push({ pass: true, color: currentPlayer, blackCaptures, whiteCaptures });
+  document.getElementById('playStatus').querySelector('.status-text').textContent = `${currentPlayer === 'black' ? 'Trắng' : 'Đen'} lượt`;
+  currentPlayer = currentPlayer === 'black' ? 'white' : 'black';
+  if (moveHistory.length >= 2 && moveHistory[moveHistory.length - 1].pass && moveHistory[moveHistory.length - 2].pass) {
+    endGame();
+  }
+});
+
+// Resign
+document.getElementById('btnResign').addEventListener('click', () => {
+  if (!gameActive) return;
+  gameActive = false;
+  const winner = currentPlayer === 'black' ? 'Trắng' : 'Đen';
+  document.getElementById('playStatus').querySelector('.status-text').textContent = `${winner} thắng do đối thủ đầu hàng!`;
+  updateSummary(`${winner} thắng do đối thủ đầu hàng!`);
+});
+
+// Undo move
+document.getElementById('btnUndo').addEventListener('click', () => {
+  if (!gameActive || moveHistory.length === 0) return;
+  const lastMove = moveHistory.pop();
+  if (lastMove.pass) {
+    currentPlayer = lastMove.color;
+    document.getElementById('playStatus').querySelector('.status-text').textContent = `${currentPlayer === 'black' ? 'Đen' : 'Trắng'} lượt`;
+    return;
+  }
+  board[lastMove.x][lastMove.y] = null;
+  blackCaptures = lastMove.blackCaptures;
+  whiteCaptures = lastMove.whiteCaptures;
+  document.getElementById('blackCaptures').textContent = blackCaptures;
+  document.getElementById('whiteCaptures').textContent = whiteCaptures;
+  currentPlayer = lastMove.color;
+  redrawBoard();
+  document.getElementById('playStatus').querySelector('.status-text').textContent = `${currentPlayer === 'black' ? 'Đen' : 'Trắng'} lượt`;
+});
+
+// Basic AI move (placeholder)
+function makeAIMove() {
+  const aiLevel = document.getElementById('aiLevel').value;
+  let move;
+  if (aiLevel === 'easy') {
+    // Random legal move
+    const possibleMoves = [];
+    for (let x = 0; x < boardSize; x++) {
+      for (let y = 0; y < boardSize; y++) {
+        if (isLegalMove(x, y, currentPlayer)) {
+          possibleMoves.push({ x, y });
+        }
+      }
+    }
+    if (possibleMoves.length > 0) {
+      move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      board[move.x][move.y] = currentPlayer;
+      moveHistory.push({ x: move.x, y: move.y, color: currentPlayer, blackCaptures, whiteCaptures });
+      removeCapturedStones(move.x, move.y, currentPlayer);
+      sfxPlace.play();
+      drawStone(move.x, move.y, currentPlayer);
+      currentPlayer = 'black';
+      document.getElementById('playStatus').querySelector('.status-text').textContent = 'Đen lượt';
+    }
+  }
+}
+
+// Hint (simple: suggest a random legal move)
+document.getElementById('btnHint').addEventListener('click', () => {
+  if (!gameActive || rankedMode) return;
+  const possibleMoves = [];
+  for (let x = 0; x < boardSize; x++) {
+    for (let y = 0; y < boardSize; y++) {
+      if (isLegalMove(x, y, currentPlayer)) {
+        possibleMoves.push({ x, y });
+      }
+    }
+  }
+  if (possibleMoves.length > 0) {
+    const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc((move.x + 1) * cellSize, (move.y + 1) * cellSize, cellSize / 2 - 2, 0, 2 * Math.PI);
+    ctx.stroke();
+    setTimeout(redrawBoard, 2000);
+  }
+});
+
+// End game and calculate score (simplified)
+function endGame() {
+  gameActive = false;
+  let blackScore = blackCaptures;
+  let whiteScore = whiteCaptures + parseFloat(document.getElementById('komi').value);
+  const ruleSet = document.getElementById('ruleSet').value;
+  if (ruleSet === 'chinese') {
+    for (let x = 0; x < boardSize; x++) {
+      for (let y = 0; y < boardSize; y++) {
+        if (board[x][y] === 'black') blackScore++;
+        else if (board[x][y] === 'white') whiteScore++;
+      }
+    }
+  }
+  const winner = blackScore > whiteScore ? 'Đen' : 'Trắng';
+  const scoreText = `Đen: ${blackScore}, Trắng: ${whiteScore}. ${winner} thắng!`;
+  document.getElementById('playStatus').querySelector('.status-text').textContent = scoreText;
+  updateSummary(scoreText);
+}
+
+// Update post-game summary
+function updateSummary(text) {
+  const summary = document.getElementById('postGameSummary');
+  summary.innerHTML = `<p>${text}</p>`;
+}
+
+// Initialize
+if (!ctx) {
+  alert('Trình duyệt không hỗ trợ canvas.');
+} else {
+  window.addEventListener('resize', resizeCanvas);
+  document.getElementById('showCoords').addEventListener('change', () => {
+    showCoords = document.getElementById('showCoords').checked;
+    redrawBoard();
+  });
+  document.getElementById('showLiberties').addEventListener('change', () => {
+    showLiberties = document.getElementById('showLiberties').checked;
+    redrawBoard();
+  });
+  resizeCanvas();
+}
