@@ -13,56 +13,325 @@
   <meta name="twitter:card" content="summary" />
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/profile.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body data-page="profile">
 <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
 <header class="topbar" role="banner">
-  <a class="brand" href="index.html">GoMaster</a>
+  <a class="brand" href="index.html">
+    <span class="brand-icon">⚫⚪</span>
+    <span class="brand-text">GoMaster</span>
+  </a>
   <nav class="nav" aria-label="Điều hướng chính">
-    <a href="index.html">Trang chủ</a>
-    <a href="learn.html">Học</a>
-    <a href="play.html">Chơi</a>
-    <a href="analysis.html">Phân tích</a>
-    <a href="ranking.html">Xếp hạng</a>
-    <a href="profile.html" aria-current="page">Hồ sơ</a>
-    <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
+    <a href="index.html" class="nav-link">
+      <span class="nav-icon">🏠</span>
+      <span>Trang chủ</span>
+    </a>
+    <a href="learn.html" class="nav-link">
+      <span class="nav-icon">📚</span>
+      <span>Học</span>
+    </a>
+    <a href="play.html" class="nav-link">
+      <span class="nav-icon">🎮</span>
+      <span>Chơi</span>
+    </a>
+    <a href="analysis.html" class="nav-link">
+      <span class="nav-icon">📊</span>
+      <span>Phân tích</span>
+    </a>
+    <a href="ranking.html" class="nav-link">
+      <span class="nav-icon">🏆</span>
+      <span>Xếp hạng</span>
+    </a>
+    <a href="profile.html" aria-current="page" class="nav-link nav-active">
+      <span class="nav-icon">👤</span>
+      <span>Hồ sơ</span>
+    </a>
+    <button id="themeToggle" class="btn ghost theme-btn" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">
+      <span class="theme-icon">🌗</span>
+    </button>
   </nav>
 </header>
 
 <main id="main" class="container">
-  <h1>Hồ sơ người chơi</h1>
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="page-icon">👤</span>
+      <span class="title-text">Hồ sơ người chơi</span>
+      <span class="page-badge">
+        <span class="badge-icon">⭐</span>
+        <span>Cá nhân hóa</span>
+      </span>
+    </h1>
+    <p class="page-subtitle">
+      <span class="subtitle-icon">📝</span>
+      Quản lý thông tin, theo dõi tiến độ và khám phá thành tựu của bạn
+      <span class="subtitle-emoji">🚀</span>
+    </p>
+  </div>
+
   <section class="profile-grid">
-    <div class="card" aria-labelledby="profileInfoTitle">
-      <h3 id="profileInfoTitle">Thông tin</h3>
-      <label for="profileName">Tên người chơi</label>
-      <input id="profileName" type="text" autocomplete="nickname" />
+    <!-- Profile Info Card -->
+    <div class="card profile-info-card" aria-labelledby="profileInfoTitle">
+      <div class="card-header">
+        <h3 id="profileInfoTitle" class="card-title">
+          <span class="card-icon">📋</span>
+          <span>Thông tin cá nhân</span>
+        </h3>
+        <div class="card-badge">
+          <span class="badge-icon">✏️</span>
+          <span>Chỉnh sửa</span>
+        </div>
+      </div>
 
-      <label for="profileCountry">Quốc gia</label>
-      <input id="profileCountry" type="text" placeholder="VN" autocomplete="country" inputmode="text" />
+      <div class="profile-avatar">
+        <div class="avatar-container">
+          <div class="avatar-circle">
+            <span class="avatar-icon">👤</span>
+          </div>
+          <div class="avatar-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Online</span>
+          </div>
+        </div>
+      </div>
 
-      <label for="profileBio">Ghi chú</label>
-      <textarea id="profileBio" rows="3" placeholder="Mục tiêu: lên 10k trong tháng này!"></textarea>
+      <div class="form-group">
+        <label for="profileName" class="form-label">
+          <span class="label-icon">🏷️</span>
+          <span>Tên người chơi</span>
+        </label>
+        <input id="profileName" type="text" class="form-input" autocomplete="nickname" placeholder="Nhập tên của bạn..." />
+      </div>
 
-      <button id="saveProfile" class="btn primary" type="button">Lưu</button>
-      <div id="profileSaveStatus" class="sr-only" role="status" aria-live="polite"></div>
+      <div class="form-group">
+        <label for="profileCountry" class="form-label">
+          <span class="label-icon">🌍</span>
+          <span>Quốc gia</span>
+        </label>
+        <input id="profileCountry" type="text" class="form-input" placeholder="VN" autocomplete="country" inputmode="text" />
+      </div>
+
+      <div class="form-group">
+        <label for="profileBio" class="form-label">
+          <span class="label-icon">📝</span>
+          <span>Ghi chú & Mục tiêu</span>
+        </label>
+        <textarea id="profileBio" rows="4" class="form-textarea" placeholder="Ví dụ: Mục tiêu lên 10k trong tháng này! 🎯"></textarea>
+      </div>
+
+      <button id="saveProfile" class="btn primary save-btn" type="button">
+        <span class="btn-icon">💾</span>
+        <span>Lưu thông tin</span>
+      </button>
+      <div id="profileSaveStatus" class="save-status sr-only" role="status" aria-live="polite"></div>
     </div>
 
-    <div class="card" aria-labelledby="statsTitle">
-      <h3 id="statsTitle">Thống kê</h3>
-      <ul id="statsList" class="stats" aria-live="polite"></ul>
+    <!-- Stats Card -->
+    <div class="card stats-card" aria-labelledby="statsTitle">
+      <div class="card-header">
+        <h3 id="statsTitle" class="card-title">
+          <span class="card-icon">📊</span>
+          <span>Thống kê chi tiết</span>
+        </h3>
+        <div class="card-badge stats-badge">
+          <span class="badge-icon">📈</span>
+          <span>Cập nhật</span>
+        </div>
+      </div>
+
+      <div class="stats-overview">
+        <div class="overview-item">
+          <span class="overview-icon">🎯</span>
+          <div class="overview-content">
+            <span class="overview-value" id="totalGames">0</span>
+            <span class="overview-label">Tổng ván</span>
+          </div>
+        </div>
+        <div class="overview-item">
+          <span class="overview-icon">🏆</span>
+          <div class="overview-content">
+            <span class="overview-value" id="winRate">0%</span>
+            <span class="overview-label">Tỷ lệ thắng</span>
+          </div>
+        </div>
+        <div class="overview-item">
+          <span class="overview-icon">⭐</span>
+          <div class="overview-content">
+            <span class="overview-value" id="currentRank">30k</span>
+            <span class="overview-label">Rank hiện tại</span>
+          </div>
+        </div>
+      </div>
+
+      <ul id="statsList" class="stats-list" aria-live="polite">
+        <li class="stats-item">
+          <span class="stats-icon">🎮</span>
+          <span class="stats-label">Đang tải thống kê...</span>
+          <span class="stats-value">⏳</span>
+        </li>
+      </ul>
     </div>
 
-    <div class="card" aria-labelledby="badgesTitle">
-      <h3 id="badgesTitle">Thành tựu</h3>
-      <ul id="badges" class="badges" aria-live="polite"></ul>
+    <!-- Achievements Card -->
+    <div class="card achievements-card" aria-labelledby="badgesTitle">
+      <div class="card-header">
+        <h3 id="badgesTitle" class="card-title">
+          <span class="card-icon">🏅</span>
+          <span>Thành tựu & Huy hiệu</span>
+        </h3>
+        <div class="card-badge achievements-badge">
+          <span class="badge-icon">🌟</span>
+          <span id="badgeCount">0</span>
+        </div>
+      </div>
+
+      <div class="achievements-progress">
+        <div class="progress-item">
+          <span class="progress-icon">🎯</span>
+          <div class="progress-content">
+            <span class="progress-label">Tiến độ thành tựu</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 25%"></div>
+            </div>
+            <span class="progress-text">3/12 hoàn thành</span>
+          </div>
+        </div>
+      </div>
+
+      <ul id="badges" class="badges-grid" aria-live="polite">
+        <li class="badge-item loading">
+          <span class="badge-icon">⏳</span>
+          <span class="badge-name">Đang tải...</span>
+        </li>
+      </ul>
+
+      <div class="achievements-hint">
+        <span class="hint-icon">💡</span>
+        <span class="hint-text">Chơi nhiều hơn để mở khóa thêm thành tựu!</span>
+      </div>
+    </div>
+
+    <!-- Activity Card -->
+    <div class="card activity-card" aria-labelledby="activityTitle">
+      <div class="card-header">
+        <h3 id="activityTitle" class="card-title">
+          <span class="card-icon">📅</span>
+          <span>Hoạt động gần đây</span>
+        </h3>
+        <div class="card-badge activity-badge">
+          <span class="badge-icon">🔥</span>
+          <span>7 ngày</span>
+        </div>
+      </div>
+
+      <div class="activity-calendar">
+        <div class="calendar-header">
+          <span class="calendar-title">
+            <span class="calendar-icon">📊</span>
+            <span>Lịch chơi tuần này</span>
+          </span>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-day">
+            <span class="day-label">T2</span>
+            <div class="day-activity low">
+              <span class="activity-count">2</span>
+            </div>
+          </div>
+          <div class="calendar-day">
+            <span class="day-label">T3</span>
+            <div class="day-activity medium">
+              <span class="activity-count">5</span>
+            </div>
+          </div>
+          <div class="calendar-day">
+            <span class="day-label">T4</span>
+            <div class="day-activity high">
+              <span class="activity-count">8</span>
+            </div>
+          </div>
+          <div class="calendar-day">
+            <span class="day-label">T5</span>
+            <div class="day-activity low">
+              <span class="activity-count">1</span>
+            </div>
+          </div>
+          <div class="calendar-day">
+            <span class="day-label">T6</span>
+            <div class="day-activity none">
+              <span class="activity-count">0</span>
+            </div>
+          </div>
+          <div class="calendar-day">
+            <span class="day-label">T7</span>
+            <div class="day-activity medium">
+              <span class="activity-count">4</span>
+            </div>
+          </div>
+          <div class="calendar-day today">
+            <span class="day-label">CN</span>
+            <div class="day-activity current">
+              <span class="activity-count">3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-games">
+        <h4 class="recent-title">
+          <span class="recent-icon">🎮</span>
+          <span>Ván đấu gần nhất</span>
+        </h4>
+        <div class="games-list">
+          <div class="game-item">
+            <span class="game-result win">🏆</span>
+            <div class="game-info">
+              <span class="game-opponent">vs AI (Dễ)</span>
+              <span class="game-time">2 giờ trước</span>
+            </div>
+            <span class="game-score">+15 điểm</span>
+          </div>
+          <div class="game-item">
+            <span class="game-result loss">😔</span>
+            <div class="game-info">
+              <span class="game-opponent">vs Player123</span>
+              <span class="game-time">1 ngày trước</span>
+            </div>
+            <span class="game-score">-8 điểm</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
-<footer class="footer"><small>Dữ liệu lưu trên trình duyệt của bạn.</small></footer>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-info">
+      <span class="info-icon">🔒</span>
+      <small><strong>Bảo mật:</strong> Dữ liệu được lưu trữ an toàn trên trình duyệt của bạn. 🛡️</small>
+    </div>
+    <div class="footer-tip">
+      <span class="tip-icon">💡</span>
+      <small>Cập nhật hồ sơ thường xuyên để theo dõi tiến độ tốt hơn!</small>
+    </div>
+  </div>
+</footer>
 
-<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<noscript>
+  <div class="noscript-message">
+    <div class="noscript-content">
+      <span class="noscript-icon">⚠️</span>
+      <h2>JavaScript bị tắt</h2>
+      <p>Trang này cần JavaScript để hoạt động đầy đủ. Vui lòng bật JavaScript trong trình duyệt của bạn.</p>
+    </div>
+  </div>
+</noscript>
+
 <script src="js/main.js" defer></script>
+<script src="js/profile.js" defer></script>
 </body>
 </html>
