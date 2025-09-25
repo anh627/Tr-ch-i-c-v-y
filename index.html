@@ -1,36 +1,62 @@
 <!doctype html>
-<html lang="vi" data-lang="vi">
+<html lang="vi" data-lang="vi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GoMaster – Học và chơi Cờ Vây</title>
   <meta name="description" content="GoMaster: Học luật, chơi nhanh, luyện tập và phân tích Cờ Vây cho mọi cấp độ (9×9, 13×13, 19×19)." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f59e0b" />
+  <!-- Open Graph -->
   <meta property="og:site_name" content="GoMaster" />
   <meta property="og:title" content="GoMaster – Học và chơi Cờ Vây" />
   <meta property="og:description" content="Học luật, chơi nhanh và phân tích ván cờ với công cụ trực quan cho Newbie, Casual và Pro." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="vi_VN" />
+  <meta property="og:image" content="assets/images/og-cover.png" />
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GoMaster – Học và chơi Cờ Vây" />
+  <meta name="twitter:description" content="Học luật, chơi nhanh và phân tích ván cờ cho mọi cấp độ." />
+  <meta name="twitter:image" content="assets/images/og-cover.png" />
+  <!-- Icons & PWA -->
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles/main.css" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
   <header class="topbar" role="banner">
-    <a class="brand" href="index.html" aria-current="page" rel="noopener">
+    <a class="brand" href="index.html">
       <span class="brand-icon">⚫⚪</span>
-      <span class="lang-vi">GoMaster</span><span class="lang-en" style="display: none;">GoMaster</span>
+      <span>GoMaster</span>
     </a>
     <nav class="nav" aria-label="Điều hướng chính">
-      <a href="learn.html" rel="noopener"><span class="lang-vi">📚 Học</span><span class="lang-en" style="display: none;">Learn</span></a>
-      <a href="play.html" rel="noopener"><span class="lang-vi">🎮 Chơi</span><span class="lang-en" style="display: none;">Play</span></a>
-      <a href="analysis.html" rel="noopener"><span class="lang-vi">📊 Phân tích</span><span class="lang-en" style="display: none;">Analysis</span></a>
-      <a href="ranking.html" rel="noopener"><span class="lang-vi">🏆 Xếp hạng</span><span class="lang-en" style="display: none;">Ranking</span></a>
-      <a href="profile.html" rel="noopener"><span class="lang-vi">👤 Hồ sơ</span><span class="lang-en" style="display: none;">Profile</span></a>
+      <a href="index.html" aria-current="page" class="nav-active">
+        <span class="lang-vi">🏠 Trang chủ</span><span class="lang-en">Home</span>
+      </a>
+      <a href="learn.html">
+        <span class="lang-vi">📚 Học</span><span class="lang-en">Learn</span>
+      </a>
+      <a href="play.html">
+        <span class="lang-vi">🎮 Chơi</span><span class="lang-en">Play</span>
+      </a>
+      <a href="analysis.html">
+        <span class="lang-vi">📊 Phân tích</span><span class="lang-en">Analysis</span>
+      </a>
+      <a href="ranking.html">
+        <span class="lang-vi">🏆 Xếp hạng</span><span class="lang-en">Ranking</span>
+      </a>
+      <a href="profile.html">
+        <span class="lang-vi">👤 Hồ sơ</span><span class="lang-en">Profile</span>
+      </a>
       <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
     </nav>
   </header>
@@ -43,95 +69,101 @@
     <section class="hero-left">
       <div class="hero-badge">
         <span class="badge-icon">🎯</span>
-        <span class="badge-text"><span class="lang-vi">Nền tảng Cờ Vây #1 Việt Nam</span><span class="lang-en" style="display: none;">Vietnam's #1 Go Platform</span></span>
+        <span class="badge-text">
+          <span class="lang-vi">Nền tảng Cờ Vây #1 Việt Nam</span>
+          <span class="lang-en">Vietnam's #1 Go Platform</span>
+        </span>
       </div>
-      <h1><span class="lang-vi">Cờ Vây cho <span class="gradient-text">mọi cấp độ</span> 🌟</span><span class="lang-en" style="display: none;">Go for <span class="gradient-text">all levels</span> 🌟</span></h1>
-      <p><span class="lang-vi">🌱 <strong>Newbie:</strong> học luật và luyện 9×9/13×13 có gợi ý. 🎮 <strong>Casual:</strong> đánh nhanh và xem phân tích sơ bộ. 🏆 <strong>Pro:</strong> ranked 19×19, phân tích sâu, joseki/fuseki explorer.</span><span class="lang-en" style="display: none;">🌱 <strong>Newbie:</strong> Learn rules and practice 9×9/13×13 with hints. 🎮 <strong>Casual:</strong> Quick games and basic analysis. 🏆 <strong>Pro:</strong> Ranked 19×19, deep analysis, joseki/fuseki explorer.</span></p>
+
+      <h1>
+        <span class="lang-vi">Cờ Vây cho <span class="gradient-text">mọi cấp độ</span> 🌟</span>
+        <span class="lang-en">Go for <span class="gradient-text">all levels</span> 🌟</span>
+      </h1>
+
+      <p>
+        <span class="lang-vi">🌱 <strong>Newbie:</strong> học luật và luyện 9×9/13×13 có gợi ý. 🎮 <strong>Casual:</strong> đánh nhanh và xem phân tích sơ bộ. 🏆 <strong>Pro:</strong> ranked 19×19, phân tích sâu, joseki/fuseki explorer.</span>
+        <span class="lang-en">🌱 <strong>Newbie:</strong> Learn rules and practice 9×9/13×13 with hints. 🎮 <strong>Casual:</strong> Quick games and basic analysis. 🏆 <strong>Pro:</strong> Ranked 19×19, deep analysis, joseki/fuseki explorer.</span>
+      </p>
       
       <div class="feature-highlights">
-        <div class="feature-item">
-          <span class="feature-icon">⚡</span>
-          <span class="lang-vi">Học nhanh với AI</span><span class="lang-en" style="display: none;">Learn fast with AI</span>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">🎯</span>
-          <span class="lang-vi">Phân tích chuyên sâu</span><span class="lang-en" style="display: none;">Deep analysis</span>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">🌍</span>
-          <span class="lang-vi">Cộng đồng Việt Nam</span><span class="lang-en" style="display: none;">Vietnam community</span>
-        </div>
+        <div class="feature-item"><span class="feature-icon">⚡</span><span class="lang-vi">Học nhanh với AI</span><span class="lang-en">Learn fast with AI</span></div>
+        <div class="feature-item"><span class="feature-icon">🎯</span><span class="lang-vi">Phân tích chuyên sâu</span><span class="lang-en">Deep analysis</span></div>
+        <div class="feature-item"><span class="feature-icon">🌍</span><span class="lang-vi">Cộng đồng Việt Nam</span><span class="lang-en">Vietnam community</span></div>
       </div>
 
       <div class="cta">
-        <a class="btn primary" href="learn.html" rel="noopener">
+        <a class="btn primary" href="learn.html">
           <span class="btn-icon">🚀</span>
-          <span class="lang-vi">Học luật nhanh</span><span class="lang-en" style="display: none;">Learn Rules Fast</span>
+          <span class="lang-vi">Học luật nhanh</span><span class="lang-en">Learn Rules Fast</span>
         </a>
-        <a class="btn secondary" href="play.html" rel="noopener">
+        <a class="btn secondary" href="play.html">
           <span class="btn-icon">⚡</span>
-          <span class="lang-vi">Chơi nhanh</span><span class="lang-en" style="display: none;">Play Quick</span>
+          <span class="lang-vi">Chơi nhanh</span><span class="lang-en">Play Quick</span>
         </a>
       </div>
+
       <div class="stats-strip" id="homeStats" role="status" aria-live="polite">
         <div class="stat-item">
           <span class="stat-icon">👥</span>
           <span class="stat-number">10K+</span>
-          <span class="stat-label"><span class="lang-vi">Người chơi</span><span class="lang-en" style="display: none;">Players</span></span>
+          <span class="stat-label"><span class="lang-vi">Người chơi</span><span class="lang-en">Players</span></span>
         </div>
         <div class="stat-item">
           <span class="stat-icon">🎯</span>
           <span class="stat-number">50K+</span>
-          <span class="stat-label"><span class="lang-vi">Ván đã chơi</span><span class="lang-en" style="display: none;">Games Played</span></span>
+          <span class="stat-label"><span class="lang-vi">Ván đã chơi</span><span class="lang-en">Games Played</span></span>
         </div>
         <div class="stat-item">
           <span class="stat-icon">🤖</span>
           <span class="stat-number">24/7</span>
-          <span class="stat-label"><span class="lang-vi">Hỗ trợ AI</span><span class="lang-en" style="display: none;">AI Support</span></span>
+          <span class="stat-label"><span class="lang-vi">Hỗ trợ AI</span><span class="lang-en">AI Support</span></span>
         </div>
       </div>
     </section>
+
     <section class="hero-right">
       <div class="cards">
-        <a class="card newbie-card" href="learn.html" rel="noopener">
+        <a class="card newbie-card" href="learn.html">
           <div class="card-header">
             <span class="card-icon">🌱</span>
-            <span class="card-badge"><span class="lang-vi">Newbie</span><span class="lang-en" style="display: none;">Newbie</span></span>
+            <span class="card-badge"><span class="lang-vi">Newbie</span><span class="lang-en">Newbie</span></span>
           </div>
-          <h3><span class="lang-vi">Người mới bắt đầu</span><span class="lang-en" style="display: none;">Beginner</span></h3>
-          <p><span class="lang-vi">📖 Luật – 💨 Khí – 🎯 Bắt quân – ⚖️ Ko – 🔢 Đếm điểm. 🧩 Bài luyện sống/chết.</span><span class="lang-en" style="display: none;">📖 Rules – 💨 Liberties – 🎯 Capture – ⚖️ Ko – 🔢 Scoring. 🧩 Life/Death problems.</span></p>
+          <h3><span class="lang-vi">Người mới bắt đầu</span><span class="lang-en">Beginner</span></h3>
+          <p><span class="lang-vi">📖 Luật – 💨 Khí – 🎯 Bắt quân – ⚖️ Ko – 🔢 Đếm điểm. 🧩 Bài luyện sống/chết.</span><span class="lang-en">📖 Rules – 💨 Liberties – 🎯 Capture – ⚖️ Ko – 🔢 Scoring. 🧩 Life/Death problems.</span></p>
           <div class="card-features">
-            <span class="feature-tag"><span class="lang-vi">🎲 Bàn 9×9</span><span class="lang-en" style="display: none;">9×9 Board</span></span>
-            <span class="feature-tag"><span class="lang-vi">🤖 AI Guide</span><span class="lang-en" style="display: none;">AI Guide</span></span>
+            <span class="feature-tag"><span class="lang-vi">🎲 Bàn 9×9</span><span class="lang-en">9×9 Board</span></span>
+            <span class="feature-tag"><span class="lang-vi">🤖 AI Guide</span><span class="lang-en">AI Guide</span></span>
           </div>
         </a>
-        <a class="card casual-card" href="play.html" rel="noopener">
+
+        <a class="card casual-card" href="play.html">
           <div class="card-header">
             <span class="card-icon">🎮</span>
-            <span class="card-badge"><span class="lang-vi">Casual</span><span class="lang-en" style="display: none;">Casual</span></span>
+            <span class="card-badge"><span class="lang-vi">Casual</span><span class="lang-en">Casual</span></span>
           </div>
-          <h3><span class="lang-vi">Người chơi giải trí</span><span class="lang-en" style="display: none;">Casual Player</span></h3>
-          <p><span class="lang-vi">⚡ Quick match 13×13/19×19. 📊 Phân tích blunder sau ván.</span><span class="lang-en" style="display: none;">⚡ Quick match 13×13/19×19. 📊 Post-game blunder analysis.</span></p>
+          <h3><span class="lang-vi">Người chơi giải trí</span><span class="lang-en">Casual Player</span></h3>
+          <p><span class="lang-vi">⚡ Quick match 13×13/19×19. 📊 Phân tích blunder sau ván.</span><span class="lang-en">⚡ Quick match 13×13/19×19. 📊 Post-game blunder analysis.</span></p>
           <div class="card-features">
-            <span class="feature-tag"><span class="lang-vi">⚡ Quick Match</span><span class="lang-en" style="display: none;">Quick Match</span></span>
-            <span class="feature-tag"><span class="lang-vi">📈 Basic Analysis</span><span class="lang-en" style="display: none;">Basic Analysis</span></span>
+            <span class="feature-tag"><span class="lang-vi">⚡ Quick Match</span><span class="lang-en">Quick Match</span></span>
+            <span class="feature-tag"><span class="lang-vi">📈 Basic Analysis</span><span class="lang-en">Basic Analysis</span></span>
           </div>
         </a>
-        <a class="card pro-card" href="analysis.html" rel="noopener">
+
+        <a class="card pro-card" href="analysis.html">
           <div class="card-header">
             <span class="card-icon">🏆</span>
-            <span class="card-badge"><span class="lang-vi">Pro</span><span class="lang-en" style="display: none;">Pro</span></span>
+            <span class="card-badge"><span class="lang-vi">Pro</span><span class="lang-en">Pro</span></span>
           </div>
-          <h3><span class="lang-vi">Chuyên gia</span><span class="lang-en" style="display: none;">Expert</span></h3>
-          <p><span class="lang-vi">🔍 Review sâu, 🧠 PV gợi ý, 🗺️ ownership map mô phỏng, 📚 joseki/fuseki.</span><span class="lang-en" style="display: none;">🔍 Deep review, 🧠 PV suggestions, 🗺️ ownership map, 📚 joseki/fuseki.</span></p>
+          <h3><span class="lang-vi">Chuyên gia</span><span class="lang-en">Expert</span></h3>
+          <p><span class="lang-vi">🔍 Review sâu, 🧠 PV gợi ý, 🗺️ ownership map mô phỏng, 📚 joseki/fuseki.</span><span class="lang-en">🔍 Deep review, 🧠 PV suggestions, 🗺️ ownership map, 📚 joseki/fuseki.</span></p>
           <div class="card-features">
-            <span class="feature-tag"><span class="lang-vi">🏆 Ranked 19×19</span><span class="lang-en" style="display: none;">Ranked 19×19</span></span>
-            <span class="feature-tag"><span class="lang-vi">🔬 Deep Analysis</span><span class="lang-en" style="display: none;">Deep Analysis</span></span>
+            <span class="feature-tag"><span class="lang-vi">🏆 Ranked 19×19</span><span class="lang-en">Ranked 19×19</span></span>
+            <span class="feature-tag"><span class="lang-vi">🔬 Deep Analysis</span><span class="lang-en">Deep Analysis</span></span>
           </div>
         </a>
       </div>
     </section>
-    
+
     <div id="loadingOverlay" class="loading-overlay" style="display: none;">
       <div class="loading-content">
         <div class="loading-spinner">
@@ -140,7 +172,7 @@
         </div>
         <p class="loading-text">
           <span class="loading-icon">🤖</span>
-          <span class="lang-vi">Đang tải dữ liệu...</span><span class="lang-en" style="display: none;">Loading data...</span>
+          <span class="lang-vi">Đang tải dữ liệu...</span><span class="lang-en">Loading data...</span>
         </p>
       </div>
     </div>
@@ -150,27 +182,27 @@
     <div class="footer-content">
       <div class="footer-brand">
         <span class="brand-icon">⚫⚪</span>
-        <span class="lang-vi">GoMaster</span><span class="lang-en" style="display: none;">GoMaster</span>
+        <span>GoMaster</span>
       </div>
       <div class="footer-links">
-        <a href="#about" class="footer-link" rel="noopener">
+        <a href="#about" class="footer-link">
           <span class="link-icon">ℹ️</span>
-          <span class="lang-vi">Về chúng tôi</span><span class="lang-en" style="display: none;">About Us</span>
+          <span class="lang-vi">Về chúng tôi</span><span class="lang-en">About Us</span>
         </a>
-        <a href="#contact" class="footer-link" rel="noopener">
+        <a href="#contact" class="footer-link">
           <span class="link-icon">📧</span>
-          <span class="lang-vi">Liên hệ</span><span class="lang-en" style="display: none;">Contact</span>
+          <span class="lang-vi">Liên hệ</span><span class="lang-en">Contact</span>
         </a>
-        <a href="#help" class="footer-link" rel="noopener">
+        <a href="#help" class="footer-link">
           <span class="link-icon">❓</span>
-          <span class="lang-vi">Trợ giúp</span><span class="lang-en" style="display: none;">Help</span>
+          <span class="lang-vi">Trợ giúp</span><span class="lang-en">Help</span>
         </a>
       </div>
       <div class="footer-bottom">
         <small class="copyright">
           <span class="copyright-icon">©</span>
           <span class="lang-vi">2025 GoMaster. Made with <span class="heart-icon">❤️</span> for Go community in Vietnam <span class="flag-icon">🇻🇳</span></span>
-          <span class="lang-en" style="display: none;">2025 GoMaster. Made with <span class="heart-icon">❤️</span> for Go community <span class="flag-icon">🌍</span></span>
+          <span class="lang-en">2025 GoMaster. Made with <span class="heart-icon">❤️</span> for Go community <span class="flag-icon">🌍</span></span>
         </small>
       </div>
     </div>
@@ -179,7 +211,7 @@
   <div id="audioGenerator" style="position: fixed; bottom: 10px; right: 10px; z-index: 9999; display: none;">
     <button id="generateAudioBtn" class="btn primary" type="button" aria-label="Tạo file âm thanh cho hiệu ứng trò chơi">
       <span class="btn-icon">🎵</span>
-      <span class="lang-vi">Tạo file âm thanh</span><span class="lang-en" style="display: none;">Generate Audio Files</span>
+      <span class="lang-vi">Tạo file âm thanh</span><span class="lang-en">Generate Audio Files</span>
     </button>
   </div>
 
@@ -187,8 +219,8 @@
     <div class="noscript-message">
       <div class="noscript-content">
         <span class="noscript-icon">⚠️</span>
-        <h2><span class="lang-vi">JavaScript bị tắt</span><span class="lang-en" style="display: none;">JavaScript is disabled</span></h2>
-        <p><span class="lang-vi">Trang này cần JavaScript để hoạt động đầy đủ. Vui lòng <a href="https://enable-javascript.com/vi/" target="_blank" rel="noopener">bật JavaScript</a> trong trình duyệt của bạn.</span><span class="lang-en" style="display: none;">This page requires JavaScript to function fully. Please <a href="https://enable-javascript.com/" target="_blank" rel="noopener">enable JavaScript</a> in your browser.</span></p>
+        <h2><span class="lang-vi">JavaScript bị tắt</span><span class="lang-en">JavaScript is disabled</span></h2>
+        <p><span class="lang-vi">Trang này cần JavaScript để hoạt động đầy đủ. Vui lòng <a href="https://enable-javascript.com/vi/" target="_blank" rel="noopener noreferrer">bật JavaScript</a> trong trình duyệt của bạn.</span><span class="lang-en">This page requires JavaScript to function fully. Please <a href="https://enable-javascript.com/" target="_blank" rel="noopener noreferrer">enable JavaScript</a> in your browser.</span></p>
       </div>
     </div>
   </noscript>
