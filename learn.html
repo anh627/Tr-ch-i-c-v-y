@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" data-lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Học Cờ Vây – GoMaster</title>
+  <title>GoMaster – Học Cờ Vây</title>
   <meta name="description" content="Học luật Cờ Vây tương tác: khí, bắt quân, ko, đếm điểm và luyện tsumego cơ bản." />
   <meta property="og:site_name" content="GoMaster" />
   <meta property="og:title" content="Học Cờ Vây – GoMaster" />
@@ -11,44 +11,50 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="vi_VN" />
   <meta name="twitter:card" content="summary" />
-  <link rel="icon" href="data:," />
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/learn.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="learn">
-<a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
+<a class="skip-link" href="#main"><span class="lang-vi">Bỏ qua tới nội dung chính</span><span class="lang-en" style="display: none;">Skip to main content</span></a>
 
 <header class="topbar" role="banner">
-  <a class="brand" href="index.html">
+  <a class="brand" href="index.html" rel="noopener">
     <span class="brand-icon">⚫⚪</span>
-    GoMaster
+    <span class="lang-vi">GoMaster</span><span class="lang-en" style="display: none;">GoMaster</span>
   </a>
   <nav class="nav" aria-label="Điều hướng chính">
-    <a href="index.html">🏠 Trang chủ</a>
-    <a href="learn.html" aria-current="page" class="nav-active">📚 Học</a>
-    <a href="play.html">🎮 Chơi</a>
-    <a href="analysis.html">📊 Phân tích</a>
-    <a href="ranking.html">🏆 Xếp hạng</a>
-    <a href="profile.html">👤 Hồ sơ</a>
+    <a href="index.html" rel="noopener"><span class="lang-vi">🏠 Trang chủ</span><span class="lang-en" style="display: none;">Home</span></a>
+    <a href="learn.html" aria-current="page" class="nav-active" rel="noopener"><span class="lang-vi">📚 Học</span><span class="lang-en" style="display: none;">Learn</span></a>
+    <a href="play.html" rel="noopener"><span class="lang-vi">🎮 Chơi</span><span class="lang-en" style="display: none;">Play</span></a>
+    <a href="analysis.html" rel="noopener"><span class="lang-vi">📊 Phân tích</span><span class="lang-en" style="display: none;">Analysis</span></a>
+    <a href="ranking.html" rel="noopener"><span class="lang-vi">🏆 Xếp hạng</span><span class="lang-en" style="display: none;">Ranking</span></a>
+    <a href="profile.html" rel="noopener"><span class="lang-vi">👤 Hồ sơ</span><span class="lang-en" style="display: none;">Profile</span></a>
     <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
   </nav>
 </header>
 
-<main id="main" class="container learn">
+<main id="main" class="container learn" itemscope itemtype="http://schema.org/EducationalApplication">
+  <meta itemprop="applicationCategory" content="Game" />
+  <meta itemprop="name" content="GoMaster Learn" />
+  <meta itemprop="description" content="Học luật cờ vây tương tác và luyện tsumego cơ bản." />
+
   <div class="page-header">
     <h1>
       <span class="page-icon">🎓</span>
-      Học luật tương tác
-      <span class="page-badge">Newbie Friendly</span>
+      <span class="lang-vi">Học luật tương tác</span><span class="lang-en" style="display: none;">Interactive Go Lessons</span>
+      <span class="page-badge"><span class="lang-vi">Newbie Friendly</span><span class="lang-en" style="display: none;">Newbie Friendly</span></span>
     </h1>
-    <p class="page-subtitle">Từng bước một, thành thạo Cờ Vây! 🌟</p>
+    <p class="page-subtitle"><span class="lang-vi">Từng bước một, thành thạo Cờ Vây! 🌟</span><span class="lang-en" style="display: none;">Step by step, master Go! 🌟</span></p>
   </div>
 
   <div class="learn-grid">
     <aside class="steps" role="navigation" aria-label="Các bước học">
       <div class="steps-header">
-        <h2>📋 Lộ trình học</h2>
+        <h2><span class="lang-vi">📋 Lộ trình học</span><span class="lang-en" style="display: none;">Learning Path</span></h2>
         <div class="progress-bar">
           <div class="progress-fill" style="width: 25%"></div>
         </div>
@@ -56,32 +62,32 @@
       <button class="step active" data-step="1" type="button" aria-pressed="true" title="Bước 1: Khí (Liberties)">
         <span class="step-icon">💨</span>
         <span class="step-content">
-          <span class="step-title">1. Khí (Liberties)</span>
-          <span class="step-desc">Hiểu về không gian sống</span>
+          <span class="step-title"><span class="lang-vi">1. Khí (Liberties)</span><span class="lang-en" style="display: none;">1. Liberties</span></span>
+          <span class="step-desc"><span class="lang-vi">Hiểu về không gian sống</span><span class="lang-en" style="display: none;">Understand breathing space</span></span>
         </span>
         <span class="step-status">✅</span>
       </button>
       <button class="step" data-step="2" type="button" aria-pressed="false" title="Bước 2: Bắt quân">
         <span class="step-icon">🎯</span>
         <span class="step-content">
-          <span class="step-title">2. Bắt quân</span>
-          <span class="step-desc">Cách loại bỏ đối thủ</span>
+          <span class="step-title"><span class="lang-vi">2. Bắt quân</span><span class="lang-en" style="display: none;">2. Capture</span></span>
+          <span class="step-desc"><span class="lang-vi">Cách loại bỏ đối thủ</span><span class="lang-en" style="display: none;">How to remove opponent's stones</span></span>
         </span>
         <span class="step-status">⏳</span>
       </button>
       <button class="step" data-step="3" type="button" aria-pressed="false" title="Bước 3: Ko">
         <span class="step-icon">⚖️</span>
         <span class="step-content">
-          <span class="step-title">3. Ko</span>
-          <span class="step-desc">Luật chống lặp vô hạn</span>
+          <span class="step-title"><span class="lang-vi">3. Ko</span><span class="lang-en" style="display: none;">3. Ko</span></span>
+          <span class="step-desc"><span class="lang-vi">Luật chống lặp vô hạn</span><span class="lang-en" style="display: none;">Rule against infinite loops</span></span>
         </span>
         <span class="step-status">🔒</span>
       </button>
       <button class="step" data-step="4" type="button" aria-pressed="false" title="Bước 4: Đếm điểm">
         <span class="step-icon">🔢</span>
         <span class="step-content">
-          <span class="step-title">4. Đếm điểm</span>
-          <span class="step-desc">Xác định người thắng</span>
+          <span class="step-title"><span class="lang-vi">4. Đếm điểm</span><span class="lang-en" style="display: none;">4. Scoring</span></span>
+          <span class="step-desc"><span class="lang-vi">Xác định người thắng</span><span class="lang-en" style="display: none;">Determine the winner</span></span>
         </span>
         <span class="step-status">🔒</span>
       </button>
@@ -91,39 +97,42 @@
       <div class="board-header">
         <h2 id="learnBoardLabel">
           <span class="board-icon">🎲</span>
-          Bàn học 9×9
+          <span class="lang-vi">Bàn học 9×9</span><span class="lang-en" style="display: none;">9×9 Learning Board</span>
         </h2>
         <div class="difficulty-badge">
           <span class="difficulty-icon">🌱</span>
-          <span>Cơ bản</span>
+          <span class="lang-vi">Cơ bản</span><span class="lang-en" style="display: none;">Basic</span>
         </div>
       </div>
       <p id="learnBoardHelp" class="sr-only">
-        Điều khiển bàn: chuột để đặt quân, bàn phím mũi tên để di chuyển con trỏ, Enter để đặt, Backspace để hoàn tác (nếu có).
+        <span class="lang-vi">Điều khiển bàn: chuột để đặt quân, bàn phím mũi tên để di chuyển con trỏ, Enter để đặt, Backspace để hoàn tác (nếu có).</span><span class="lang-en" style="display: none;">Board controls: Use mouse to place stones, arrow keys to move cursor, Enter to place, Backspace to undo (if available).</span>
       </p>
       <div class="board-container">
         <canvas id="learnBoard" width="480" height="480" tabindex="0" aria-label="Bàn học 9×9" aria-describedby="learnBoardHelp">
-          Trình duyệt của bạn không hỗ trợ canvas.
+          <div class="canvas-fallback">
+            <p><span class="lang-vi">Trình duyệt của bạn không hỗ trợ canvas. Hãy sử dụng trình duyệt hiện đại (Chrome, Firefox, Safari) hoặc xem tài liệu học tại <a href="#learnExplain">phần giải thích</a>.</span><span class="lang-en" style="display: none;">Your browser does not support canvas. Use a modern browser (Chrome, Firefox, Safari) or view lesson details at <a href="#learnExplain">explanation section</a>.</span></p>
+            <img src="assets/images/board-fallback.png" alt="Hình ảnh bàn cờ vây 9×9 mẫu" />
+          </div>
         </canvas>
       </div>
       <div class="board-controls">
         <button id="prevStep" class="btn secondary" type="button">
           <span class="btn-icon">⬅️</span>
-          Bước trước
+          <span class="lang-vi">Bước trước</span><span class="lang-en" style="display: none;">Previous Step</span>
         </button>
         <button id="nextStep" class="btn primary" type="button">
-          Bước tiếp
+          <span class="lang-vi">Bước tiếp</span><span class="lang-en" style="display: none;">Next Step</span>
           <span class="btn-icon">➡️</span>
         </button>
         <button id="resetStep" class="btn ghost" type="button">
           <span class="btn-icon">🔄</span>
-          Làm lại
+          <span class="lang-vi">Làm lại</span><span class="lang-en" style="display: none;">Reset</span>
         </button>
       </div>
       <div class="explain" id="learnExplain" role="status" aria-live="polite">
         <div class="explain-content">
           <span class="explain-icon">💡</span>
-          <span class="explain-text">Chọn một bước để bắt đầu học!</span>
+          <span class="explain-text"><span class="lang-vi">Chọn một bước để bắt đầu học!</span><span class="lang-en" style="display: none;">Select a step to start learning!</span></span>
         </div>
       </div>
     </section>
@@ -132,72 +141,124 @@
       <div class="practice-header">
         <h2 id="practiceTitle">
           <span class="practice-icon">🧩</span>
-          Luyện Tsumego (cơ bản)
+          <span class="lang-vi">Luyện Tsumego (cơ bản)</span><span class="lang-en" style="display: none;">Practice Tsumego (Basic)</span>
         </h2>
         <div class="practice-badge">
           <span class="badge-icon">⭐</span>
-          <span>Sống/Chết</span>
+          <span class="lang-vi">Sống/Chết</span><span class="lang-en" style="display: none;">Life/Death</span>
         </div>
       </div>
       <p class="practice-desc">
         <span class="desc-icon">🎯</span>
-        Chọn nước đen đi trước để bắt sống/giết nhóm. Có gợi ý nếu cần.
+        <span class="lang-vi">Chọn nước đen đi trước để bắt sống/giết nhóm. Có gợi ý nếu cần.</span><span class="lang-en" style="display: none;">Choose black's move to make live or kill a group. Hints available if needed.</span>
       </p>
       <div class="practice-row">
         <div class="practice-control">
           <label for="puzzleSelect">
             <span class="label-icon">📝</span>
-            Chọn bài
+            <span class="lang-vi">Chọn bài</span><span class="lang-en" style="display: none;">Select Puzzle</span>
           </label>
           <select id="puzzleSelect" class="select" aria-describedby="puzzleHelp"></select>
-          <small id="puzzleHelp" class="sr-only">Chọn bài luyện Tsumego.</small>
+          <small id="puzzleHelp" class="sr-only"><span class="lang-vi">Chọn bài luyện Tsumego.</span><span class="lang-en" style="display: none;">Select a Tsumego puzzle.</span></small>
         </div>
         <div class="practice-actions">
           <button id="puzzleHint" class="btn ghost" type="button">
             <span class="btn-icon">💡</span>
-            Gợi ý
+            <span class="lang-vi">Gợi ý</span><span class="lang-en" style="display: none;">Hint</span>
           </button>
           <button id="puzzleReset" class="btn secondary" type="button">
             <span class="btn-icon">🔄</span>
-            Đặt lại
+            <span class="lang-vi">Đặt lại</span><span class="lang-en" style="display: none;">Reset</span>
           </button>
         </div>
       </div>
       <p id="puzzleBoardHelp" class="sr-only">
-        Bàn luyện 9×9. Dùng chuột hoặc bàn phím để chọn nước đi. Enter để đặt.
+        <span class="lang-vi">Bàn luyện 9×9. Dùng chuột hoặc bàn phím để chọn nước đi. Enter để đặt.</span><span class="lang-en" style="display: none;">9×9 practice board. Use mouse or keyboard to select moves. Press Enter to place.</span>
       </p>
       <div class="puzzle-board-container">
         <canvas id="puzzleBoard" width="360" height="360" tabindex="0" aria-label="Bàn luyện 9×9" aria-describedby="puzzleBoardHelp">
-          Trình duyệt của bạn không hỗ trợ canvas.
+          <div class="canvas-fallback">
+            <p><span class="lang-vi">Trình duyệt của bạn không hỗ trợ canvas. Hãy sử dụng trình duyệt hiện đại hoặc xem bài tsumego tại <a href="#puzzleFeedback">phần phản hồi</a>.</span><span class="lang-en" style="display: none;">Your browser does not support canvas. Use a modern browser or view tsumego at <a href="#puzzleFeedback">feedback section</a>.</span></p>
+            <img src="assets/images/puzzle-fallback.png" alt="Hình ảnh bài tsumego mẫu" />
+          </div>
         </canvas>
       </div>
       <div id="puzzleFeedback" class="feedback" role="status" aria-live="polite">
         <div class="feedback-content">
           <span class="feedback-icon">🤔</span>
-          <span class="feedback-text">Hãy thử giải bài tập!</span>
+          <span class="feedback-text"><span class="lang-vi">Hãy thử giải bài tập!</span><span class="lang-en" style="display: none;">Try solving the puzzle!</span></span>
         </div>
       </div>
     </section>
+  </div>
+
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-content">
+      <div class="loading-spinner">
+        <span class="spinner-icon">⚫</span>
+        <span class="spinner-icon">⚪</span>
+      </div>
+      <p class="loading-text">
+        <span class="loading-icon">🤖</span>
+        <span class="lang-vi">Đang tải bài học...</span><span class="lang-en" style="display: none;">Loading lesson...</span>
+      </p>
+    </div>
   </div>
 </main>
 
 <footer class="footer">
   <div class="footer-content">
+    <div class="footer-brand">
+      <span class="brand-icon">⚫⚪</span>
+      <span class="lang-vi">GoMaster</span><span class="lang-en" style="display: none;">GoMaster</span>
+    </div>
+    <div class="footer-links">
+      <a href="#about" class="footer-link" rel="noopener">
+        <span class="link-icon">ℹ️</span>
+        <span class="lang-vi">Về chúng tôi</span><span class="lang-en" style="display: none;">About Us</span>
+      </a>
+      <a href="#contact" class="footer-link" rel="noopener">
+        <span class="link-icon">📧</span>
+        <span class="lang-vi">Liên hệ</span><span class="lang-en" style="display: none;">Contact</span>
+      </a>
+      <a href="#help" class="footer-link" rel="noopener">
+        <span class="link-icon">❓</span>
+        <span class="lang-vi">Trợ giúp</span><span class="lang-en" style="display: none;">Help</span>
+      </a>
+    </div>
     <div class="footer-tip">
       <span class="tip-icon">💡</span>
-      <small><strong>Tip:</strong> Hãy luyện 10–15 phút mỗi ngày để tiến bộ nhanh! 🚀</small>
+      <small><span class="lang-vi"><strong>Tip:</strong> Hãy luyện 10–15 phút mỗi ngày để tiến bộ nhanh! 🚀</span><span class="lang-en" style="display: none;"><strong>Tip:</strong> Practice 10–15 minutes daily to improve fast! 🚀</span></small>
     </div>
     <div class="footer-encouragement">
       <span class="encourage-icon">🌟</span>
-      <small>Bạn đang trên con đường trở thành cao thủ Cờ Vây!</small>
+      <small><span class="lang-vi">Bạn đang trên con đường trở thành cao thủ Cờ Vây!</span><span class="lang-en" style="display: none;">You're on the path to becoming a Go master!</span></small>
+    </div>
+    <div class="footer-bottom">
+      <small class="copyright">
+        <span class="copyright-icon">©</span>
+        <span class="lang-vi">2025 GoMaster. Made with <span class="heart-icon">❤️</span> for Go community in Vietnam <span class="flag-icon">🇻🇳</span></span>
+        <span class="lang-en" style="display: none;">2025 GoMaster. Made with <span class="heart-icon">❤️</span> for Go community <span class="flag-icon">🌍</span></span>
+      </small>
     </div>
   </div>
 </footer>
 
-<audio id="sfxPlace" src="assets/sounds/stone-place.mp3" preload="auto" aria-hidden="true"></audio>
-<audio id="sfxCapture" src="assets/sounds/capture.mp3" preload="auto" aria-hidden="true"></audio>
+<audio id="sfxPlace" src="assets/sounds/stone-place.mp3" preload="auto" aria-describedby="sfxPlaceDesc"></audio>
+<audio id="sfxCapture" src="assets/sounds/capture.mp3" preload="auto" aria-describedby="sfxCaptureDesc"></audio>
+<div id="sfxPlaceDesc" class="sr-only"><span class="lang-vi">Âm thanh khi đặt quân cờ.</span><span class="lang-en" style="display: none;">Sound when placing a stone.</span></div>
+<div id="sfxCaptureDesc" class="sr-only"><span class="lang-vi">Âm thanh khi bắt quân đối thủ.</span><span class="lang-en" style="display: none;">Sound when capturing opponent's stones.</span></div>
 
-<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<noscript>
+  <div class="noscript-message">
+    <div class="noscript-content">
+      <span class="noscript-icon">⚠️</span>
+      <h2><span class="lang-vi">JavaScript bị tắt</span><span class="lang-en" style="display: none;">JavaScript is disabled</span></h2>
+      <p><span class="lang-vi">Trang này cần JavaScript để hoạt động đầy đủ. Vui lòng <a href="https://enable-javascript.com/vi/" target="_blank" rel="noopener">bật JavaScript</a> trong trình duyệt của bạn.</span><span class="lang-en" style="display: none;">This page requires JavaScript to function fully. Please <a href="https://enable-javascript.com/" target="_blank" rel="noopener">enable JavaScript</a> in your browser.</span></p>
+    </div>
+  </div>
+</noscript>
+
 <script src="js/main.js" defer></script>
 <script src="js/game.js" defer></script>
 <script src="js/ai.js" defer></script>
