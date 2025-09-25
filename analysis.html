@@ -14,76 +14,239 @@
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/analysis.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="analysis">
 <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
 <header class="topbar" role="banner">
-  <a class="brand" href="index.html">GoMaster</a>
+  <a class="brand" href="index.html">
+    <span class="brand-icon">⚫⚪</span>
+    GoMaster
+  </a>
   <nav class="nav" aria-label="Điều hướng chính">
-    <a href="index.html">Trang chủ</a>
-    <a href="learn.html">Học</a>
-    <a href="play.html">Chơi</a>
-    <a href="analysis.html" aria-current="page">Phân tích</a>
-    <a href="ranking.html">Xếp hạng</a>
-    <a href="profile.html">Hồ sơ</a>
+    <a href="index.html">🏠 Trang chủ</a>
+    <a href="learn.html">📚 Học</a>
+    <a href="play.html">🎮 Chơi</a>
+    <a href="analysis.html" aria-current="page" class="nav-active">📊 Phân tích</a>
+    <a href="ranking.html">🏆 Xếp hạng</a>
+    <a href="profile.html">👤 Hồ sơ</a>
     <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
   </nav>
 </header>
 
 <main id="main" class="container analysis">
   <section class="left" aria-labelledby="analysisBoardLabel">
-    <h1 id="analysisBoardLabel" class="sr-only">Bàn phân tích</h1>
+    <div class="board-header">
+      <h1 id="analysisBoardLabel">
+        <span class="board-icon">🔬</span>
+        Bàn phân tích
+        <span class="analysis-badge">
+          <span class="badge-icon">🧠</span>
+          <span>AI Powered</span>
+        </span>
+      </h1>
+      <div class="board-stats">
+        <div class="stat-item">
+          <span class="stat-icon">📈</span>
+          <span class="stat-label">Độ chính xác</span>
+          <span class="stat-value" id="accuracyRate">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">⚡</span>
+          <span class="stat-label">Tốc độ phân tích</span>
+          <span class="stat-value" id="analysisSpeed">--</span>
+        </div>
+      </div>
+    </div>
+    
     <p id="analysisBoardHelp" class="sr-only">
       Dùng mũi tên để di chuyển, Enter để xác nhận, hoặc dùng chuột để chọn nước đi.
     </p>
-    <canvas id="analysisBoard" width="640" height="640" tabindex="0" aria-label="Bàn phân tích" aria-describedby="analysisBoardHelp">
-      Trình duyệt của bạn không hỗ trợ canvas.
-    </canvas>
+    
+    <div class="board-container">
+      <canvas id="analysisBoard" width="640" height="640" tabindex="0" aria-label="Bàn phân tích" aria-describedby="analysisBoardHelp">
+        Trình duyệt của bạn không hỗ trợ canvas.
+      </canvas>
+      <div class="board-overlay">
+        <div class="analysis-indicator" id="analysisIndicator">
+          <span class="indicator-icon">🤖</span>
+          <span class="indicator-text">Sẵn sàng phân tích</span>
+        </div>
+      </div>
+    </div>
+    
     <div class="nav-moves">
-      <button id="firstMove" class="btn" type="button" aria-label="Tới nước đầu" title="Nước đầu">⏮</button>
-      <button id="prevMove" class="btn" type="button" aria-label="Lùi một nước" title="Lùi">◀</button>
-      <span id="moveCounter" role="status" aria-live="polite">0/0</span>
-      <button id="nextMove" class="btn" type="button" aria-label="Tiến một nước" title="Tiến">▶</button>
-      <button id="lastMove" class="btn" type="button" aria-label="Tới nước cuối" title="Nước cuối">⏭</button>
+      <button id="firstMove" class="btn nav-btn" type="button" aria-label="Tới nước đầu" title="Nước đầu">
+        <span class="nav-icon">⏮️</span>
+      </button>
+      <button id="prevMove" class="btn nav-btn" type="button" aria-label="Lùi một nước" title="Lùi">
+        <span class="nav-icon">◀️</span>
+      </button>
+      <div class="move-counter">
+        <span id="moveCounter" role="status" aria-live="polite">
+          <span class="counter-icon">🎯</span>
+          <span class="counter-text">0/0</span>
+        </span>
+      </div>
+      <button id="nextMove" class="btn nav-btn" type="button" aria-label="Tiến một nước" title="Tiến">
+        <span class="nav-icon">▶️</span>
+      </button>
+      <button id="lastMove" class="btn nav-btn" type="button" aria-label="Tới nước cuối" title="Nước cuối">
+        <span class="nav-icon">⏭️</span>
+      </button>
     </div>
   </section>
 
   <section class="right">
-    <h2>Phân tích</h2>
-    <div class="loader-row">
-      <label for="sgfFile">Tải file SGF:</label>
-      <input type="file" id="sgfFile" accept=".sgf" aria-describedby="sgfHelp" />
-      <button id="loadSGF" class="btn" type="button">Nạp SGF</button>
+    <div class="analysis-header">
+      <h2>
+        <span class="section-icon">🔍</span>
+        Phân tích chuyên sâu
+      </h2>
+      <div class="analysis-mode">
+        <span class="mode-icon">🎯</span>
+        <span>Pro Mode</span>
+      </div>
     </div>
-    <small id="sgfHelp">Chỉ định dạng .sgf. Có thể kéo-thả hoặc dán nội dung SGF vào ô bên dưới.</small>
+    
+    <div class="upload-section">
+      <div class="upload-header">
+        <h3>
+          <span class="upload-icon">📁</span>
+          Tải file SGF
+        </h3>
+      </div>
+      <div class="loader-row">
+        <div class="file-input-wrapper">
+          <label for="sgfFile" class="file-label">
+            <span class="file-icon">📄</span>
+            <span>Chọn file SGF</span>
+          </label>
+          <input type="file" id="sgfFile" accept=".sgf" aria-describedby="sgfHelp" />
+        </div>
+        <button id="loadSGF" class="btn primary" type="button">
+          <span class="btn-icon">⬆️</span>
+          Nạp SGF
+        </button>
+      </div>
+      <small id="sgfHelp" class="help-text">
+        <span class="help-icon">💡</span>
+        Chỉ định dạng .sgf. Có thể kéo-thả hoặc dán nội dung SGF vào ô bên dưới.
+      </small>
 
-    <label for="sgfText" class="sr-only">Dán SGF</label>
-    <textarea id="sgfText" placeholder="Dán SGF vào đây" rows="8" aria-label="Dán nội dung SGF"></textarea>
+      <div class="textarea-wrapper">
+        <label for="sgfText" class="textarea-label">
+          <span class="label-icon">📝</span>
+          Hoặc dán SGF trực tiếp:
+        </label>
+        <textarea id="sgfText" placeholder="Dán nội dung SGF vào đây..." rows="8" aria-label="Dán nội dung SGF"></textarea>
+      </div>
+    </div>
 
     <div class="analysis-tools">
-      <button id="runQuick" class="btn" type="button" title="Phân tích nhanh độ sâu thấp">Phân tích nhanh</button>
-      <button id="runDeep" class="btn" type="button" title="Phân tích sâu mô phỏng">Phân tích sâu (mô phỏng)</button>
-      <button id="suggest" class="btn ghost" type="button" title="Gợi ý nước đi tiếp theo">Gợi ý nước</button>
+      <div class="tools-header">
+        <h3>
+          <span class="tools-icon">🛠️</span>
+          Công cụ phân tích
+        </h3>
+      </div>
+      <div class="tools-grid">
+        <button id="runQuick" class="btn tool-btn quick" type="button" title="Phân tích nhanh độ sâu thấp">
+          <span class="tool-icon">⚡</span>
+          <span class="tool-text">
+            <span class="tool-title">Phân tích nhanh</span>
+            <span class="tool-desc">Độ sâu thấp, nhanh chóng</span>
+          </span>
+        </button>
+        <button id="runDeep" class="btn tool-btn deep" type="button" title="Phân tích sâu mô phỏng">
+          <span class="tool-icon">🔬</span>
+          <span class="tool-text">
+            <span class="tool-title">Phân tích sâu</span>
+            <span class="tool-desc">Mô phỏng chuyên sâu</span>
+          </span>
+        </button>
+        <button id="suggest" class="btn tool-btn suggest" type="button" title="Gợi ý nước đi tiếp theo">
+          <span class="tool-icon">💡</span>
+          <span class="tool-text">
+            <span class="tool-title">Gợi ý nước</span>
+            <span class="tool-desc">AI đề xuất</span>
+          </span>
+        </button>
+      </div>
     </div>
 
-    <div class="report" id="analysisReport" role="region" aria-live="polite">Chưa có báo cáo.</div>
+    <div class="report-section">
+      <div class="report-header">
+        <h3>
+          <span class="report-icon">📋</span>
+          Báo cáo phân tích
+        </h3>
+        <div class="report-status" id="reportStatus">
+          <span class="status-icon">⏳</span>
+          <span>Chờ phân tích</span>
+        </div>
+      </div>
+      <div class="report" id="analysisReport" role="region" aria-live="polite">
+        <div class="empty-report">
+          <span class="empty-icon">📊</span>
+          <span class="empty-text">Chưa có báo cáo. Hãy tải SGF và bắt đầu phân tích!</span>
+        </div>
+      </div>
+    </div>
 
-    <h3>Joseki / Fuseki Explorer (bản cơ bản)</h3>
-    <div class="explorer">
-      <label for="explorerSize">Kích thước:</label>
-      <select id="explorerSize">
-        <option value="19">19×19</option>
-        <option value="13">13×13</option>
-        <option value="9">9×9</option>
-      </select>
-      <button id="openExplorer" class="btn ghost" type="button">Mở mẫu phổ biến</button>
-      <div id="explorerList" class="explist" role="list" aria-label="Danh sách mẫu joseki/fuseki"></div>
+    <div class="explorer-section">
+      <div class="explorer-header">
+        <h3>
+          <span class="explorer-icon">🗺️</span>
+          Joseki / Fuseki Explorer
+          <span class="explorer-badge">
+            <span class="badge-icon">🌟</span>
+            <span>Cơ bản</span>
+          </span>
+        </h3>
+      </div>
+      <div class="explorer">
+        <div class="explorer-controls">
+          <div class="control-group">
+            <label for="explorerSize">
+              <span class="label-icon">📐</span>
+              Kích thước:
+            </label>
+            <select id="explorerSize" class="select-enhanced">
+              <option value="19">🏆 19×19 (Pro)</option>
+              <option value="13">🎮 13×13 (Casual)</option>
+              <option value="9">🌱 9×9 (Newbie)</option>
+            </select>
+          </div>
+          <button id="openExplorer" class="btn secondary" type="button">
+            <span class="btn-icon">🔍</span>
+            Mở mẫu phổ biến
+          </button>
+        </div>
+        <div id="explorerList" class="explist" role="list" aria-label="Danh sách mẫu joseki/fuseki">
+          <div class="empty-explorer">
+            <span class="empty-icon">🗂️</span>
+            <span class="empty-text">Nhấn "Mở mẫu phổ biến" để xem các pattern!</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
-<footer class="footer"><small>Deep analysis là mô phỏng heuristic; muốn GPU thật, hãy nối service KataGo.</small></footer>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-tip">
+      <span class="tip-icon">🔬</span>
+      <small><strong>Lưu ý:</strong> Deep analysis là mô phỏng heuristic; muốn GPU thật, hãy nối service KataGo. 🚀</small>
+    </div>
+    <div class="footer-encouragement">
+      <span class="encourage-icon">🧠</span>
+      <small>Phân tích để trở thành cao thủ!</small>
+    </div>
+  </div>
+</footer>
 
 <noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
 <script src="js/main.js" defer></script>
