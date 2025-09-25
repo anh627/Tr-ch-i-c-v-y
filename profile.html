@@ -333,5 +333,21 @@
 
 <script src="js/main.js" defer></script>
 <script src="js/profile.js" defer></script>
+  <!-- Thêm vào cuối body của bất kỳ trang nào -->
+<div id="audioGenerator" style="position: fixed; bottom: 10px; right: 10px; z-index: 9999; display: none;">
+  <button onclick="generateAudioFiles()" style="padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px;">
+    🎵 Tạo file âm thanh
+  </button>
+</div>
+
+<script>
+// Hiện nút tạo âm thanh khi nhấn Ctrl+Shift+A
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    const generator = document.getElementById('audioGenerator');
+    generator.style.display = generator.style.display === 'none' ? 'block' : 'none';
+  }
+});
+</script>
 </body>
 </html>
