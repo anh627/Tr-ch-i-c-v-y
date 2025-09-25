@@ -1,456 +1,350 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoMaster - Học và Chơi Cờ Vây</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4299e1">
-    <style>
-        :root {
-            --primary-color: #4299e1;
-            --secondary-color: #68d391;
-            --danger-color: #f56565;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--box-shadow);
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 2.5em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tagline {
-            color: #718096;
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 30px 0;
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: var(--box-shadow);
-        }
-
-        .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .tab-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: var(--box-shadow);
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 10px;
-        }
-
-        .game-container {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .go-board {
-            width: 400px;
-            height: 400px;
-            border: 3px solid #8b4513;
-            border-radius: var(--border-radius);
-            margin: 20px auto;
-        }
-
-        .game-info {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--box-shadow);
-        }
-
-        .player-info {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background: #f7fafc;
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-        }
-
-        .player-name {
-            font-weight: 600;
-        }
-
-        .stone-count {
-            background: #e2e8f0;
-            padding: 5px 10px;
-            border-radius: var(--border-radius);
-        }
-
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background: var(--secondary-color);
-        }
-
-        .btn-danger {
-            background: var(--danger-color);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--box-shadow);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .modal-title {
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #718096;
-        }
-
-        .modal-option {
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .modal-option.active {
-            border-color: var(--primary-color);
-            background: #ebf8ff;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--secondary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            z-index: 1000;
-            display: none;
-        }
-
-        .notification.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateX(-50%) translateY(-100%); }
-            to { transform: translateX(-50%) translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            .go-board {
-                width: 300px;
-                height: 300px;
-            }
-            .game-container {
-                grid-template-columns: 1fr;
-            }
-            .btn, .tab-btn {
-                padding: 15px;
-                font-size: 1.2em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>GoMaster — Cờ vây cho mọi cấp độ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="GoMaster: học luật nhanh, chơi 9x9/13x13, phân tích sơ bộ, xếp hạng kyu/dan, joseki cho try-hard." />
+  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>●</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">GoMaster</div>
-            <div class="tagline">Học và chơi cờ vây dễ dàng</div>
-        </div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" data-tab="home" aria-label="Trang chủ">Trang chủ</button>
-            <button class="tab-btn" data-tab="learn" aria-label="Học luật cờ vây">Học luật</button>
-            <button class="tab-btn" data-tab="play" aria-label="Chơi cờ vây">Chơi ngay</button>
-        </div>
-        <div class="tab-content active" id="home">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-title">Học dễ dàng</div>
-                    <p>Hiểu luật cờ vây trong 5 phút với hướng dẫn tương tác.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-title">Chơi nhanh</div>
-                    <p>Tham gia trận 9x9 với bot hoặc bạn bè.</p>
-                </div>
-            </div>
-        </div>
-        <div class="tab-content" id="learn">
-            <div class="feature-card">
-                <div class="feature-title">Học luật cơ bản</div>
-                <p>1. <b>Khí</b>: Mỗi quân cờ cần "khí" (điểm trống xung quanh) để sống.</p>
-                <p>2. <b>Bắt quân</b>: Bao vây hết khí của đối thủ để bắt quân.</p>
-                <p>3. <b>Đếm điểm</b>: Tính điểm dựa trên lãnh thổ và quân bắt được.</p>
-                <button class="btn">Bắt đầu học</button>
-            </div>
-        </div>
-        <div class="tab-content" id="play">
-            <div class="game-container">
-                <div class="board-container">
-                    <canvas id="go-board" class="go-board" width="400" height="400"></canvas>
-                </div>
-                <div class="game-info">
-                    <div class="player-info">
-                        <span class="player-name">Bạn (Đen)</span>
-                        <span class="stone-count">0 quân bị bắt</span>
-                    </div>
-                    <div class="player-info">
-                        <span class="player-name">Bot (Trắng)</span>
-                        <span class="stone-count">0 quân bị bắt</span>
-                    </div>
-                    <div class="game-controls">
-                        <button class="btn">Gợi ý nước đi</button>
-                        <button class="btn btn-secondary">Chơi lại</button>
-                        <button class="btn btn-danger">Thoát</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="floating-stones">
+      <div class="stone black-stone"></div>
+      <div class="stone white-stone"></div>
+      <div class="stone black-stone"></div>
+      <div class="stone white-stone"></div>
+      <div class="stone black-stone"></div>
     </div>
-    <div class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Chọn chế độ chơi</h2>
-                <button class="close-btn" aria-label="Đóng">×</button>
-            </div>
-            <div class="modal-option" data-size="9x9">9x9</div>
-            <div class="modal-option" data-opponent="bot">Chơi với Bot</div>
-            <div class="modal-option" data-opponent="friend">Chơi với bạn</div>
-            <button class="btn">Bắt đầu</button>
-        </div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <!-- Security & Status Indicators -->
+  <div class="status-indicators">
+    <div class="security-badge">
+      <i class="fas fa-shield-alt"></i>
+      <span>Bảo mật SSL</span>
     </div>
-    <div class="notification">Đặt quân thành công!</div>
+    <div class="online-counter">
+      <i class="fas fa-users"></i>
+      <span id="online-count">1,247</span> online
+    </div>
+  </div>
 
-    <script>
-        // Toggle tabs
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
-        });
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-container">
+        <span class="logo-black">●</span>
+        <span class="logo-white">○</span>
+      </div>
+      <a href="./index.html" class="brand-text">
+        <span class="brand-name">GoMaster</span>
+        <span class="brand-tagline">Cờ vây thông minh</span>
+      </a>
+    </div>
+    
+    <nav class="nav">
+      <a href="./learn.html" class="nav-item">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Học</span>
+      </a>
+      <a href="./play.html" class="nav-item">
+        <i class="fas fa-play"></i>
+        <span>Chơi</span>
+      </a>
+      <a href="./analysis.html" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>Phân tích</span>
+      </a>
+      <a href="./ranking.html" class="nav-item">
+        <i class="fas fa-trophy"></i>
+        <span>Xếp hạng</span>
+      </a>
+      <a href="./profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>Hồ sơ</span>
+      </a>
+    </nav>
+    
+    <div class="user-section">
+      <div class="user-pill">
+        <div class="rank-badge">
+          <span id="nav-rank">15k</span>
+        </div>
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+      <button class="mobile-menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
 
-        // Toggle modal
-        const modal = document.querySelector('.modal');
-        const openModalBtn = document.querySelector('.tab-btn[data-tab="play"]');
-        const closeModalBtn = document.querySelector('.close-btn');
-        const modalOptions = document.querySelectorAll('.modal-option');
-        openModalBtn.addEventListener('click', () => {
-            modal.classList.add('active');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            openModalBtn.classList.add('active');
-            document.getElementById('play').classList.add('active');
-        });
-        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
-        modalOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
-                modalOptions.forEach(o => o.classList.remove('active'));
-                opt.classList.add('active');
-            });
-        });
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-badge">
+            <i class="fas fa-star"></i>
+            <span>Nền tảng cờ vây #1 Việt Nam</span>
+          </div>
+          
+          <h1 class="hero-title">
+            <span class="title-line">Cờ vây cho</span>
+            <span class="title-highlight">mọi cấp độ</span>
+          </h1>
+          
+          <p class="hero-description">
+            Từ người mới bắt đầu học luật cơ bản đến cao thủ dan level, 
+            GoMaster cung cấp trải nghiệm học tập và thi đấu hoàn hảo với 
+            AI thông minh và cộng đồng sôi động.
+          </p>
+          
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number">50K+</div>
+              <div class="stat-label">Người chơi</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">1M+</div>
+              <div class="stat-label">Ván cờ</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Hoạt động</div>
+            </div>
+          </div>
+          
+          <div class="cta-section">
+            <div class="cta-buttons">
+              <a class="btn primary pulse" href="./learn.html">
+                <i class="fas fa-rocket"></i>
+                <span>Học luật nhanh (10 phút)</span>
+              </a>
+              <a class="btn secondary" href="./play.html#quick-9x9">
+                <i class="fas fa-gamepad"></i>
+                <span>Chơi 9×9 vs Bot</span>
+              </a>
+            </div>
+            <a class="btn ghost" href="./play.html#ranked">
+              <i class="fas fa-crown"></i>
+              <span>Ranked 19×19</span>
+            </a>
+          </div>
+          
+          <div class="features-preview">
+            <div class="feature-item">
+              <i class="fas fa-lightbulb"></i>
+              <span>Gợi ý nước tốt cho người mới</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-chart-bar"></i>
+              <span>Phân tích sơ bộ sau ván: blunders & winrate</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-medal"></i>
+              <span>Xếp hạng kyu/dan với hệ thống Glicko-2</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-shield-check"></i>
+              <span>Chống gian lận với AI detection</span>
+            </div>
+          </div>
+        </div>
 
-        // Draw Go board
-        const canvas = document.getElementById('go-board');
-        const ctx = canvas.getContext('2d');
-        let board = Array(9).fill().map(() => Array(9).fill(null));
+        <div class="hero-right">
+          <div class="hero-visual">
+            <!-- Interactive Go Board Preview -->
+            <div class="board-preview">
+              <div class="mini-board">
+                <div class="board-lines"></div>
+                <div class="demo-stones">
+                  <div class="stone black" style="top: 20%; left: 30%;"></div>
+                  <div class="stone white" style="top: 25%; left: 45%;"></div>
+                  <div class="stone black" style="top: 40%; left: 60%;"></div>
+                  <div class="stone white" style="top: 55%; left: 35%;"></div>
+                  <div class="stone black" style="top: 70%; left: 50%;"></div>
+                </div>
+                <div class="board-glow"></div>
+              </div>
+              <div class="board-info">
+                <div class="live-game">
+                  <div class="live-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Trực tiếp</span>
+                  </div>
+                  <div class="game-players">
+                    <span class="player black">Master_Go (2d)</span>
+                    <span class="vs">vs</span>
+                    <span class="player white">AI_KataGo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        function drawBoard() {
-            ctx.fillStyle = '#deb887';
-            ctx.fillRect(0, 0, 400, 400);
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < 9; i++) {
-                ctx.beginPath();
-                ctx.moveTo(30, 30 + i * 45);
-                ctx.lineTo(370, 30 + i * 45);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(30 + i * 45, 30);
-                ctx.lineTo(30 + i * 45, 370);
-                ctx.stroke();
-            }
-        }
+    <!-- Level Cards Section -->
+    <section class="levels-section">
+      <div class="section-header">
+        <h2>Chọn lộ trình phù hợp</h2>
+        <p>Mỗi cấp độ có trải nghiệm được tối ưu riêng</p>
+      </div>
+      
+      <div class="card-grid">
+        <div class="level-card newbie">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div class="card-badge">Newbie</div>
+          </div>
+          <h3>Người mới bắt đầu</h3>
+          <p>Học "khí", bắt quân, ko, đếm điểm. Chơi 9×9/13×13 với hướng dẫn từng bước.</p>
+          
+          <div class="card-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Tutorial tương tác 10 phút</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>50+ bài luyện tsumego cơ bản</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Gợi ý nước đi thông minh</span>
+            </div>
+          </div>
+          
+          <div class="card-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text">Bắt đầu hành trình</span>
+          </div>
+          
+          <a class="card-link" href="./learn.html">
+            <span>Bắt đầu học</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
 
-        function drawStone(x, y, color) {
-            ctx.beginPath();
-            ctx.arc(30 + x * 45, 30 + y * 45, 15, 0, Math.PI * 2);
-            ctx.fillStyle = color === 'black' ? '#000' : '#fff';
-            ctx.fill();
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
+        <div class="level-card casual">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="card-badge">Casual</div>
+          </div>
+          <h3>Chơi giải trí</h3>
+          <p>Quick match, phân tích sơ bộ sau ván, xếp hạng kyu. Vui vẻ không áp lực.</p>
+          
+          <div class="card-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Tìm trận trong 30 giây</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Phân tích blunder tự động</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Xếp hạng kyu thân thiện</span>
+            </div>
+          </div>
+          
+          <div class="card-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 45%"></div>
+            </div>
+            <span class="progress-text">15k → 10k (45%)</span>
+          </div>
+          
+          <a class="card-link" href="./play.html">
+            <span>Vào trận</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
 
-        drawBoard();
+        <div class="level-card pro">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="card-badge">Pro</div>
+          </div>
+          <h3>Try-hard/Pro</h3>
+          <p>Ranked dan nghiêm túc, phân tích sâu GPU, joseki explorer, giải đấu.</p>
+          
+          <div class="card-features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Ranked dan với Glicko-2</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Phân tích KataGo 20k visits</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Joseki & Fuseki database</span>
+            </div>
+          </div>
+          
+          <div class="card-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 78%"></div>
+            </div>
+            <span class="progress-text">3d → 4d (78%)</span>
+          </div>
+          
+          <a class="card-link" href="./analysis.html">
+            <span>Review ván</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
 
-        // Handle stone placement
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = Math.round((e.clientX - rect.left - 30) / 45);
-            const y = Math.round((e.clientY - rect.top - 30) / 45);
-            if (x >= 0 && x < 9 && y >= 0 && y < 9 && !board[y][x]) {
-                board[y][x] = 'black';
-                drawStone(x, y, 'black');
-                const notification = document.querySelector('.notification');
-                notification.classList.add('show');
-                setTimeout(() => notification.classList.remove('show'), 2000);
-            }
-        });
-    </script>
-</body>
-</html>
+    <!-- Live Activity Section -->
+    <section class="activity-section">
+      <div class="section-header">
+        <h2>Hoạt động trực tiếp</h2>
+        <p>Cộng đồng GoMaster đang sôi động</p>
+      </div>
+      
+      <div class="activity-grid">
+        <div class="activity-card games">
+          <div class="card-header">
+            <h3>Ván cờ đang diễn ra</h3>
+            <span class="live-count">247 ván</span>
+          </div>
+          <div class="games-list">
+            <div class="game-item">
+              <div class="players">
+                <span class="player black">DragonMaster (1d)</span>
+                <span class="vs">vs</span>
+                <span class="player white">GoNinja (2k)</span>
+              </div>
+              <div class="game-status">
+                <span class="move-count">Nước 127</span>
+                <span class="time">5:23</span>
+              </div>
+            </div>
+            <div class="game-item">
+              <div class="players">
+                <span class="player black">Newbie123 (18k)</span>
+                <span class="vs">vs</span>
+                <span class="player white">AI_
