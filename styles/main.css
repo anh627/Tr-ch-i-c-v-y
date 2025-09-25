@@ -270,3 +270,38 @@ canvas {
 .notification-close:hover {
   background: rgba(0, 0, 0, 0.1);
 }
+/* styles/main.css */
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f4f4f4;
+}
+.btn {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+.btn.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.btn.danger {
+  background-color: #dc3545;
+  color: white;
+}
+.btn.ghost {
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #333;
+}
+.btn:hover {
+  opacity: 0.8;
+}
