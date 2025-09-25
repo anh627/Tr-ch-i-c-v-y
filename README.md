@@ -1,2 +1,2 @@
-# Tr-ch-i-c-v-y
+# Trochoicovay
 Website học và chơi cờ vây
