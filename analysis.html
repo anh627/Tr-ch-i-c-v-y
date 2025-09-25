@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" data-lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,7 +11,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="vi_VN" />
   <meta name="twitter:card" content="summary" />
-  <link rel="icon" href="data:," />
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/analysis.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,58 +21,68 @@
 <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
 <header class="topbar" role="banner">
-  <a class="brand" href="index.html">
+  <a class="brand" href="index.html" rel="noopener">
     <span class="brand-icon">⚫⚪</span>
-    GoMaster
+    <span class="lang-vi">GoMaster</span>
+    <span class="lang-en" style="display: none;">GoMaster</span>
   </a>
   <nav class="nav" aria-label="Điều hướng chính">
-    <a href="index.html">🏠 Trang chủ</a>
-    <a href="learn.html">📚 Học</a>
-    <a href="play.html">🎮 Chơi</a>
-    <a href="analysis.html" aria-current="page" class="nav-active">📊 Phân tích</a>
-    <a href="ranking.html">🏆 Xếp hạng</a>
-    <a href="profile.html">👤 Hồ sơ</a>
+    <a href="index.html" rel="noopener"><span class="lang-vi">🏠 Trang chủ</span><span class="lang-en" style="display: none;">Home</span></a>
+    <a href="learn.html" rel="noopener"><span class="lang-vi">📚 Học</span><span class="lang-en" style="display: none;">Learn</span></a>
+    <a href="play.html" rel="noopener"><span class="lang-vi">🎮 Chơi</span><span class="lang-en" style="display: none;">Play</span></a>
+    <a href="analysis.html" aria-current="page" class="nav-active"><span class="lang-vi">📊 Phân tích</span><span class="lang-en" style="display: none;">Analysis</span></a>
+    <a href="ranking.html" rel="noopener"><span class="lang-vi">🏆 Xếp hạng</span><span class="lang-en" style="display: none;">Ranking</span></a>
+    <a href="profile.html" rel="noopener"><span class="lang-vi">👤 Hồ sơ</span><span class="lang-en" style="display: none;">Profile</span></a>
     <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
   </nav>
 </header>
 
-<main id="main" class="container analysis">
+<main id="main" class="container analysis" itemscope itemtype="http://schema.org/WebApplication">
+  <meta itemprop="applicationCategory" content="Game" />
+  <meta itemprop="name" content="GoMaster Analysis" />
+  <meta itemprop="description" content="Công cụ phân tích ván cờ vây, hỗ trợ tải SGF, phân tích nhanh/sâu, và khám phá joseki/fuseki." />
+  
   <section class="left" aria-labelledby="analysisBoardLabel">
     <div class="board-header">
       <h1 id="analysisBoardLabel">
         <span class="board-icon">🔬</span>
-        Bàn phân tích
+        <span class="lang-vi">Bàn phân tích</span>
+        <span class="lang-en" style="display: none;">Analysis Board</span>
         <span class="analysis-badge">
           <span class="badge-icon">🧠</span>
-          <span>AI Powered</span>
+          <span class="lang-vi">AI Powered</span>
+          <span class="lang-en" style="display: none;">AI Powered</span>
         </span>
       </h1>
       <div class="board-stats">
         <div class="stat-item">
           <span class="stat-icon">📈</span>
-          <span class="stat-label">Độ chính xác</span>
+          <span class="stat-label"><span class="lang-vi">Độ chính xác</span><span class="lang-en" style="display: none;">Accuracy</span></span>
           <span class="stat-value" id="accuracyRate">--</span>
         </div>
         <div class="stat-item">
           <span class="stat-icon">⚡</span>
-          <span class="stat-label">Tốc độ phân tích</span>
+          <span class="stat-label"><span class="lang-vi">Tốc độ phân tích</span><span class="lang-en" style="display: none;">Analysis Speed</span></span>
           <span class="stat-value" id="analysisSpeed">--</span>
         </div>
       </div>
     </div>
     
     <p id="analysisBoardHelp" class="sr-only">
-      Dùng mũi tên để di chuyển, Enter để xác nhận, hoặc dùng chuột để chọn nước đi.
+      Dùng phím mũi tên trái/phải để di chuyển giữa các nước đi, Enter để xác nhận, hoặc dùng chuột để chọn nước đi trên bàn. Nhấn Home để về nước đầu, End để tới nước cuối.
     </p>
     
     <div class="board-container">
       <canvas id="analysisBoard" width="640" height="640" tabindex="0" aria-label="Bàn phân tích" aria-describedby="analysisBoardHelp">
-        Trình duyệt của bạn không hỗ trợ canvas.
+        <div class="canvas-fallback">
+          <p>Trình duyệt của bạn không hỗ trợ canvas. Hãy sử dụng trình duyệt hiện đại (Chrome, Firefox, Safari) hoặc <a href="#sgfText">dán SGF trực tiếp</a> để phân tích.</p>
+          <img src="assets/images/board-fallback.png" alt="Hình ảnh bàn cờ vây mẫu" />
+        </div>
       </canvas>
       <div class="board-overlay">
         <div class="analysis-indicator" id="analysisIndicator">
           <span class="indicator-icon">🤖</span>
-          <span class="indicator-text">Sẵn sàng phân tích</span>
+          <span class="indicator-text"><span class="lang-vi">Sẵn sàng phân tích</span><span class="lang-en" style="display: none;">Ready to analyze</span></span>
         </div>
       </div>
     </div>
@@ -102,11 +113,13 @@
     <div class="analysis-header">
       <h2>
         <span class="section-icon">🔍</span>
-        Phân tích chuyên sâu
+        <span class="lang-vi">Phân tích chuyên sâu</span>
+        <span class="lang-en" style="display: none;">Deep Analysis</span>
       </h2>
       <div class="analysis-mode">
         <span class="mode-icon">🎯</span>
-        <span>Pro Mode</span>
+        <span class="lang-vi">Pro Mode</span>
+        <span class="lang-en" style="display: none;">Pro Mode</span>
       </div>
     </div>
     
@@ -114,31 +127,36 @@
       <div class="upload-header">
         <h3>
           <span class="upload-icon">📁</span>
-          Tải file SGF
+          <span class="lang-vi">Tải file SGF</span>
+          <span class="lang-en" style="display: none;">Upload SGF File</span>
         </h3>
       </div>
       <div class="loader-row">
         <div class="file-input-wrapper">
           <label for="sgfFile" class="file-label">
             <span class="file-icon">📄</span>
-            <span>Chọn file SGF</span>
+            <span class="lang-vi">Chọn file SGF</span>
+            <span class="lang-en" style="display: none;">Choose SGF File</span>
           </label>
           <input type="file" id="sgfFile" accept=".sgf" aria-describedby="sgfHelp" />
         </div>
         <button id="loadSGF" class="btn primary" type="button">
           <span class="btn-icon">⬆️</span>
-          Nạp SGF
+          <span class="lang-vi">Nạp SGF</span>
+          <span class="lang-en" style="display: none;">Load SGF</span>
         </button>
       </div>
       <small id="sgfHelp" class="help-text">
         <span class="help-icon">💡</span>
-        Chỉ định dạng .sgf. Có thể kéo-thả hoặc dán nội dung SGF vào ô bên dưới.
+        <span class="lang-vi">Chỉ định dạng .sgf. Có thể kéo-thả hoặc dán nội dung SGF vào ô bên dưới.</span>
+        <span class="lang-en" style="display: none;">Only .sgf format. You can drag-drop or paste SGF content below.</span>
       </small>
 
       <div class="textarea-wrapper">
         <label for="sgfText" class="textarea-label">
           <span class="label-icon">📝</span>
-          Hoặc dán SGF trực tiếp:
+          <span class="lang-vi">Hoặc dán SGF trực tiếp:</span>
+          <span class="lang-en" style="display: none;">Or paste SGF directly:</span>
         </label>
         <textarea id="sgfText" placeholder="Dán nội dung SGF vào đây..." rows="8" aria-label="Dán nội dung SGF"></textarea>
       </div>
@@ -148,29 +166,30 @@
       <div class="tools-header">
         <h3>
           <span class="tools-icon">🛠️</span>
-          Công cụ phân tích
+          <span class="lang-vi">Công cụ phân tích</span>
+          <span class="lang-en" style="display: none;">Analysis Tools</span>
         </h3>
       </div>
       <div class="tools-grid">
         <button id="runQuick" class="btn tool-btn quick" type="button" title="Phân tích nhanh độ sâu thấp">
           <span class="tool-icon">⚡</span>
           <span class="tool-text">
-            <span class="tool-title">Phân tích nhanh</span>
-            <span class="tool-desc">Độ sâu thấp, nhanh chóng</span>
+            <span class="tool-title"><span class="lang-vi">Phân tích nhanh</span><span class="lang-en" style="display: none;">Quick Analysis</span></span>
+            <span class="tool-desc"><span class="lang-vi">Độ sâu thấp, nhanh chóng</span><span class="lang-en" style="display: none;">Low depth, fast</span></span>
           </span>
         </button>
         <button id="runDeep" class="btn tool-btn deep" type="button" title="Phân tích sâu mô phỏng">
           <span class="tool-icon">🔬</span>
           <span class="tool-text">
-            <span class="tool-title">Phân tích sâu</span>
-            <span class="tool-desc">Mô phỏng chuyên sâu</span>
+            <span class="tool-title"><span class="lang-vi">Phân tích sâu</span><span class="lang-en" style="display: none;">Deep Analysis</span></span>
+            <span class="tool-desc"><span class="lang-vi">Mô phỏng chuyên sâu</span><span class="lang-en" style="display: none;">In-depth simulation</span></span>
           </span>
         </button>
         <button id="suggest" class="btn tool-btn suggest" type="button" title="Gợi ý nước đi tiếp theo">
           <span class="tool-icon">💡</span>
           <span class="tool-text">
-            <span class="tool-title">Gợi ý nước</span>
-            <span class="tool-desc">AI đề xuất</span>
+            <span class="tool-title"><span class="lang-vi">Gợi ý nước</span><span class="lang-en" style="display: none;">Move Suggestion</span></span>
+            <span class="tool-desc"><span class="lang-vi">AI đề xuất</span><span class="lang-en" style="display: none;">AI suggested</span></span>
           </span>
         </button>
       </div>
@@ -180,17 +199,20 @@
       <div class="report-header">
         <h3>
           <span class="report-icon">📋</span>
-          Báo cáo phân tích
+          <span class="lang-vi">Báo cáo phân tích</span>
+          <span class="lang-en" style="display: none;">Analysis Report</span>
         </h3>
         <div class="report-status" id="reportStatus">
           <span class="status-icon">⏳</span>
-          <span>Chờ phân tích</span>
+          <span class="lang-vi">Chờ phân tích</span>
+          <span class="lang-en" style="display: none;">Waiting for analysis</span>
         </div>
       </div>
       <div class="report" id="analysisReport" role="region" aria-live="polite">
         <div class="empty-report">
           <span class="empty-icon">📊</span>
-          <span class="empty-text">Chưa có báo cáo. Hãy tải SGF và bắt đầu phân tích!</span>
+          <span class="lang-vi">Chưa có báo cáo. Hãy tải SGF và bắt đầu phân tích!</span>
+          <span class="lang-en" style="display: none;">No report yet. Upload an SGF and start analyzing!</span>
         </div>
       </div>
     </div>
@@ -199,10 +221,12 @@
       <div class="explorer-header">
         <h3>
           <span class="explorer-icon">🗺️</span>
-          Joseki / Fuseki Explorer
+          <span class="lang-vi">Joseki / Fuseki Explorer</span>
+          <span class="lang-en" style="display: none;">Joseki / Fuseki Explorer</span>
           <span class="explorer-badge">
             <span class="badge-icon">🌟</span>
-            <span>Cơ bản</span>
+            <span class="lang-vi">Cơ bản</span>
+            <span class="lang-en" style="display: none;">Basic</span>
           </span>
         </h3>
       </div>
@@ -211,44 +235,70 @@
           <div class="control-group">
             <label for="explorerSize">
               <span class="label-icon">📐</span>
-              Kích thước:
+              <span class="lang-vi">Kích thước:</span>
+              <span class="lang-en" style="display: none;">Size:</span>
             </label>
             <select id="explorerSize" class="select-enhanced">
-              <option value="19">🏆 19×19 (Pro)</option>
-              <option value="13">🎮 13×13 (Casual)</option>
-              <option value="9">🌱 9×9 (Newbie)</option>
+              <option value="19"><span class="lang-vi">🏆 19×19 (Pro)</span><span class="lang-en" style="display: none;">19×19 (Pro)</span></option>
+              <option value="13"><span class="lang-vi">🎮 13×13 (Casual)</span><span class="lang-en" style="display: none;">13×13 (Casual)</span></option>
+              <option value="9"><span class="lang-vi">🌱 9×9 (Newbie)</span><span class="lang-en" style="display: none;">9×9 (Newbie)</span></option>
             </select>
           </div>
           <button id="openExplorer" class="btn secondary" type="button">
             <span class="btn-icon">🔍</span>
-            Mở mẫu phổ biến
+            <span class="lang-vi">Mở mẫu phổ biến</span>
+            <span class="lang-en" style="display: none;">Open Common Patterns</span>
           </button>
         </div>
         <div id="explorerList" class="explist" role="list" aria-label="Danh sách mẫu joseki/fuseki">
           <div class="empty-explorer">
             <span class="empty-icon">🗂️</span>
-            <span class="empty-text">Nhấn "Mở mẫu phổ biến" để xem các pattern!</span>
+            <span class="lang-vi">Nhấn "Mở mẫu phổ biến" để xem các pattern!</span>
+            <span class="lang-en" style="display: none;">Click "Open Common Patterns" to view patterns!</span>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-content">
+      <div class="loading-spinner">
+        <span class="spinner-icon">⚫</span>
+        <span class="spinner-icon">⚪</span>
+      </div>
+      <p class="loading-text">
+        <span class="loading-icon">🤖</span>
+        <span class="lang-vi">AI đang phân tích ván cờ...</span>
+        <span class="lang-en" style="display: none;">AI is analyzing the game...</span>
+      </p>
+    </div>
+  </div>
 </main>
 
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-tip">
       <span class="tip-icon">🔬</span>
-      <small><strong>Lưu ý:</strong> Deep analysis là mô phỏng heuristic; muốn GPU thật, hãy nối service KataGo. 🚀</small>
+      <small><span class="lang-vi"><strong>Lưu ý:</strong> Deep analysis là mô phỏng heuristic; muốn GPU thật, hãy nối service KataGo. 🚀</span><span class="lang-en" style="display: none;"><strong>Note:</strong> Deep analysis is heuristic simulation; for real GPU, connect to KataGo service. 🚀</span></small>
     </div>
     <div class="footer-encouragement">
       <span class="encourage-icon">🧠</span>
-      <small>Phân tích để trở thành cao thủ!</small>
+      <small><span class="lang-vi">Phân tích để trở thành cao thủ!</span><span class="lang-en" style="display: none;">Analyze to become a master!</span></small>
     </div>
   </div>
 </footer>
 
-<noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+<noscript>
+  <div class="noscript-message">
+    <div class="noscript-content">
+      <span class="noscript-icon">⚠️</span>
+      <h2><span class="lang-vi">JavaScript bị tắt</span><span class="lang-en" style="display: none;">JavaScript is disabled</span></h2>
+      <p><span class="lang-vi">Trang này cần JavaScript để hoạt động đầy đủ. Vui lòng <a href="https://enable-javascript.com/vi/" target="_blank" rel="noopener">bật JavaScript</a> trong trình duyệt của bạn.</span><span class="lang-en" style="display: none;">This page requires JavaScript to function fully. Please <a href="https://enable-javascript.com/" target="_blank" rel="noopener">enable JavaScript</a> in your browser.</span></p>
+    </div>
+  </div>
+</noscript>
+
 <script src="js/main.js" defer></script>
 <script src="js/game.js" defer></script>
 <script src="js/ai.js" defer></script>
