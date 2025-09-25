@@ -13,53 +13,130 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="styles/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
   <header class="topbar" role="banner">
-    <a class="brand" href="index.html" aria-current="page">GoMaster</a>
+    <a class="brand" href="index.html" aria-current="page">
+      <span class="brand-icon">⚫⚪</span>
+      GoMaster
+    </a>
     <nav class="nav" aria-label="Điều hướng chính">
-      <a href="learn.html">Học</a>
-      <a href="play.html">Chơi</a>
-      <a href="analysis.html">Phân tích</a>
-      <a href="ranking.html">Xếp hạng</a>
-      <a href="profile.html">Hồ sơ</a>
+      <a href="learn.html">📚 Học</a>
+      <a href="play.html">🎮 Chơi</a>
+      <a href="analysis.html">📊 Phân tích</a>
+      <a href="ranking.html">🏆 Xếp hạng</a>
+      <a href="profile.html">👤 Hồ sơ</a>
       <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
     </nav>
   </header>
 
   <main id="main" class="container hero">
     <section class="hero-left">
-      <h1>Cờ Vây cho mọi cấp độ</h1>
-      <p>Newbie: học luật và luyện 9×9/13×13 có gợi ý. Casual: đánh nhanh và xem phân tích sơ bộ.
-      Pro: ranked 19×19, phân tích sâu, joseki/fuseki explorer.</p>
-      <div class="cta">
-        <a class="btn primary" href="learn.html">Học luật nhanh</a>
-        <a class="btn" href="play.html">Chơi nhanh</a>
+      <div class="hero-badge">
+        <span class="badge-icon">🎯</span>
+        <span class="badge-text">Nền tảng Cờ Vây #1 Việt Nam</span>
       </div>
-      <div class="stats-strip" id="homeStats" role="status" aria-live="polite"></div>
+      <h1>Cờ Vây cho <span class="gradient-text">mọi cấp độ</span> 🌟</h1>
+      <p>🌱 <strong>Newbie:</strong> học luật và luyện 9×9/13×13 có gợi ý. 
+      🎮 <strong>Casual:</strong> đánh nhanh và xem phân tích sơ bộ.
+      🏆 <strong>Pro:</strong> ranked 19×19, phân tích sâu, joseki/fuseki explorer.</p>
+      
+      <div class="feature-highlights">
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <span>Học nhanh với AI</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🎯</span>
+          <span>Phân tích chuyên sâu</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🌍</span>
+          <span>Cộng đồng Việt Nam</span>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn primary" href="learn.html">
+          <span class="btn-icon">🚀</span>
+          Học luật nhanh
+        </a>
+        <a class="btn secondary" href="play.html">
+          <span class="btn-icon">⚡</span>
+          Chơi nhanh
+        </a>
+      </div>
+      <div class="stats-strip" id="homeStats" role="status" aria-live="polite">
+        <div class="stat-item">
+          <span class="stat-icon">👥</span>
+          <span class="stat-number">10K+</span>
+          <span class="stat-label">Người chơi</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-number">50K+</span>
+          <span class="stat-label">Ván đã chơi</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">🤖</span>
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Hỗ trợ AI</span>
+        </div>
+      </div>
     </section>
     <section class="hero-right">
       <div class="cards">
-        <a class="card" href="learn.html">
-          <h3>Newbie</h3>
-          <p>Luật – Khí – Bắt quân – Ko – Đếm điểm. Bài luyện sống/chết.</p>
+        <a class="card newbie-card" href="learn.html">
+          <div class="card-header">
+            <span class="card-icon">🌱</span>
+            <span class="card-badge">Newbie</span>
+          </div>
+          <h3>Người mới bắt đầu</h3>
+          <p>📖 Luật – 💨 Khí – 🎯 Bắt quân – ⚖️ Ko – 🔢 Đếm điểm. 🧩 Bài luyện sống/chết.</p>
+          <div class="card-features">
+            <span class="feature-tag">🎲 Bàn 9×9</span>
+            <span class="feature-tag">🤖 AI Guide</span>
+          </div>
         </a>
-        <a class="card" href="play.html">
-          <h3>Casual</h3>
-          <p>Quick match 13×13/19×19. Phân tích blunder sau ván.</p>
+        <a class="card casual-card" href="play.html">
+          <div class="card-header">
+            <span class="card-icon">🎮</span>
+            <span class="card-badge">Casual</span>
+          </div>
+          <h3>Người chơi giải trí</h3>
+          <p>⚡ Quick match 13×13/19×19. 📊 Phân tích blunder sau ván.</p>
+          <div class="card-features">
+            <span class="feature-tag">⚡ Quick Match</span>
+            <span class="feature-tag">📈 Basic Analysis</span>
+          </div>
         </a>
-        <a class="card" href="analysis.html">
-          <h3>Try-hard/Pro</h3>
-          <p>Review sâu, PV gợi ý, ownership map mô phỏng, joseki/fuseki.</p>
+        <a class="card pro-card" href="analysis.html">
+          <div class="card-header">
+            <span class="card-icon">🏆</span>
+            <span class="card-badge">Pro</span>
+          </div>
+          <h3>Chuyên gia</h3>
+          <p>🔍 Review sâu, 🧠 PV gợi ý, 🗺️ ownership map mô phỏng, 📚 joseki/fuseki.</p>
+          <div class="card-features">
+            <span class="feature-tag">🏆 Ranked 19×19</span>
+            <span class="feature-tag">🔬 Deep Analysis</span>
+          </div>
         </a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <small>© 2025 GoMaster. Audio courtesy: your assets.</small>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="brand-icon">⚫⚪</span>
+        <span>GoMaster</span>
+      </div>
+      <small>© 2025 GoMaster. Made with ❤️ for Go community. 🎌</small>
+    </div>
   </footer>
 
   <noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
