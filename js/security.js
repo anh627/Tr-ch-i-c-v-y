@@ -59,3 +59,14 @@
     }
   });
 })();
+// security.js
+function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+}
+
+function validateKomi(value) {
+  const num = parseFloat(value);
+  return !isNaN(num) && num >= 0 ? num : 6.5;
+}
