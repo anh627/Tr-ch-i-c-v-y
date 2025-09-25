@@ -1,350 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <title>GoMaster — Cờ vây cho mọi cấp độ</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="GoMaster: học luật nhanh, chơi 9x9/13x13, phân tích sơ bộ, xếp hạng kyu/dan, joseki cho try-hard." />
-  <link rel="stylesheet" href="./styles/main.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>●</text></svg>" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <title>GoMaster – Học và chơi Cờ Vây</title>
+  <meta name="description" content="GoMaster: Học luật, chơi nhanh, luyện tập và phân tích Cờ Vây cho mọi cấp độ (9×9, 13×13, 19×19)." />
+  <meta property="og:site_name" content="GoMaster" />
+  <meta property="og:title" content="GoMaster – Học và chơi Cờ Vây" />
+  <meta property="og:description" content="Học luật, chơi nhanh và phân tích ván cờ với công cụ trực quan cho Newbie, Casual và Pro." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
-<body>
-  <!-- Animated Background -->
-  <div class="bg-animation">
-    <div class="floating-stones">
-      <div class="stone black-stone"></div>
-      <div class="stone white-stone"></div>
-      <div class="stone black-stone"></div>
-      <div class="stone white-stone"></div>
-      <div class="stone black-stone"></div>
-    </div>
-    <div class="grid-pattern"></div>
-  </div>
+<body data-page="home">
+  <a class="skip-link" href="#main">Bỏ qua tới nội dung chính</a>
 
-  <!-- Security & Status Indicators -->
-  <div class="status-indicators">
-    <div class="security-badge">
-      <i class="fas fa-shield-alt"></i>
-      <span>Bảo mật SSL</span>
-    </div>
-    <div class="online-counter">
-      <i class="fas fa-users"></i>
-      <span id="online-count">1,247</span> online
-    </div>
-  </div>
-
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo-container">
-        <span class="logo-black">●</span>
-        <span class="logo-white">○</span>
-      </div>
-      <a href="./index.html" class="brand-text">
-        <span class="brand-name">GoMaster</span>
-        <span class="brand-tagline">Cờ vây thông minh</span>
-      </a>
-    </div>
-    
-    <nav class="nav">
-      <a href="./learn.html" class="nav-item">
-        <i class="fas fa-graduation-cap"></i>
-        <span>Học</span>
-      </a>
-      <a href="./play.html" class="nav-item">
-        <i class="fas fa-play"></i>
-        <span>Chơi</span>
-      </a>
-      <a href="./analysis.html" class="nav-item">
-        <i class="fas fa-chart-line"></i>
-        <span>Phân tích</span>
-      </a>
-      <a href="./ranking.html" class="nav-item">
-        <i class="fas fa-trophy"></i>
-        <span>Xếp hạng</span>
-      </a>
-      <a href="./profile.html" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>Hồ sơ</span>
-      </a>
+  <header class="topbar" role="banner">
+    <a class="brand" href="index.html" aria-current="page">GoMaster</a>
+    <nav class="nav" aria-label="Điều hướng chính">
+      <a href="learn.html">Học</a>
+      <a href="play.html">Chơi</a>
+      <a href="analysis.html">Phân tích</a>
+      <a href="ranking.html">Xếp hạng</a>
+      <a href="profile.html">Hồ sơ</a>
+      <button id="themeToggle" class="btn ghost" type="button" aria-label="Đổi chế độ sáng/tối" aria-pressed="false" title="Đổi chế độ sáng/tối">🌗</button>
     </nav>
-    
-    <div class="user-section">
-      <div class="user-pill">
-        <div class="rank-badge">
-          <span id="nav-rank">15k</span>
-        </div>
-        <div class="user-avatar">
-          <i class="fas fa-user"></i>
-        </div>
-      </div>
-      <button class="mobile-menu-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
   </header>
 
-  <main class="container">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-left">
-          <div class="hero-badge">
-            <i class="fas fa-star"></i>
-            <span>Nền tảng cờ vây #1 Việt Nam</span>
-          </div>
-          
-          <h1 class="hero-title">
-            <span class="title-line">Cờ vây cho</span>
-            <span class="title-highlight">mọi cấp độ</span>
-          </h1>
-          
-          <p class="hero-description">
-            Từ người mới bắt đầu học luật cơ bản đến cao thủ dan level, 
-            GoMaster cung cấp trải nghiệm học tập và thi đấu hoàn hảo với 
-            AI thông minh và cộng đồng sôi động.
-          </p>
-          
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-number">50K+</div>
-              <div class="stat-label">Người chơi</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">1M+</div>
-              <div class="stat-label">Ván cờ</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">24/7</div>
-              <div class="stat-label">Hoạt động</div>
-            </div>
-          </div>
-          
-          <div class="cta-section">
-            <div class="cta-buttons">
-              <a class="btn primary pulse" href="./learn.html">
-                <i class="fas fa-rocket"></i>
-                <span>Học luật nhanh (10 phút)</span>
-              </a>
-              <a class="btn secondary" href="./play.html#quick-9x9">
-                <i class="fas fa-gamepad"></i>
-                <span>Chơi 9×9 vs Bot</span>
-              </a>
-            </div>
-            <a class="btn ghost" href="./play.html#ranked">
-              <i class="fas fa-crown"></i>
-              <span>Ranked 19×19</span>
-            </a>
-          </div>
-          
-          <div class="features-preview">
-            <div class="feature-item">
-              <i class="fas fa-lightbulb"></i>
-              <span>Gợi ý nước tốt cho người mới</span>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-chart-bar"></i>
-              <span>Phân tích sơ bộ sau ván: blunders & winrate</span>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-medal"></i>
-              <span>Xếp hạng kyu/dan với hệ thống Glicko-2</span>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-shield-check"></i>
-              <span>Chống gian lận với AI detection</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="hero-visual">
-            <!-- Interactive Go Board Preview -->
-            <div class="board-preview">
-              <div class="mini-board">
-                <div class="board-lines"></div>
-                <div class="demo-stones">
-                  <div class="stone black" style="top: 20%; left: 30%;"></div>
-                  <div class="stone white" style="top: 25%; left: 45%;"></div>
-                  <div class="stone black" style="top: 40%; left: 60%;"></div>
-                  <div class="stone white" style="top: 55%; left: 35%;"></div>
-                  <div class="stone black" style="top: 70%; left: 50%;"></div>
-                </div>
-                <div class="board-glow"></div>
-              </div>
-              <div class="board-info">
-                <div class="live-game">
-                  <div class="live-indicator">
-                    <span class="pulse-dot"></span>
-                    <span>Trực tiếp</span>
-                  </div>
-                  <div class="game-players">
-                    <span class="player black">Master_Go (2d)</span>
-                    <span class="vs">vs</span>
-                    <span class="player white">AI_KataGo</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <main id="main" class="container hero">
+    <section class="hero-left">
+      <h1>Cờ Vây cho mọi cấp độ</h1>
+      <p>Newbie: học luật và luyện 9×9/13×13 có gợi ý. Casual: đánh nhanh và xem phân tích sơ bộ.
+      Pro: ranked 19×19, phân tích sâu, joseki/fuseki explorer.</p>
+      <div class="cta">
+        <a class="btn primary" href="learn.html">Học luật nhanh</a>
+        <a class="btn" href="play.html">Chơi nhanh</a>
       </div>
+      <div class="stats-strip" id="homeStats" role="status" aria-live="polite"></div>
     </section>
-
-    <!-- Level Cards Section -->
-    <section class="levels-section">
-      <div class="section-header">
-        <h2>Chọn lộ trình phù hợp</h2>
-        <p>Mỗi cấp độ có trải nghiệm được tối ưu riêng</p>
-      </div>
-      
-      <div class="card-grid">
-        <div class="level-card newbie">
-          <div class="card-header">
-            <div class="card-icon">
-              <i class="fas fa-seedling"></i>
-            </div>
-            <div class="card-badge">Newbie</div>
-          </div>
-          <h3>Người mới bắt đầu</h3>
-          <p>Học "khí", bắt quân, ko, đếm điểm. Chơi 9×9/13×13 với hướng dẫn từng bước.</p>
-          
-          <div class="card-features">
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Tutorial tương tác 10 phút</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>50+ bài luyện tsumego cơ bản</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Gợi ý nước đi thông minh</span>
-            </div>
-          </div>
-          
-          <div class="card-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-            <span class="progress-text">Bắt đầu hành trình</span>
-          </div>
-          
-          <a class="card-link" href="./learn.html">
-            <span>Bắt đầu học</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <div class="level-card casual">
-          <div class="card-header">
-            <div class="card-icon">
-              <i class="fas fa-gamepad"></i>
-            </div>
-            <div class="card-badge">Casual</div>
-          </div>
-          <h3>Chơi giải trí</h3>
-          <p>Quick match, phân tích sơ bộ sau ván, xếp hạng kyu. Vui vẻ không áp lực.</p>
-          
-          <div class="card-features">
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Tìm trận trong 30 giây</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Phân tích blunder tự động</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Xếp hạng kyu thân thiện</span>
-            </div>
-          </div>
-          
-          <div class="card-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 45%"></div>
-            </div>
-            <span class="progress-text">15k → 10k (45%)</span>
-          </div>
-          
-          <a class="card-link" href="./play.html">
-            <span>Vào trận</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <div class="level-card pro">
-          <div class="card-header">
-            <div class="card-icon">
-              <i class="fas fa-crown"></i>
-            </div>
-            <div class="card-badge">Pro</div>
-          </div>
+    <section class="hero-right">
+      <div class="cards">
+        <a class="card" href="learn.html">
+          <h3>Newbie</h3>
+          <p>Luật – Khí – Bắt quân – Ko – Đếm điểm. Bài luyện sống/chết.</p>
+        </a>
+        <a class="card" href="play.html">
+          <h3>Casual</h3>
+          <p>Quick match 13×13/19×19. Phân tích blunder sau ván.</p>
+        </a>
+        <a class="card" href="analysis.html">
           <h3>Try-hard/Pro</h3>
-          <p>Ranked dan nghiêm túc, phân tích sâu GPU, joseki explorer, giải đấu.</p>
-          
-          <div class="card-features">
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Ranked dan với Glicko-2</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Phân tích KataGo 20k visits</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Joseki & Fuseki database</span>
-            </div>
-          </div>
-          
-          <div class="card-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 78%"></div>
-            </div>
-            <span class="progress-text">3d → 4d (78%)</span>
-          </div>
-          
-          <a class="card-link" href="./analysis.html">
-            <span>Review ván</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
+          <p>Review sâu, PV gợi ý, ownership map mô phỏng, joseki/fuseki.</p>
+        </a>
       </div>
     </section>
+  </main>
 
-    <!-- Live Activity Section -->
-    <section class="activity-section">
-      <div class="section-header">
-        <h2>Hoạt động trực tiếp</h2>
-        <p>Cộng đồng GoMaster đang sôi động</p>
-      </div>
-      
-      <div class="activity-grid">
-        <div class="activity-card games">
-          <div class="card-header">
-            <h3>Ván cờ đang diễn ra</h3>
-            <span class="live-count">247 ván</span>
-          </div>
-          <div class="games-list">
-            <div class="game-item">
-              <div class="players">
-                <span class="player black">DragonMaster (1d)</span>
-                <span class="vs">vs</span>
-                <span class="player white">GoNinja (2k)</span>
-              </div>
-              <div class="game-status">
-                <span class="move-count">Nước 127</span>
-                <span class="time">5:23</span>
-              </div>
-            </div>
-            <div class="game-item">
-              <div class="players">
-                <span class="player black">Newbie123 (18k)</span>
-                <span class="vs">vs</span>
-                <span class="player white">AI_
+  <footer class="footer">
+    <small>© 2025 GoMaster. Audio courtesy: your assets.</small>
+  </footer>
+
+  <noscript><p>Trang này cần JavaScript để hoạt động đầy đủ.</p></noscript>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
