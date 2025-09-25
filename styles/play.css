@@ -1,0 +1,45 @@
+/* Play page grid inherits from main (container.play) */
+.play .left, .play .right { align-self: start; }
+
+/* Game info band */
+.game-info {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--outline); border-radius: 12px; padding: 10px;
+}
+.player-info { display: flex; align-items: center; gap: 8px; justify-content: center; }
+.player-stone { font-size: 18px; }
+.player-name { font-weight: 700; }
+.player-captures {
+  min-width: 28px; text-align: center; padding: 2px 8px; border-radius: 999px; background: var(--surface);
+  border: 1px solid var(--outline); font-weight: 700;
+}
+.vs-divider { font-weight: 800; opacity: .8; }
+
+/* Right panel: settings + summary */
+.settings-header, .summary-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--surface); border: 1px solid var(--outline); border-radius: 12px; padding: 10px; box-shadow: var(--shadow-1);
+}
+.settings-badge, .summary-icon { opacity: .9; }
+.settings .form, .summary-content { box-shadow: var(--shadow-1); }
+
+.select-enhanced, .input-enhanced {
+  background: var(--surface); border-color: var(--outline);
+}
+
+/* Board actions override (spacing) */
+.play .board-actions .btn { min-width: 110px; }
+
+/* Summary block */
+.summary { display: grid; gap: 10px; }
+.summary-content {
+  background: var(--surface); border: 1px solid var(--outline); border-radius: 12px; padding: 12px;
+}
+
+/* Statusbar polish */
+#playStatus .status-content { font-weight: 600; }
+
+/* Loading overlay text in play */
+.loading-text { color: var(--text); }
+
+/* Coordinates/liberties toggles already styled by switch in main */
