@@ -62,13 +62,15 @@
         <span class="page-badge"><span class="lang-vi">Newbie Friendly</span><span class="lang-en">Newbie Friendly</span></span>
       </h1>
       <p class="page-subtitle"><span class="lang-vi">Từng bước một, thành thạo Cờ Vây! 🌟</span><span class="lang-en">Step by step, master Go! 🌟</span></p>
+      <!-- Thêm hình ảnh minh họa cho header -->
+      <img src="assets/images/learn-header.jpg" alt="Minh họa học Cờ Vây tương tác" class="header-image" width="600" height="200" loading="lazy">
     </div>
 
     <div class="learn-grid">
       <aside class="steps" role="navigation" aria-label="Các bước học">
         <div class="steps-header">
           <h2><span class="lang-vi">📋 Lộ trình học</span><span class="lang-en">Learning Path</span></h2>
-          <div class="progress-bar"><div class="progress-fill" style="width: 25%"></div></div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 25%"></div></div>
         </div>
 
         <div class="steps-list">
@@ -79,6 +81,8 @@
               <span class="step-desc"><span class="lang-vi">Hiểu về không gian sống</span><span class="lang-en">Understand breathing space</span></span>
             </div>
             <span class="step-status">✅</span>
+            <!-- Thêm hình ảnh nhỏ cho step -->
+            <img src="assets/images/step-liberties.jpg" alt="Minh họa khí trong Cờ Vây" class="step-image" width="50" height="50" loading="lazy">
           </button>
 
           <button class="step" data-step="2" type="button" aria-pressed="false" title="Bước 2: Bắt quân">
@@ -88,6 +92,8 @@
               <span class="step-desc"><span class="lang-vi">Cách loại bỏ đối thủ</span><span class="lang-en">How to remove opponent's stones</span></span>
             </div>
             <span class="step-status">⏳</span>
+            <!-- Thêm hình ảnh nhỏ cho step -->
+            <img src="assets/images/step-capture.jpg" alt="Minh họa bắt quân trong Cờ Vây" class="step-image" width="50" height="50" loading="lazy">
           </button>
 
           <button class="step" data-step="3" type="button" aria-pressed="false" title="Bước 3: Ko">
@@ -97,6 +103,8 @@
               <span class="step-desc"><span class="lang-vi">Luật chống lặp vô hạn</span><span class="lang-en">Rule against infinite loops</span></span>
             </div>
             <span class="step-status">🔒</span>
+            <!-- Thêm hình ảnh nhỏ cho step -->
+            <img src="assets/images/step-ko.jpg" alt="Minh họa luật Ko trong Cờ Vây" class="step-image" width="50" height="50" loading="lazy">
           </button>
 
           <button class="step" data-step="4" type="button" aria-pressed="false" title="Bước 4: Đếm điểm">
@@ -106,6 +114,8 @@
               <span class="step-desc"><span class="lang-vi">Xác định người thắng</span><span class="lang-en">Determine the winner</span></span>
             </div>
             <span class="step-status">🔒</span>
+            <!-- Thêm hình ảnh nhỏ cho step -->
+            <img src="assets/images/step-scoring.jpg" alt="Minh họa đếm điểm trong Cờ Vây" class="step-image" width="50" height="50" loading="lazy">
           </button>
         </div>
 
@@ -138,6 +148,8 @@
               <img src="assets/images/board-fallback.png" alt="Hình ảnh bàn cờ vây 9×9 mẫu" />
             </div>
           </canvas>
+          <!-- Thêm hình ảnh minh họa bên cạnh board -->
+          <img src="assets/images/learn-board-example.jpg" alt="Ví dụ bàn học 9x9" class="board-image" width="200" height="200" loading="lazy">
         </div>
 
         <div class="board-controls">
@@ -169,7 +181,11 @@
         <div class="practice-row">
           <div class="practice-control">
             <label for="puzzleSelect"><span class="label-icon">📝</span><span class="lang-vi">Chọn bài</span><span class="lang-en">Select Puzzle</span></label>
-            <select id="puzzleSelect" class="select" aria-describedby="puzzleHelp"></select>
+            <select id="puzzleSelect" class="select" aria-describedby="puzzleHelp">
+              <option value="1">Puzzle 1: Basic Life</option>
+              <option value="2">Puzzle 2: Simple Capture</option>
+              <option value="3">Puzzle 3: Ko Situation</option>
+            </select>
             <small id="puzzleHelp" class="sr-only"><span class="lang-vi">Chọn bài luyện Tsumego.</span><span class="lang-en">Select a Tsumego puzzle.</span></small>
           </div>
           <div class="practice-actions">
@@ -190,6 +206,8 @@
               <img src="assets/images/puzzle-fallback.png" alt="Hình ảnh bài tsumego mẫu" />
             </div>
           </canvas>
+          <!-- Thêm hình ảnh minh họa cho practice -->
+          <img src="assets/images/tsumego-example.jpg" alt="Ví dụ bài luyện Tsumego" class="practice-image" width="150" height="150" loading="lazy">
         </div>
 
         <div id="puzzleFeedback" class="feedback" role="status" aria-live="polite">
@@ -213,7 +231,10 @@
 
   <footer class="footer">
     <div class="footer-content">
-      <div class="footer-brand"><span class="brand-icon">⚫⚪</span><span>GoMaster</span></div>
+      <div class="footer-brand"><span class="brand-icon">⚫⚪</span><span>GoMaster</span>
+        <!-- Thêm hình ảnh nhỏ vào footer -->
+        <img src="assets/images/go-logo-small.png" alt="Logo GoMaster" class="footer-logo" width="50" height="50" loading="lazy">
+      </div>
       <div class="footer-links">
         <a href="#about" class="footer-link"><span class="link-icon">ℹ️</span><span class="lang-vi">Về chúng tôi</span><span class="lang-en">About Us</span></a>
         <a href="#contact" class="footer-link"><span class="link-icon">📧</span><span class="lang-vi">Liên hệ</span><span class="lang-en">Contact</span></a>
@@ -251,6 +272,93 @@
       </div>
     </div>
   </noscript>
+
+  <!-- JavaScript inline để làm cho các chức năng hoạt động cơ bản -->
+  <script>
+    // Theme Toggle (tương tự trang chủ)
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+      themeToggle.setAttribute('aria-pressed', currentTheme === 'light' ? 'true' : 'false');
+    });
+
+    // Loading Overlay
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    window.addEventListener('load', () => {
+      loadingOverlay.style.display = 'block';
+      setTimeout(() => { loadingOverlay.style.display = 'none'; }, 2000);
+    });
+
+    // Steps Navigation
+    const steps = document.querySelectorAll('.step');
+    const progressFill = document.getElementById('progressFill');
+    steps.forEach(step => {
+      step.addEventListener('click', () => {
+        steps.forEach(s => s.classList.remove('active'));
+        step.classList.add('active');
+        const activeStep = step.dataset.step;
+        progressFill.style.width = `${activeStep * 25}%`;
+        document.getElementById('learnExplain').querySelector('.explain-text').textContent = `Đang học bước ${activeStep}`;
+      });
+    });
+
+    // Board Controls
+    document.getElementById('prevStep').addEventListener('click', () => {
+      alert('Chuyển sang bước trước (Tích hợp với canvas thực tế trong js/learn.js)');
+      document.getElementById('sfxPlace').play(); // Play sound minh họa
+    });
+    document.getElementById('nextStep').addEventListener('click', () => {
+      alert('Chuyển sang bước tiếp theo');
+      document.getElementById('sfxCapture').play();
+    });
+    document.getElementById('resetStep').addEventListener('click', () => {
+      alert('Đặt lại bước hiện tại');
+    });
+
+    // Practice Section
+    const puzzleSelect = document.getElementById('puzzleSelect');
+    puzzleSelect.addEventListener('change', () => {
+      const feedbackText = document.querySelector('#puzzleFeedback .feedback-text');
+      feedbackText.textContent = `Đã chọn bài ${puzzleSelect.value}. Hãy thử giải!`;
+    });
+    document.getElementById('puzzleHint').addEventListener('click', () => {
+      alert('Gợi ý: Hãy thử đặt quân ở góc phải dưới (Tích hợp AI gợi ý thực tế trong js/ai.js)');
+    });
+    document.getElementById('puzzleReset').addEventListener('click', () => {
+      alert('Đặt lại bài luyện');
+    });
+
+    // Vẽ bàn cờ đơn giản trên canvas (minh họa, mở rộng trong js/game.js)
+    function drawBoard(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Vẽ lưới 9x9 đơn giản
+        ctx.strokeStyle = '#000';
+        const size = canvas.width / 9;
+        for (let i = 1; i < 9; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * size, 0);
+          ctx.lineTo(i * size, canvas.height);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, i * size);
+          ctx.lineTo(canvas.width, i * size);
+          ctx.stroke();
+        }
+        // Vẽ một quân cờ minh họa
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(size * 4.5, size * 4.5, size / 2 - 5, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+    drawBoard('learnBoard');
+    drawBoard('puzzleBoard');
+  </script>
 
   <script src="js/main.js" defer></script>
   <script src="js/game.js" defer></script>
