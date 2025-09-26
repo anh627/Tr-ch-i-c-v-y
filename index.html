@@ -85,6 +85,9 @@
         <span class="lang-en">🌱 <strong>Newbie:</strong> Learn rules and practice 9×9/13×13 with hints. 🎮 <strong>Casual:</strong> Quick games and basic analysis. 🏆 <strong>Pro:</strong> Ranked 19×19, deep analysis, joseki/fuseki explorer.</span>
       </p>
       
+      <!-- Thêm hình ảnh chính vào hero-left -->
+      <img src="assets/images/go-board-hero.jpg" alt="Bàn cờ Vây minh họa" class="hero-image" width="400" height="300" loading="lazy">
+
       <div class="feature-highlights">
         <div class="feature-item"><span class="feature-icon">⚡</span><span class="lang-vi">Học nhanh với AI</span><span class="lang-en">Learn fast with AI</span></div>
         <div class="feature-item"><span class="feature-icon">🎯</span><span class="lang-vi">Phân tích chuyên sâu</span><span class="lang-en">Deep analysis</span></div>
@@ -105,12 +108,12 @@
       <div class="stats-strip" id="homeStats" role="status" aria-live="polite">
         <div class="stat-item">
           <span class="stat-icon">👥</span>
-          <span class="stat-number">10K+</span>
+          <span class="stat-number" id="playersCount">10K+</span>
           <span class="stat-label"><span class="lang-vi">Người chơi</span><span class="lang-en">Players</span></span>
         </div>
         <div class="stat-item">
           <span class="stat-icon">🎯</span>
-          <span class="stat-number">50K+</span>
+          <span class="stat-number" id="gamesCount">50K+</span>
           <span class="stat-label"><span class="lang-vi">Ván đã chơi</span><span class="lang-en">Games Played</span></span>
         </div>
         <div class="stat-item">
@@ -128,6 +131,8 @@
             <span class="card-icon">🌱</span>
             <span class="card-badge"><span class="lang-vi">Newbie</span><span class="lang-en">Newbie</span></span>
           </div>
+          <!-- Thêm hình ảnh vào card -->
+          <img src="assets/images/go-9x9.jpg" alt="Bàn cờ 9x9 cho người mới" class="card-image" width="200" height="200" loading="lazy">
           <h3><span class="lang-vi">Người mới bắt đầu</span><span class="lang-en">Beginner</span></h3>
           <p><span class="lang-vi">📖 Luật – 💨 Khí – 🎯 Bắt quân – ⚖️ Ko – 🔢 Đếm điểm. 🧩 Bài luyện sống/chết.</span><span class="lang-en">📖 Rules – 💨 Liberties – 🎯 Capture – ⚖️ Ko – 🔢 Scoring. 🧩 Life/Death problems.</span></p>
           <div class="card-features">
@@ -141,6 +146,8 @@
             <span class="card-icon">🎮</span>
             <span class="card-badge"><span class="lang-vi">Casual</span><span class="lang-en">Casual</span></span>
           </div>
+          <!-- Thêm hình ảnh vào card -->
+          <img src="assets/images/go-quick-match.jpg" alt="Ván chơi nhanh 13x13" class="card-image" width="200" height="200" loading="lazy">
           <h3><span class="lang-vi">Người chơi giải trí</span><span class="lang-en">Casual Player</span></h3>
           <p><span class="lang-vi">⚡ Quick match 13×13/19×19. 📊 Phân tích blunder sau ván.</span><span class="lang-en">⚡ Quick match 13×13/19×19. 📊 Post-game blunder analysis.</span></p>
           <div class="card-features">
@@ -154,6 +161,8 @@
             <span class="card-icon">🏆</span>
             <span class="card-badge"><span class="lang-vi">Pro</span><span class="lang-en">Pro</span></span>
           </div>
+          <!-- Thêm hình ảnh vào card -->
+          <img src="assets/images/go-pro-analysis.jpg" alt="Phân tích sâu ván cờ 19x19" class="card-image" width="200" height="200" loading="lazy">
           <h3><span class="lang-vi">Chuyên gia</span><span class="lang-en">Expert</span></h3>
           <p><span class="lang-vi">🔍 Review sâu, 🧠 PV gợi ý, 🗺️ ownership map mô phỏng, 📚 joseki/fuseki.</span><span class="lang-en">🔍 Deep review, 🧠 PV suggestions, 🗺️ ownership map, 📚 joseki/fuseki.</span></p>
           <div class="card-features">
@@ -183,6 +192,8 @@
       <div class="footer-brand">
         <span class="brand-icon">⚫⚪</span>
         <span>GoMaster</span>
+        <!-- Thêm hình ảnh nhỏ vào footer -->
+        <img src="assets/images/go-logo-small.png" alt="Logo GoMaster" class="footer-logo" width="50" height="50" loading="lazy">
       </div>
       <div class="footer-links">
         <a href="#about" class="footer-link">
@@ -224,6 +235,42 @@
       </div>
     </div>
   </noscript>
+
+  <!-- JavaScript inline để làm cho các chức năng hoạt động cơ bản -->
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+      themeToggle.setAttribute('aria-pressed', currentTheme === 'light' ? 'true' : 'false');
+    });
+
+    // Loading Overlay (hiển thị khi tải trang, ẩn sau 2 giây)
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    window.addEventListener('load', () => {
+      loadingOverlay.style.display = 'block';
+      setTimeout(() => { loadingOverlay.style.display = 'none'; }, 2000);
+    });
+
+    // Cập nhật stats động (ví dụ: tăng số lượng người chơi ngẫu nhiên)
+    const playersCount = document.getElementById('playersCount');
+    const gamesCount = document.getElementById('gamesCount');
+    setInterval(() => {
+      playersCount.textContent = Math.floor(Math.random() * 100 + 10000) + '+';
+      gamesCount.textContent = Math.floor(Math.random() * 1000 + 50000) + '+';
+    }, 5000); // Cập nhật mỗi 5 giây
+
+    // Audio Generator Button (hiển thị và xử lý click - ví dụ: alert đơn giản, bạn có thể mở rộng)
+    const audioGenerator = document.getElementById('audioGenerator');
+    audioGenerator.style.display = 'block'; // Hiển thị button
+    const generateAudioBtn = document.getElementById('generateAudioBtn');
+    generateAudioBtn.addEventListener('click', () => {
+      alert('Đang tạo file âm thanh... (Chức năng này cần tích hợp với js/audio-generator.js thực tế)');
+      // Ở đây bạn có thể gọi hàm từ audio-generator.js để tạo audio thực tế
+    });
+  </script>
 
   <script src="js/main.js" defer></script>
   <script src="js/audio-generator.js" defer></script>
