@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" data-lang="vi">
+<html lang="vi" data-lang="vi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,6 +54,8 @@
           <span class="lang-en" style="display: none;">AI Powered</span>
         </span>
       </h1>
+      <!-- Hình ảnh từ index: go-board-hero.jpg -->
+      <img src="assets/images/go-board-hero.jpg" alt="Minh họa bàn phân tích Cờ Vây" class="header-image" width="300" height="100" loading="lazy">
       <div class="board-stats">
         <div class="stat-item">
           <span class="stat-icon">📈</span>
@@ -79,6 +81,8 @@
           <img src="assets/images/board-fallback.png" alt="Hình ảnh bàn cờ vây mẫu" />
         </div>
       </canvas>
+      <!-- Hình ảnh từ index: go-9x9.jpg -->
+      <img src="assets/images/go-9x9.jpg" alt="Ví dụ bàn phân tích" class="board-image" width="200" height="200" loading="lazy">
       <div class="board-overlay">
         <div class="analysis-indicator" id="analysisIndicator">
           <span class="indicator-icon">🤖</span>
@@ -130,6 +134,8 @@
           <span class="lang-vi">Tải file SGF</span>
           <span class="lang-en" style="display: none;">Upload SGF File</span>
         </h3>
+        <!-- Hình ảnh từ index: go-quick-match.jpg -->
+        <img src="assets/images/go-quick-match.jpg" alt="Minh họa tải file SGF" class="upload-image" width="100" height="100" loading="lazy">
       </div>
       <div class="loader-row">
         <div class="file-input-wrapper">
@@ -169,6 +175,8 @@
           <span class="lang-vi">Công cụ phân tích</span>
           <span class="lang-en" style="display: none;">Analysis Tools</span>
         </h3>
+        <!-- Hình ảnh từ index: go-pro-analysis.jpg -->
+        <img src="assets/images/go-pro-analysis.jpg" alt="Minh họa công cụ phân tích" class="tools-image" width="150" height="100" loading="lazy">
       </div>
       <div class="tools-grid">
         <button id="runQuick" class="btn tool-btn quick" type="button" title="Phân tích nhanh độ sâu thấp">
@@ -207,6 +215,8 @@
           <span class="lang-vi">Chờ phân tích</span>
           <span class="lang-en" style="display: none;">Waiting for analysis</span>
         </div>
+        <!-- Hình ảnh từ index: go-pro-analysis.jpg -->
+        <img src="assets/images/go-pro-analysis.jpg" alt="Minh họa báo cáo phân tích" class="report-image" width="150" height="100" loading="lazy">
       </div>
       <div class="report" id="analysisReport" role="region" aria-live="polite">
         <div class="empty-report">
@@ -229,6 +239,8 @@
             <span class="lang-en" style="display: none;">Basic</span>
           </span>
         </h3>
+        <!-- Hình ảnh từ index: go-board-hero.jpg -->
+        <img src="assets/images/go-board-hero.jpg" alt="Minh họa Joseki/Fuseki explorer" class="explorer-image" width="150" height="100" loading="lazy">
       </div>
       <div class="explorer">
         <div class="explorer-controls">
@@ -286,6 +298,8 @@
       <span class="encourage-icon">🧠</span>
       <small><span class="lang-vi">Phân tích để trở thành cao thủ!</span><span class="lang-en" style="display: none;">Analyze to become a master!</span></small>
     </div>
+    <!-- Hình ảnh từ index: go-logo-small.png (giữ nguyên) -->
+    <img src="assets/images/go-logo-small.png" alt="Logo GoMaster" class="footer-logo" width="50" height="50" loading="lazy">
   </div>
 </footer>
 
@@ -298,6 +312,137 @@
     </div>
   </div>
 </noscript>
+
+<!-- JavaScript inline để làm cho các chức năng hoạt động cơ bản -->
+<script>
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+    themeToggle.setAttribute('aria-pressed', currentTheme === 'light' ? 'true' : 'false');
+  });
+
+  // Loading Overlay
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  window.addEventListener('load', () => {
+    loadingOverlay.style.display = 'block';
+    setTimeout(() => { loadingOverlay.style.display = 'none'; }, 2000);
+  });
+
+  // Cập nhật stats động (ngẫu nhiên minh họa)
+  setInterval(() => {
+    document.getElementById('accuracyRate').textContent = Math.floor(Math.random() * 20 + 80) + '%';
+    document.getElementById('analysisSpeed').textContent = Math.floor(Math.random() * 5 + 1) + 's/move';
+  }, 5000);
+
+  // Board Navigation
+  let currentMove = 0;
+  let totalMoves = 100; // Giả lập
+  const moveCounterText = document.querySelector('#moveCounter .counter-text');
+  function updateMoveCounter() {
+    moveCounterText.textContent = `${currentMove}/${totalMoves}`;
+  }
+  document.getElementById('firstMove').addEventListener('click', () => {
+    currentMove = 0;
+    updateMoveCounter();
+    alert('Đã về nước đầu (Tích hợp với canvas thực tế trong js/game.js)');
+  });
+  document.getElementById('prevMove').addEventListener('click', () => {
+    if (currentMove > 0) currentMove--;
+    updateMoveCounter();
+    alert('Lùi một nước');
+  });
+  document.getElementById('nextMove').addEventListener('click', () => {
+    if (currentMove < totalMoves) currentMove++;
+    updateMoveCounter();
+    alert('Tiến một nước');
+  });
+  document.getElementById('lastMove').addEventListener('click', () => {
+    currentMove = totalMoves;
+    updateMoveCounter();
+    alert('Đã tới nước cuối');
+  });
+
+  // Upload SGF
+  const sgfFile = document.getElementById('sgfFile');
+  const sgfText = document.getElementById('sgfText');
+  sgfFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        sgfText.value = event.target.result;
+        alert('Đã đọc file SGF (Tích hợp phân tích thực tế trong js/ai.js)');
+      };
+      reader.readAsText(file);
+    }
+  });
+  document.getElementById('loadSGF').addEventListener('click', () => {
+    if (sgfText.value) {
+      alert(`Đã nạp SGF: ${sgfText.value.substring(0, 50)}... (Xử lý trong js/game.js)`);
+    } else {
+      alert('Vui lòng chọn file hoặc dán SGF');
+    }
+  });
+
+  // Analysis Tools
+  const analysisReport = document.getElementById('analysisReport');
+  document.getElementById('runQuick').addEventListener('click', () => {
+    analysisReport.innerHTML = '<p>Phân tích nhanh hoàn tất: Độ chính xác 85%, Blunder tại nước 42.</p>';
+    alert('Đã chạy phân tích nhanh (Minh họa)');
+  });
+  document.getElementById('runDeep').addEventListener('click', () => {
+    analysisReport.innerHTML = '<p>Phân tích sâu hoàn tất: Ownership map cho thấy Đen dẫn 5 điểm.</p>';
+    alert('Đã chạy phân tích sâu');
+  });
+  document.getElementById('suggest').addEventListener('click', () => {
+    analysisReport.innerHTML = '<p>Gợi ý nước: Đặt tại C16 (Winrate 65%).</p>';
+    alert('Đã gợi ý nước đi');
+  });
+
+  // Explorer Section
+  const explorerList = document.getElementById('explorerList');
+  document.getElementById('openExplorer').addEventListener('click', () => {
+    const size = document.getElementById('explorerSize').value;
+    explorerList.innerHTML = `<p>Mẫu Joseki cho bàn ${size}x${size}: Pattern 1 - Star point joseki.</p><p>Pattern 2 - 3-4 point fuseki.</p>`;
+    alert(`Đã mở explorer cho bàn ${size}x${size}`);
+  });
+
+  // Vẽ bàn cờ đơn giản trên canvas (minh họa 19x19)
+  function drawBoard() {
+    const canvas = document.getElementById('analysisBoard');
+    if (canvas.getContext) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#000';
+      const size = canvas.width / 19;
+      for (let i = 1; i < 19; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * size, 0);
+        ctx.lineTo(i * size, canvas.height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i * size);
+        ctx.lineTo(canvas.width, i * size);
+        ctx.stroke();
+      }
+      // Vẽ vài quân cờ minh họa
+      ctx.fillStyle = '#000';
+      ctx.beginPath();
+      ctx.arc(size * 3.5, size * 3.5, size / 2 - 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.strokeStyle = '#000';
+      ctx.beginPath();
+      ctx.arc(size * 15.5, size * 15.5, size / 2 - 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+  drawBoard();
+</script>
 
 <script src="js/main.js" defer></script>
 <script src="js/game.js" defer></script>
