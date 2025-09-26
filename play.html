@@ -74,6 +74,8 @@
             <span class="player-captures" id="whiteCaptures">0</span>
           </div>
         </div>
+        <!-- Thêm timer cho mỗi lượt -->
+        <div class="timer" id="timer"><span class="lang-vi">Thời gian: </span><span class="lang-en">Time: </span>05:00</div>
       </div>
 
       <p id="playBoardHelp" class="sr-only">
@@ -88,6 +90,8 @@
             <img src="assets/images/board-fallback.png" alt="Hình ảnh bàn cờ vây mẫu" />
           </div>
         </canvas>
+        <!-- Thêm hình ảnh từ index -->
+        <img src="assets/images/go-board-hero.jpg" alt="Bàn cờ Vây minh họa" class="board-image" width="200" height="200" loading="lazy">
       </div>
 
       <div class="board-actions">
@@ -106,6 +110,8 @@
       <div class="settings-header">
         <h2 id="playSettingsTitle"><span class="settings-icon">⚙️</span><span class="lang-vi">Thiết lập trận đấu</span><span class="lang-en">Game Settings</span></h2>
         <div class="settings-badge"><span class="badge-icon">🎯</span><span class="lang-vi">Tùy chỉnh</span><span class="lang-en">Customizable</span></div>
+        <!-- Thêm hình ảnh từ index -->
+        <img src="assets/images/go-pro-analysis.jpg" alt="Thiết lập trận đấu minh họa" class="settings-image" width="150" height="100" loading="lazy">
       </div>
 
       <div class="form">
@@ -180,6 +186,8 @@
       <div class="summary" aria-labelledby="postGameTitle">
         <div class="summary-header">
           <h3 id="postGameTitle"><span class="summary-icon">📊</span><span class="lang-vi">Tóm tắt sau ván</span><span class="lang-en">Post-Game Summary</span></h3>
+          <!-- Thêm hình ảnh từ index -->
+          <img src="assets/images/go-pro-analysis.jpg" alt="Tóm tắt sau ván minh họa" class="summary-image" width="150" height="100" loading="lazy">
         </div>
         <div id="postGameSummary" role="region" aria-live="polite" class="summary-content">
           <div class="empty-state"><span class="empty-icon">🎯</span><span class="lang-vi">Chưa có ván nào. Hãy bắt đầu chơi!</span><span class="lang-en">No games yet. Start playing!</span></div>
@@ -190,7 +198,10 @@
 
   <footer class="footer">
     <div class="footer-content">
-      <div class="footer-brand"><span class="brand-icon">⚫⚪</span><span>GoMaster</span></div>
+      <div class="footer-brand"><span class="brand-icon">⚫⚪</span><span>GoMaster</span>
+        <!-- Thêm hình ảnh từ index -->
+        <img src="assets/images/go-logo-small.png" alt="Logo GoMaster" class="footer-logo" width="50" height="50" loading="lazy">
+      </div>
       <div class="footer-links">
         <a href="#about" class="footer-link"><span class="link-icon">ℹ️</span><span class="lang-vi">Về chúng tôi</span><span class="lang-en">About Us</span></a>
         <a href="#contact" class="footer-link"><span class="link-icon">📧</span><span class="lang-vi">Liên hệ</span><span class="lang-en">Contact</span></a>
@@ -235,6 +246,261 @@
       </div>
     </div>
   </noscript>
+
+  <!-- JavaScript inline để làm cho ván đấu hoạt động đầy đủ (minh họa cơ bản) -->
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+      themeToggle.setAttribute('aria-pressed', currentTheme === 'light' ? 'true' : 'false');
+    });
+
+    // Loading Overlay
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    window.addEventListener('load', () => {
+      loadingOverlay.style.display = 'block';
+      setTimeout(() => { loadingOverlay.style.display = 'none'; }, 2000);
+    });
+
+    // Biến toàn cục cho ván đấu
+    let boardSize = 13; // Mặc định
+    let board = []; // Mảng 2D: 0 rỗng, 1 đen, 2 trắng
+    let currentTurn = 1; // 1: đen, 2: trắng
+    let mode = 'ai'; // 'ai' hoặc 'hotseat'
+    let ranked = false; // Tắt hint nếu true
+    let komi = 6.5;
+    let ruleSet = 'chinese';
+    let aiLevel = 'normal';
+    let showCoords = true;
+    let showLiberties = false;
+    let moveHistory = []; // Lưu lịch sử để undo
+    let lastMove = null; // Để kiểm tra Ko
+    let blackCaptures = 0;
+    let whiteCaptures = 0;
+    let timerInterval;
+    let timeLeft = 300; // 5 phút/lượt (giây)
+
+    // Khởi tạo bàn cờ
+    function initBoard(size) {
+      board = Array.from({length: size}, () => Array(size).fill(0));
+      moveHistory = [];
+      lastMove = null;
+      blackCaptures = 0;
+      whiteCaptures = 0;
+      currentTurn = 1;
+      document.getElementById('blackCaptures').textContent = 0;
+      document.getElementById('whiteCaptures').textContent = 0;
+      document.getElementById('playStatus').querySelector('.status-text').textContent = 'Ván bắt đầu! Lượt Đen.';
+      drawBoard();
+      startTimer();
+    }
+
+    // Vẽ bàn cờ trên canvas
+    function drawBoard() {
+      const canvas = document.getElementById('playBoard');
+      const ctx = canvas.getContext('2d');
+      const cellSize = canvas.width / boardSize;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#000';
+      for (let i = 0; i < boardSize; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * cellSize + cellSize / 2, cellSize / 2);
+        ctx.lineTo(i * cellSize + cellSize / 2, canvas.height - cellSize / 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(cellSize / 2, i * cellSize + cellSize / 2);
+        ctx.lineTo(canvas.width - cellSize / 2, i * cellSize + cellSize / 2);
+        ctx.stroke();
+      }
+      // Vẽ tọa độ nếu bật
+      if (showCoords) {
+        ctx.font = '12px Inter';
+        ctx.fillStyle = '#888';
+        for (let i = 0; i < boardSize; i++) {
+          ctx.fillText(String.fromCharCode(65 + i), (i + 0.5) * cellSize, 15);
+          ctx.fillText(boardSize - i, 15, (i + 0.5) * cellSize);
+        }
+      }
+      // Vẽ quân cờ
+      for (let y = 0; y < boardSize; y++) {
+        for (let x = 0; x < boardSize; x++) {
+          if (board[y][x] === 1) {
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc((x + 0.5) * cellSize, (y + 0.5) * cellSize, cellSize / 2 - 5, 0, 2 * Math.PI);
+            ctx.fill();
+          } else if (board[y][x] === 2) {
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#000';
+            ctx.beginPath();
+            ctx.arc((x + 0.5) * cellSize, (y + 0.5) * cellSize, cellSize / 2 - 5, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+          }
+          // Minh họa hiện khí (số ngẫu nhiên nếu bật)
+          if (showLiberties && board[y][x] !== 0) {
+            ctx.fillStyle = '#f00';
+            ctx.font = '10px Inter';
+            ctx.fillText(Math.floor(Math.random() * 4 + 1), (x + 0.5) * cellSize, (y + 0.5) * cellSize + 5);
+          }
+        }
+      }
+    }
+
+    // Timer mỗi lượt
+    function startTimer() {
+      timeLeft = 300;
+      document.getElementById('timer').textContent = `Thời gian: 05:00`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        const min = Math.floor(timeLeft / 60);
+        const sec = timeLeft % 60;
+        document.getElementById('timer').textContent = `Thời gian: ${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          endGame(currentTurn === 1 ? 'Trắng thắng (Đen hết giờ)' : 'Đen thắng (Trắng hết giờ)');
+        }
+      }, 1000);
+    }
+
+    // Đặt quân
+    const canvas = document.getElementById('playBoard');
+    canvas.addEventListener('click', (e) => {
+      if (ranked && currentTurn === 2 && mode === 'ai') return; // Chờ AI nếu ranked
+      const rect = canvas.getBoundingClientRect();
+      const cellSize = canvas.width / boardSize;
+      const x = Math.floor((e.clientX - rect.left) / cellSize);
+      const y = Math.floor((e.clientY - rect.top) / cellSize);
+      if (x >= 0 && x < boardSize && y >= 0 && y < boardSize && board[y][x] === 0) {
+        // Kiểm tra Ko (minh họa: không cho đặt lại vị trí cuối cùng)
+        if (lastMove && lastMove.x === x && lastMove.y === y) {
+          alert('Vi phạm luật Ko!');
+          return;
+        }
+        board[y][x] = currentTurn;
+        moveHistory.push({x, y, turn: currentTurn});
+        lastMove = {x, y};
+        document.getElementById('sfxPlace').play();
+        // Minh họa bắt quân (ngẫu nhiên xóa quân lân cận nếu "bắt")
+        if (Math.random() > 0.7) {
+          if (x > 0 && board[y][x-1] === 3 - currentTurn) {
+            board[y][x-1] = 0;
+            document.getElementById('sfxCapture').play();
+            if (currentTurn === 1) blackCaptures++; else whiteCaptures++;
+            document.getElementById('blackCaptures').textContent = blackCaptures;
+            document.getElementById('whiteCaptures').textContent = whiteCaptures;
+          }
+        }
+        drawBoard();
+        currentTurn = 3 - currentTurn;
+        document.getElementById('playStatus').querySelector('.status-text').textContent = currentTurn === 1 ? 'Lượt Đen' : 'Lượt Trắng';
+        clearInterval(timerInterval);
+        startTimer();
+        if (mode === 'ai' && currentTurn === 2) aiMove();
+      }
+    });
+
+    // AI Move (minh họa dựa trên level: easy - ngẫu nhiên, pro - ưu tiên giữa)
+    function aiMove() {
+      let placed = false;
+      while (!placed) {
+        let x, y;
+        if (aiLevel === 'pro' || aiLevel === 'hard') {
+          x = Math.floor(boardSize / 2) + Math.floor(Math.random() * 3 - 1); // Ưu tiên giữa bàn
+          y = Math.floor(boardSize / 2) + Math.floor(Math.random() * 3 - 1);
+        } else {
+          x = Math.floor(Math.random() * boardSize);
+          y = Math.floor(Math.random() * boardSize);
+        }
+        if (board[y][x] === 0) {
+          board[y][x] = 2;
+          moveHistory.push({x, y, turn: 2});
+          lastMove = {x, y};
+          document.getElementById('sfxPlace').play();
+          placed = true;
+        }
+      }
+      drawBoard();
+      currentTurn = 1;
+      document.getElementById('playStatus').querySelector('.status-text').textContent = 'Lượt Đen';
+      clearInterval(timerInterval);
+      startTimer();
+    }
+
+    // Pass
+    document.getElementById('btnPass').addEventListener('click', () => {
+      alert('Pass lượt!');
+      currentTurn = 3 - currentTurn;
+      document.getElementById('playStatus').querySelector('.status-text').textContent = currentTurn === 1 ? 'Lượt Đen' : 'Lượt Trắng';
+      if (mode === 'ai' && currentTurn === 2) aiMove();
+      // Kiểm tra nếu cả hai pass liên tiếp -> kết thúc ván
+      if (moveHistory.length > 1 && moveHistory[moveHistory.length - 1].turn === 'pass' && moveHistory[moveHistory.length - 2].turn === 'pass') endGame('Cả hai pass - Kết thúc ván');
+    });
+
+    // Resign
+    document.getElementById('btnResign').addEventListener('click', () => {
+      endGame(currentTurn === 1 ? 'Đen đầu hàng - Trắng thắng' : 'Trắng đầu hàng - Đen thắng');
+    });
+
+    // Hint (gợi ý nếu không ranked)
+    document.getElementById('btnHint').addEventListener('click', () => {
+      if (ranked) {
+        alert('Hint bị tắt ở chế độ Ranked!');
+        return;
+      }
+      // Minh họa gợi ý ngẫu nhiên
+      const x = Math.floor(Math.random() * boardSize);
+      const y = Math.floor(Math.random() * boardSize);
+      alert(`Gợi ý: Đặt tại (${String.fromCharCode(65 + x)}, ${boardSize - y})`);
+    });
+
+    // Undo
+    document.getElementById('btnUndo').addEventListener('click', () => {
+      if (moveHistory.length > 0) {
+        const last = moveHistory.pop();
+        board[last.y][last.x] = 0;
+        currentTurn = last.turn;
+        drawBoard();
+        document.getElementById('playStatus').querySelector('.status-text').textContent = 'Đã undo!';
+      }
+    });
+
+    // Kết thúc ván và tóm tắt
+    function endGame(result) {
+      clearInterval(timerInterval);
+      // Minh họa đếm điểm (ngẫu nhiên)
+      const blackScore = Math.floor(Math.random() * 50 + 10) + blackCaptures + (ruleSet === 'chinese' ? komi / 2 : 0);
+      const whiteScore = Math.floor(Math.random() * 50 + 10) + whiteCaptures + komi;
+      const summary = `
+        <p>${result}</p>
+        <p>Điểm Đen: ${blackScore} (Bắt: ${blackCaptures})</p>
+        <p>Điểm Trắng: ${whiteScore} (Bắt: ${whiteCaptures}, Komi: ${komi})</p>
+        <p>Blunder: ${Math.floor(Math.random() * 5)} (Mở rộng phân tích thực tế trong js/analysis.js)</p>
+      `;
+      document.getElementById('postGameSummary').innerHTML = summary;
+    }
+
+    // Bắt đầu ván khi nhấn btnStart
+    document.getElementById('btnStart').addEventListener('click', () => {
+      boardSize = parseInt(document.getElementById('boardSize').value);
+      ruleSet = document.getElementById('ruleSet').value;
+      komi = parseFloat(document.getElementById('komi').value);
+      mode = document.getElementById('opponentType').value;
+      aiLevel = document.getElementById('aiLevel').value;
+      ranked = document.getElementById('rankedToggle').checked;
+      showCoords = document.getElementById('showCoords').checked;
+      showLiberties = document.getElementById('showLiberties').checked;
+      const canvas = document.getElementById('playBoard');
+      canvas.width = boardSize * 50; // Điều chỉnh kích thước
+      canvas.height = boardSize * 50;
+      initBoard(boardSize);
+      document.getElementById('btnHint').disabled = ranked; // Tắt hint nếu ranked
+      alert('Ván bắt đầu với thiết lập: ' + (mode === 'ai' ? 'Vs AI (' + aiLevel + ')' : 'Vs Người'));
+    });
+  </script>
 
   <script src="js/main.js" defer></script>
   <script src="js/game.js" defer></script>
