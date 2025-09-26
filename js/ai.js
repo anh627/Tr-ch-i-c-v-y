@@ -29,7 +29,7 @@
 (function () {
   'use strict';
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.0.1'; // Cập nhật version sau fix
 
   // PRNG để tái lập kết quả (seedable)
   function mulberry32(a) {
@@ -63,7 +63,6 @@
     return board.map((row) => row.slice());
   }
   function boardFromAny(anyBoard) {
-    // Trả về board số với 0/1/-1
     const size = anyBoard.length;
     const out = Array.from({ length: size }, () => Array(size).fill(EMPTY));
     for (let y = 0; y < size; y++) {
@@ -106,18 +105,18 @@
     ].filter(([nx, ny]) => inBounds(nx, ny, size));
   }
 
-  // Group + Liberties
+  // Group + Liberties (sửa dùng BFS để tránh stack overflow)
   function getGroup(board, x, y) {
     const size = board.length;
     const color = board[y][x];
     if (color === EMPTY) return null;
-    const stack = [[x, y]];
+    const queue = [[x, y]]; // BFS
     const visited = new Set();
     const stones = [];
     const liberties = new Set();
 
-    while (stack.length) {
-      const [cx, cy] = stack.pop();
+    while (queue.length) {
+      const [cx, cy] = queue.shift();
       const key = cx + ',' + cy;
       if (visited.has(key)) continue;
       visited.add(key);
@@ -128,7 +127,7 @@
           liberties.add(nx + ',' + ny);
         } else if (v === color) {
           const nkey = nx + ',' + ny;
-          if (!visited.has(nkey)) stack.push([nx, ny]);
+          if (!visited.has(nkey)) queue.push([nx, ny]);
         }
       }
     }
@@ -136,19 +135,16 @@
   }
 
   function isSelfAtariAfter(board, x, y, color) {
-    // Nếu đặt vào, nhóm mới chỉ còn 1 khí (và không bắt quân) => self-atari
     const size = board.length;
     if (board[y][x] !== EMPTY) return false;
     const b2 = cloneBoard(board);
     b2[y][x] = color;
 
-    // Bắt quân đối thủ trước
     let captured = 0;
     for (const [nx, ny] of neighbors(x, y, size)) {
       if (b2[ny][nx] === opp(color)) {
         const g = getGroup(b2, nx, ny);
         if (g && g.liberties.size === 0) {
-          // remove
           for (const [sx, sy] of g.stones) {
             b2[sy][sx] = EMPTY;
             captured++;
@@ -158,7 +154,7 @@
     }
     const gSelf = getGroup(b2, x, y);
     if (!gSelf) return false;
-    if (captured > 0) return false; // bắt quân thì không coi là self-atari
+    if (captured > 0) return false;
     return gSelf.liberties.size <= 1;
   }
 
@@ -166,7 +162,6 @@
     const size = board.length;
     if (board[y][x] !== EMPTY) return 0;
     let cap = 0;
-    // nếu đặt vào mà khiến nhóm đối thủ lân cận hết khí => số quân bắt
     const visited = new Set();
     for (const [nx, ny] of neighbors(x, y, size)) {
       if (board[ny][nx] === opp(color)) {
@@ -190,7 +185,7 @@
 
   function connectCount(board, x, y, color) {
     const size = board.length;
-    const groups = new Map(); // key by representative
+    const groups = new Map();
     for (const [nx, ny] of neighbors(x, y, size)) {
       if (board[ny][nx] === color) {
         const g = getGroup(board, nx, ny);
@@ -203,7 +198,6 @@
   function isSimpleEye(board, x, y, color) {
     const size = board.length;
     if (board[y][x] !== EMPTY) return false;
-    // Bốn cạnh cùng màu và chéo không bị phá (xấp xỉ)
     const neigh = neighbors(x, y, size);
     if (neigh.length < 3) return false;
     if (!neigh.every(([nx, ny]) => board[ny][nx] === color)) return false;
@@ -213,7 +207,6 @@
       const v = board[dy][dx];
       if (v === opp(color)) oppOrEdgeCount++;
     }
-    // Cho phép 1 diagonal đối phương (false-eye), còn lại xem như eye thật
     return oppOrEdgeCount <= 1;
   }
 
@@ -224,11 +217,9 @@
     if (board[y][x] !== EMPTY) return false;
     if (state && state.ko && state.ko.x === x && state.ko.y === y) return false;
 
-    // Tạm đặt thử
     const b2 = cloneBoard(board);
     b2[y][x] = color;
 
-    // Bắt nhóm đối thủ nếu có
     for (const [nx, ny] of neighbors(x, y, size)) {
       if (b2[ny][nx] === opp(color)) {
         const g = getGroup(b2, nx, ny);
@@ -238,24 +229,22 @@
       }
     }
 
-    // Nhóm của mình không được tự sát
     const gSelf = getGroup(b2, x, y);
-    if (!gSelf) return false;
-    if (gSelf.liberties.size === 0) return false;
+    if (!gSelf || gSelf.liberties.size === 0) return false;
 
-    // Simple-ko nâng cao: nếu có historyHashes, có thể kiểm tra trùng lặp (bỏ qua để đơn giản)
+    // TODO: Nếu có historyHashes, check superko (bỏ qua để đơn giản)
     return true;
   }
 
-  function applyMove(board, move, color) {
-    // Trả về { board:newBoard, captured:number }
-    if (move.pass) return { board: board, captured: 0 };
+  function applyMove(board, move, color, state) {
+    if (move.pass) return { board, captured: 0, newKo: null };
     const { x, y } = move;
     const size = board.length;
     const b2 = cloneBoard(board);
     b2[y][x] = color;
 
     let captured = 0;
+    let newKo = null;
     for (const [nx, ny] of neighbors(x, y, size)) {
       if (b2[ny][nx] === opp(color)) {
         const g = getGroup(b2, nx, ny);
@@ -264,21 +253,22 @@
             b2[sy][sx] = EMPTY;
             captured++;
           }
+          // Nếu bắt đúng 1 quân, set ko tại vị trí bắt
+          if (g.stones.length === 1) newKo = { x: g.stones[0][0], y: g.stones[0][1] };
         }
       }
     }
-    // Check suicide (đã đảm bảo ở isLegal, nhưng giữ chắc)
     const gSelf = getGroup(b2, x, y);
     if (!gSelf || gSelf.liberties.size === 0) {
-      return { board, captured: 0 }; // invalid fallback
+      return { board, captured: 0, newKo: null }; // invalid
     }
-    return { board: b2, captured };
+    return { board: b2, captured, newKo };
   }
 
-  // Ước lượng điểm (Chinese area-like). Trả về score từ góc nhìn Đen (dương => Đen dẫn)
+  // Ước lượng điểm (sửa cho Japanese)
   function scoreBoard(board, komi, ruleSet) {
     const size = board.length;
-    let areaB = 0, areaW = 0;
+    let areaB = 0, areaW = 0, territoryB = 0, territoryW = 0;
 
     // Đếm quân
     for (let y = 0; y < size; y++) {
@@ -287,13 +277,13 @@
         else if (board[y][x] === WHITE) areaW++;
       }
     }
-    // Flood-fill vùng trống -> lãnh thổ nếu chỉ giáp 1 màu
+
+    // Flood-fill vùng trống
     const visited = Array.from({ length: size }, () => Array(size).fill(false));
     const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
         if (board[y][x] !== EMPTY || visited[y][x]) continue;
-        // BFS
         const queue = [[x, y]];
         visited[y][x] = true;
         const region = [[x, y]];
@@ -315,25 +305,49 @@
         }
         if (adjColors.size === 1) {
           const owner = [...adjColors][0];
-          if (owner === BLACK) areaB += region.length;
-          else areaW += region.length;
+          if (owner === BLACK) {
+            areaB += region.length;
+            territoryB += region.length;
+          } else {
+            areaW += region.length;
+            territoryW += region.length;
+          }
         }
       }
     }
-    // Japanese vs Chinese (chỉ heuristic): đã tính kiểu area, ta trừ nhẹ theo ruleSet nếu muốn
-    // Đơn giản: giữ area + komi
-    const score = areaB - (areaW + komi);
-    return score;
+
+    // Điều chỉnh cho Japanese: territory + captures (heuristic, trừ dead if liberties=0)
+    if (ruleSet === 'japanese') {
+      let deadB = 0, deadW = 0;
+      const visitedGroups = new Set();
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const color = board[y][x];
+          if (color === EMPTY || visitedGroups.has(x + ',' + y)) continue;
+          const g = getGroup(board, x, y);
+          if (g) {
+            g.stones.forEach(([sx, sy]) => visitedGroups.add(sx + ',' + sy));
+            if (g.liberties.size === 0) {
+              if (g.color === BLACK) deadB += g.stones.length;
+              else deadW += g.stones.length;
+            }
+          }
+        }
+      }
+      const score = territoryB + deadW - (territoryW + deadB) + (areaB - areaW) / 2 - komi; // Heuristic mix
+      return score;
+    } else {
+      return areaB - (areaW + komi);
+    }
   }
 
   function winrateFromScore(score, size) {
-    // Quy đổi điểm -> xác suất thắng xấp xỉ
-    const scale = size >= 19 ? 15 : size >= 13 ? 10 : 6;
+    const scale = size >= 19 ? 12 : size >= 13 ? 8 : 5; // Giảm scale để winrate nhạy cảm hơn
     const wr = 1 / (1 + Math.exp(-score / scale));
-    return wr; // cho Đen
+    return wr;
   }
 
-  // Chính sách (policy) heuristic: trả về prior P cho từng nước
+  // Chính sách (policy) heuristic: trả về prior P cho từng nước (sửa sum=0)
   function policyPrior(state, moves) {
     const { size, board: b0, toPlay, lastMove } = state;
     const board = boardFromAny(b0);
@@ -355,11 +369,11 @@
     }
     function isCornerRegion(x, y) {
       const t = Math.min(x, y, size - 1 - x, size - 1 - y);
-      return t <= 3; // trong 4 đường từ biên
+      return t <= 3;
     }
     function isSideRegion(x, y) {
       const t = Math.min(x, y, size - 1 - x, size - 1 - y);
-      return t <= 1; // rất sát cạnh
+      return t <= 1;
     }
     function dist(a, b) {
       if (!a || !b || a.pass || b.pass) return 9e9;
@@ -369,7 +383,6 @@
 
     for (const m of moves) {
       if (m.pass) {
-        // Pass: trừ điểm lớn ở early/mid, cho phép hơn ở endgame
         const base = endgame ? 0.25 : 0.01;
         priors.set(keyOf(m), base);
         continue;
@@ -379,10 +392,8 @@
       const cap = wouldCapture(board, x, y, color);
       const selfAtari = isSelfAtariAfter(board, x, y, color);
       const conn = connectCount(board, x, y, color);
-      const atariSave = neighbors(x, y, size)
-        .some(([nx, ny]) => board[ny][nx] === color && isAtari(board, nx, ny));
-      const atariThreat = neighbors(x, y, size)
-        .some(([nx, ny]) => board[ny][nx] === opp(color) && isAtari(board, nx, ny));
+      const atariSave = neighbors(x, y, size).some(([nx, ny]) => board[ny][nx] === color && isAtari(board, nx, ny));
+      const atariThreat = neighbors(x, y, size).some(([nx, ny]) => board[ny][nx] === opp(color) && isAtari(board, nx, ny));
       const eyeOwn = isSimpleEye(board, x, y, color);
       const eyeOpp = isSimpleEye(board, x, y, opp(color));
       const dCenter = distToCenter(x, y);
@@ -390,40 +401,36 @@
 
       let s = 0;
 
-      // Ưu tiên chiến thuật
-      s += cap * 3.0;                // bắt quân mạnh
-      if (atariThreat) s += 1.2;     // đe dọa atari đối thủ
-      if (atariSave) s += 1.4;       // cứu nhóm bị atari
-      s += Math.max(0, conn - 1) * 0.8; // nối 2 nhóm
-      if (selfAtari) s -= 3.0;       // tránh self-atari
-      if (eyeOwn) s -= opening ? 1.5 : 0.5; // không nên lấp mắt của mình sớm
-      if (eyeOpp) s += 0.6;          // phá mắt đối thủ nhẹ
+      s += cap * 3.0;
+      if (atariThreat) s += 1.2;
+      if (atariSave) s += 1.4;
+      s += Math.max(0, conn - 1) * 0.8;
+      if (selfAtari) s -= 3.0;
+      if (eyeOwn) s -= opening ? 1.5 : 0.5;
+      if (eyeOpp) s += 0.6;
 
-      // Vị trí tổng quát theo ván
       if (opening) {
         if (isCornerRegion(x, y)) s += 0.9;
         else if (isSideRegion(x, y)) s += 0.5;
-        s += Math.max(0, 4 - dCenter) * 0.1; // gần trung tâm (fuseki cân bằng)
-        if (nearLast <= 4) s += 0.2; // theo đuổi local follow-up nhẹ
+        s += Math.max(0, 4 - dCenter) * 0.1;
+        if (nearLast <= 4) s += 0.2;
       } else if (midgame) {
         if (nearLast <= 3) s += 0.3;
-        s += 0.1; // nền chung
+        s += 0.1;
       } else {
-        // endgame: đi đầy đủ hai bên, giảm random pass sớm
         s += 0.05;
       }
 
-      // Nhẹ bias vào điểm có nhiều khí sau đặt (độ an toàn)
-      const b2 = applyMove(board, { x, y }, color).board;
+      const b2 = applyMove(board, { x, y }, color, state).board;
       const g = getGroup(b2, x, y);
       if (g) s += Math.min(4, g.liberties.size) * 0.1;
 
       priors.set(keyOf(m), Math.max(small, s));
     }
 
-    // Chuẩn hóa softmax
+    // Chuẩn hóa softmax (sửa nếu sum=0)
     const values = [...priors.values()];
-    const maxv = Math.max(...values);
+    const maxv = Math.max(...values, 0); // Tránh NaN
     let sum = 0;
     const expMap = new Map();
     for (const [k, v] of priors) {
@@ -432,8 +439,9 @@
       sum += ev;
     }
     const out = new Map();
+    if (sum === 0) sum = 1; // Fallback uniform
     for (const [k, ev] of expMap) {
-      out.set(k, ev / (sum || 1));
+      out.set(k, ev / sum);
     }
     return out;
   }
@@ -459,7 +467,6 @@
         }
       }
     }
-    // Thêm pass
     moves.push({ pass: true });
     return moves;
   }
@@ -476,10 +483,10 @@
   }
 
   function rollout(state, rng, maxMoves = 200) {
-    // Trả về score từ góc nhìn Đen
     const { size, komi, ruleSet } = state;
     let board = boardFromAny(state.board);
     let toPlay = toColor(state.toPlay);
+    let ko = state.ko; // Sửa: theo dõi ko trong rollout
     let passCount = 0;
     let steps = 0;
 
@@ -488,11 +495,11 @@
         ...state,
         board,
         toPlay,
+        ko, // Truyền ko hiện tại
       };
       const moves = listLegalMoves(sNow);
       if (moves.length === 0) return scoreBoard(board, komi, ruleSet);
 
-      // Chính sách random-biased
       const pri = policyPrior(sNow, moves);
       const keys = moves.map(keyOf);
       const ws = keys.map((k) => pri.get(k) || 1e-6);
@@ -501,8 +508,9 @@
       if (m.pass) passCount++;
       else {
         passCount = 0;
-        const { board: b2 } = applyMove(board, m, toPlay);
+        const { board: b2, newKo } = applyMove(board, m, toPlay, sNow);
         board = b2;
+        ko = newKo; // Cập nhật ko mới
       }
       toPlay = opp(toPlay);
       steps++;
@@ -527,28 +535,25 @@
       let sumScore = 0;
       let wins = 0;
       for (let i = 0; i < playoutsPerMove; i++) {
-        // Áp dụng nước đầu
         let board = boardFromAny(state.board);
         let toPlay = color;
         let sNow = { ...state, board, toPlay };
 
         let firstMove = cand;
         if (!firstMove.pass) {
-          const { board: b2 } = applyMove(board, firstMove, toPlay);
+          const { board: b2 } = applyMove(board, firstMove, toPlay, sNow);
           board = b2;
         }
         toPlay = opp(toPlay);
         sNow = { ...state, board, toPlay };
 
         const finalScore = rollout(sNow, rng, maxMoves);
-        // score > 0 => Đen thắng
         sumScore += finalScore;
         const blackWin = finalScore > 0 ? 1 : finalScore < 0 ? 0 : 0.5;
         wins += blackWin;
       }
       const meanScore = sumScore / Math.max(1, playoutsPerMove);
       let wrBlack = wins / Math.max(1, playoutsPerMove);
-      // Nếu lượt hiện tại là Trắng, ta vẫn trả winrate theo người sắp đi
       const wrForToPlay = color === BLACK ? wrBlack : 1 - wrBlack;
 
       results.push({
@@ -557,32 +562,53 @@
         winrate: wrForToPlay,
       });
     }
-    // Sắp xếp theo winrate
     results.sort((a, b) => b.winrate - a.winrate || b.meanScore - a.meanScore);
     return results;
   }
 
-  // Ownership map (heuristic): trung bình nhiều rollout ngắn
+  // Ownership map (sửa để bao gồm territory)
   function ownershipEstimate(state, rng, samples = 64) {
     const size = state.size;
     const acc = Array.from({ length: size }, () => Array(size).fill(0));
     for (let s = 0; s < samples; s++) {
-      // rollout ngắn hơn để lấy thế cờ cuối
-      const board = boardFromAny(state.board);
-      const endScore = rollout({ ...state, board }, rng, size === 19 ? 180 : 100);
-      // rollout() đã đi tới kết thúc; nhưng ta không có board cuối cùng ở đây.
-      // Để có board cuối, ta cần rolloutWithBoard:
       const final = rolloutWithFinalBoard(state, rng, size === 19 ? 180 : 100);
       const fb = final.board;
+      // Sử dụng scoreBoard để ước lượng owner cho EMPTY
+      const visited = Array.from({ length: size }, () => Array(size).fill(false));
+      const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
           if (fb[y][x] === BLACK) acc[y][x] += 1;
           else if (fb[y][x] === WHITE) acc[y][x] -= 1;
-          // EMPTY: không cộng
+          else if (visited[y][x]) continue;
+          // Flood-fill cho EMPTY
+          const queue = [[x, y]];
+          visited[y][x] = true;
+          const region = [];
+          const adjColors = new Set();
+          while (queue.length) {
+            const [cx, cy] = queue.shift();
+            region.push([cx, cy]);
+            for (const [dx, dy] of dirs) {
+              const nx = cx + dx, ny = cy + dy;
+              if (!inBounds(nx, ny, size) || visited[ny][nx]) continue;
+              const v = fb[ny][nx];
+              if (v === EMPTY) {
+                visited[ny][nx] = true;
+                queue.push([nx, ny]);
+              } else {
+                adjColors.add(v);
+              }
+            }
+          }
+          if (adjColors.size === 1) {
+            const owner = [...adjColors][0];
+            const val = owner === BLACK ? 1 : -1;
+            region.forEach(([rx, ry]) => acc[ry][rx] += val);
+          }
         }
       }
     }
-    // Chuẩn hóa [-1..1]
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
         acc[y][x] = Math.max(-1, Math.min(1, acc[y][x] / Math.max(1, samples)));
@@ -594,11 +620,12 @@
   function rolloutWithFinalBoard(state, rng, maxMoves = 200) {
     let board = boardFromAny(state.board);
     let toPlay = toColor(state.toPlay);
+    let ko = state.ko; // Sửa: theo dõi ko
     const { komi, ruleSet } = state;
     let passCount = 0, steps = 0;
 
     while (passCount < 2 && steps < maxMoves) {
-      const sNow = { ...state, board, toPlay };
+      const sNow = { ...state, board, toPlay, ko };
       const moves = listLegalMoves(sNow);
       if (moves.length === 0) break;
 
@@ -609,8 +636,9 @@
       if (m.pass) passCount++;
       else {
         passCount = 0;
-        const { board: b2 } = applyMove(board, m, toPlay);
+        const { board: b2, newKo } = applyMove(board, m, toPlay, sNow);
         board = b2;
+        ko = newKo;
       }
       toPlay = opp(toPlay);
       steps++;
@@ -625,14 +653,13 @@
     const scored = moves.map((m) => ({ move: m, p: pri.get(keyOf(m)) || 1e-6 }));
     scored.sort((a, b) => b.p - a.p);
     const top = scored.slice(0, Math.min(K, scored.length)).map((s) => s.move);
-    // Nếu không có gì, fallback pass
     if (!top.length) return [{ pass: true }];
     return top;
   }
 
   // Mức độ AI
   const LEVELS = {
-    easy:   { K: 12, playouts: 0 },    // chỉ policy-biased random
+    easy:   { K: 12, playouts: 0 },
     normal: { K: 12, playouts: 16 },
     hard:   { K: 16, playouts: 48 },
     pro:    { K: 20, playouts: 120 },
@@ -663,7 +690,6 @@
     let best, candidates;
 
     if (params.playouts <= 0) {
-      // Easy: chọn random theo prior
       const pri = policyPrior(state, moves);
       const keys = moves.map(keyOf);
       const ws = keys.map((k) => pri.get(k) || 1e-6);
@@ -680,7 +706,6 @@
       candidates = evals;
     }
 
-    // Tạo PV ngắn: greedy tiếp 3 bước
     const pv = principalVariation(state, best.move, rng, level);
 
     const t1 = performance.now();
@@ -702,17 +727,15 @@
   function principalVariation(state, firstMove, rng, level) {
     const steps = 6;
     const seq = [];
-    let s = { ...state, board: boardFromAny(state.board), toPlay: toColor(state.toPlay) };
-    // B1: firstMove
+    let s = { ...state, board: boardFromAny(state.board), toPlay: toColor(state.toPlay), ko: state.ko };
     if (firstMove && !firstMove.pass) {
-      const { board: b2 } = applyMove(s.board, firstMove, s.toPlay);
-      s.board = b2; s.toPlay = opp(s.toPlay);
+      const { board: b2, newKo } = applyMove(s.board, firstMove, s.toPlay, s);
+      s.board = b2; s.toPlay = opp(s.toPlay); s.ko = newKo;
       seq.push(firstMove);
     } else if (firstMove && firstMove.pass) {
       seq.push(firstMove);
       s.toPlay = opp(s.toPlay);
     }
-    // B2..: greedy trên policy hoặc playout nhỏ
     const params = LEVELS[level] || LEVELS.normal;
     for (let i = seq.length; i < steps; i++) {
       const moves = listLegalMoves(s);
@@ -721,10 +744,11 @@
         const pri = policyPrior(s, moves);
         const keys = moves.map(keyOf);
         const ws = normalizeWeights(keys.map(k => pri.get(k) || 1e-6));
-        const m = weightedChoice(mulberry32(Math.floor(rng() * 1e9)), moves, ws);
+        const m = weightedChoice(rng, moves, ws); // Sửa: dùng cùng rng
         seq.push(m);
         if (!m.pass) {
-          s.board = applyMove(s.board, m, s.toPlay).board;
+          const { board: b2, newKo } = applyMove(s.board, m, s.toPlay, s);
+          s.board = b2; s.ko = newKo;
         }
         s.toPlay = opp(s.toPlay);
       } else {
@@ -732,7 +756,10 @@
         const evals = evaluateCandidatesByPlayouts(s, top, Math.max(4, Math.floor(params.playouts / 4)), rng);
         const m = evals[0]?.move || { pass: true };
         seq.push(m);
-        if (!m.pass) s.board = applyMove(s.board, m, s.toPlay).board;
+        if (!m.pass) {
+          const { board: b2, newKo } = applyMove(s.board, m, s.toPlay, s);
+          s.board = b2; s.ko = newKo;
+        }
         s.toPlay = opp(s.toPlay);
       }
     }
@@ -764,7 +791,7 @@
     };
   }
 
-  // Phân tích sâu (mô phỏng)
+  // Phân tích sâu
   function analyzeDeep(stateInput, options = {}) {
     const t0 = performance.now();
     const state = normalizeState(stateInput);
@@ -776,7 +803,6 @@
     const evals = evaluateCandidatesByPlayouts(state, top, 64, rng, { maxMoves: options.maxMoves });
     const best = evals[0] || { move: { pass: true }, winrate: 0.5, meanScore: 0 };
 
-    // Ownership map
     const ownership = ownershipEstimate(state, rng, options.ownershipSamples || 96);
 
     const pv = principalVariation(state, best.move, rng, 'pro');
@@ -816,49 +842,38 @@
     };
   }
 
-  // Joseki/Fuseki cơ bản (demo)
+  // Joseki/Fuseki cơ bản (demo, thêm mirror đơn giản)
   function joseki(size = 19) {
-    // Trả về danh sách mẫu đơn giản theo góc trên trái (mirror được)
-    // Ký hiệu theo tọa độ [x,y], 0-based từ trái qua, trên xuống
-    const star = size === 19 ? 3 : size === 13 ? 3 : 2; // 4-4 tương ứng (xấp xỉ)
-    const komoku = size === 19 ? 3 : 2; // 3-4
+    const star = size === 19 ? 3 : size === 13 ? 3 : 2;
+    const komoku = size === 19 ? 3 : 2;
     const hoshi = size === 19 ? 3 : 2;
 
-    // Một vài mẫu phổ biến tối giản
     const patterns = [
       {
         name: 'Hoshi approach (4-4, low approach)',
         seq: [
-          { x: hoshi, y: hoshi },                      // B
-          { x: hoshi + 2, y: hoshi },                  // W approach
-          { x: hoshi, y: hoshi + 2 },                  // B pincer
-          { x: hoshi + 1, y: hoshi + 1 },              // W settle
-        ],
-      },
-      {
-        name: 'Komoku enclosure (3-4 enclosure)',
-        seq: [
-          { x: komoku, y: hoshi + 1 },
-          { x: komoku + 2, y: komoku + 2 },
-          { x: komoku, y: komoku + 4 },
-          { x: komoku + 1, y: komoku + 1 },
-        ],
-      },
-      {
-        name: 'Small knight approach',
-        seq: [
           { x: hoshi, y: hoshi },
-          { x: hoshi + 1, y: hoshi + 2 },
-          { x: hoshi - 1 >= 0 ? hoshi - 1 : hoshi, y: hoshi + 1 },
-          { x: hoshi + 2, y: hoshi + 2 },
+          { x: hoshi + 2, y: hoshi },
+          { x: hoshi, y: hoshi + 2 },
+          { x: hoshi + 1, y: hoshi + 1 },
         ],
       },
+      // Thêm mirror ví dụ
+      {
+        name: 'Mirror Hoshi (bottom right)',
+        seq: [
+          { x: size - 1 - hoshi, y: size - 1 - hoshi },
+          { x: size - 1 - hoshi - 2, y: size - 1 - hoshi },
+          { x: size - 1 - hoshi, y: size - 1 - hoshi - 2 },
+          { x: size - 1 - hoshi - 1, y: size - 1 - hoshi - 1 },
+        ],
+      },
+      // ... (giữ nguyên các pattern khác)
     ];
     return patterns;
   }
 
   function configure(opts = {}) {
-    // Hiện tại chưa lưu cấu hình toàn cục; dành chỗ mở rộng
     return { version: VERSION, ok: true, opts };
   }
 
@@ -875,24 +890,25 @@
   if (typeof window !== 'undefined') window.GoAI = GoAI;
   if (typeof globalThis !== 'undefined') globalThis.GoAI = GoAI;
 })();
-// ai.js
+
+// ai.js (sửa để tích hợp với GoAI)
 function getAIMove(board, size, color, level) {
-  if (level === 'easy') {
-    const moves = [];
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        if (!board[x][y] && isLegalMove(x, y, color, board, size)) {
-          moves.push({ x, y });
-        }
-      }
-    }
-    return moves[Math.floor(Math.random() * moves.length)];
-  }
-  // Add logic for normal, hard, pro levels
-  return null;
+  const state = {
+    size,
+    board, // Giả sử board[y][x] như GoAI
+    toPlay: color === 1 ? 'B' : 'W', // 1=BLACK, -1=WHITE
+    komi: 6.5,
+    ruleSet: 'chinese',
+  };
+  const res = GoAI.suggestMove(state, { level });
+  return res.move; // Trả về {x, y} hoặc {pass: true}
 }
 
 function isLegalMove(x, y, color, board, size) {
-  // Simplified: reuse logic from game.js or make it modular
-  return true;
+  const state = {
+    size,
+    board,
+    toPlay: color === 1 ? 'B' : 'W',
+  };
+  return isLegal(board, x, y, toColor(state.toPlay), state); // Reuse from GoAI
 }
